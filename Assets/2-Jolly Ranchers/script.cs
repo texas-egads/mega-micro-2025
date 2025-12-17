@@ -10,6 +10,7 @@ namespace JollyRanchers{
 		public TextMeshProUGUI DifficultyText;
 		public TextMeshProUGUI UIText;
 		public AnimationCurve SpacePressesNeeded;
+		public Image player;
 		public string winText;
 
 		public AudioClip loopSound;
@@ -33,6 +34,10 @@ namespace JollyRanchers{
 			loop.loop = true;
 			loop.clip = loopSound;
 			loop.Play();
+
+			float x = UnityEngine.Random.Range(0.0f, 800.0f);
+			float y = UnityEngine.Random.Range(0.0f, 800.0f);
+			player.transform.position = new Vector3(x,y,0);
 		}
 
 		private void Update(){
@@ -41,6 +46,10 @@ namespace JollyRanchers{
 				UIText.text = $"Press space {spaceCount} times!";
 				UIText.text = $"Press space {spaceCount} times! | {UIText.transform.position}";
 			}
+
+			float x = UnityEngine.Random.Range(0.0f, 800.0f);
+			float y = UnityEngine.Random.Range(0.0f, 800.0f);
+			player.transform.position = new Vector3(x,y,0);
 
 			if(spaceCount == 0){
 				UIText.text = winText;
