@@ -25,7 +25,7 @@
 
 Welcome to the **EGaDS 2025 Mega-Micro-jam!** This is a one-of-a-kind game jam inspired by WarioWare style games: participants create micro-games that can be completed in just 4-8 seconds, and after the jam we combine everyone’s minigames into one big project for everyone to play! You can find our previous Mega-Micro games on our [itch](https://egads-austin.itch.io/).
 
-The jam will last from the **16th of December at 1 pm CT until 11:59 pm CT on Janurary 23rd.**
+The jam will last from the **16th of December at 1 pm CT until 1 pm CT on December 23rd.**
 
 All important annoucements will be sent out on the [jam discord](https://discord.gg/gkJhxF24Ne), so make sure to join it to stay updated!
 
