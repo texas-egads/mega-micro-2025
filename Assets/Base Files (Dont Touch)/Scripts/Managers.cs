@@ -22,6 +22,9 @@ public class Managers : MonoBehaviour
     [SerializeField] private ScenesManager _scenesManager;
     public ScenesManager scenesManager => _scenesManager;
 
+    [SerializeField] private UpgradeManager _upgradeManager;
+    public UpgradeManager upgradeManager => _upgradeManager;
+
     private void Awake() {
         if (__instance == null) {
             // we are the chosen one
@@ -30,6 +33,7 @@ public class Managers : MonoBehaviour
             minigamesManager.Initialize();
             audioManager.Initialize();
             scenesManager.Initialize();
+            upgradeManager.Initialize();
 
             DontDestroyOnLoad(gameObject);
         }
