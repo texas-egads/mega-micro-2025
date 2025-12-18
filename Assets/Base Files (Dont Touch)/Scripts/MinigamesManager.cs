@@ -11,17 +11,29 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public const int STARTING_LIVES = 3;
 
     [SerializeField] private List<MinigameDefinition> allMinigames;
-    [SerializeField] private int numRoundsInNormalMode;
-    public int numRoundsDebug { get { return numRoundsInNormalMode; }} 
+    [SerializeField] private List<MinigameDefinition> skillMinigames;
+    [SerializeField] private List<MinigameDefinition> timingMinigames;
 
     public Action<MinigameStatus, Action> OnBeginIntermission;
     public Action<MinigameDefinition> OnStartMinigame;
     public Action OnEndMinigame;
+    public float health;
+    public int lives;
+
+    int minigameIndex;
+    List<MinigameDefinition> minigamePool;
+
+    private UpgradeManager upgradeManager
+    {
+        get
+        {
+            return Managers.__instance.minigamesManager.upgradeManager;
+        }
+    }
 
     public float minigameDifficulty;
 
     private MinigameStatus status;
-    private List<MinigameDefinition> minigames;
 
     private bool isMinigamePlaying;
     private bool isCurrentMinigameWon;
@@ -31,93 +43,37 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private Coroutine minigameEndCoroutine;
 
-    public void Initialize() {
-        minigames = new List<MinigameDefinition>();
+    public void Initialize()
+    {
         isMinigamePlaying = false;
         isCurrentMinigameWon = false;
     }
 
-    public void PopulateMinigameList(int numberOfRounds) {
-        minigames.Clear();
+    public void StartMinigames()
+    {
+        //set health/maxhealth to upgradeManager.Health;
 
-        // right now we assume that there's only one miniboss and boss. you'll want to change this if that's not true
-        MinigameDefinition boss = null;
-        MinigameDefinition miniboss = null;
-        List<MinigameDefinition> normalMinigames = new List<MinigameDefinition>();
-        foreach (MinigameDefinition def in allMinigames) {
-            if (def.minigameType == MinigameType.Boss)
-                boss = def;
-            else if (def.minigameType == MinigameType.Miniboss)
-                miniboss = def;
-            else
-                normalMinigames.Add(def);
-        }
+        //Call upgradeManager.StartEncounter();
 
-        if (normalMinigames.Count == 0) {
-            Debug.LogError("There are no normal minigames! Please ensure that there is at least one minigame to play.");
-        }
+        //Update stats UI accordingly
 
-        // bag randomize the normal minigames
-        normalMinigames.Shuffle();
+        //Update minigame pool/index appropriately
 
-        // check that we have enough normal minigames to cover the number of rounds
-        if (normalMinigames.Count < numberOfRounds) {
-            Debug.LogWarning($"There are only {normalMinigames.Count} normal minigames, which isn't enough to fill {numberOfRounds} rounds. This is fine for testing but it shouldn't happen when all of the minigames are assembled.");
-        
-            int numNormalMinigames = normalMinigames.Count;
-            for (int i = numNormalMinigames; i < numberOfRounds; i++) {
-                normalMinigames.Add(normalMinigames[i % numNormalMinigames]);
-            }
-        }
-
-        for (int i = 0; i < numberOfRounds; i++) {
-            if (i == (numberOfRounds - 1) / 2 && miniboss != null) {
-                AddMinigameToList(miniboss);
-            }
-            else if (i == numberOfRounds - 1 && boss != null) {
-                AddMinigameToList(boss);
-            }
-            else {
-                AddMinigameToList(normalMinigames.Last());
-                normalMinigames.RemoveAt(normalMinigames.Count - 1);
-            }
-        }
-    }
-
-    public void AddMinigameToList(MinigameDefinition def) {
-        minigames.Add(def);
-    }
-
-    public void StartMinigames() {
-        if (minigames.Count == 0) {
-            PopulateMinigameList(numRoundsInNormalMode);
-        }
-
-        status.currentHealth = STARTING_LIVES;
-        status.nextRoundNumber = 0;
-        status.totalRounds = minigames.Count;
-
-        status.nextMinigame = GetCurrentMinigameDefinition();
+        status.nextMinigame = minigamePool[minigameIndex];
         Managers.__instance.scenesManager.LoadMinigameScene(status.nextMinigame);
 
         RunIntermission(status);
     }
 
-
-    public MinigameDefinition GetCurrentMinigameDefinition() {
-        if (status.nextRoundNumber < 0 || status.nextRoundNumber >= minigames.Count)
-            return null;
-        
-        return minigames[status.nextRoundNumber];
-    }
-    
-    public void DeclareCurrentMinigameWon() {
+    public void DeclareCurrentMinigameWon()
+    {
         if (!isMinigamePlaying)
             return;
         isCurrentMinigameWon = true;
     }
 
-    public void DeclareCurrentMinigameLost() {
+    public void DeclareCurrentMinigameLost()
+    {
         if (!isMinigamePlaying)
             return;
         isCurrentMinigameWon = false;
@@ -128,13 +84,16 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         return minigameDifficulty;
     }
 
-    public void EndCurrentMinigame(float delay = 0) {
-        if (!isMinigamePlaying) {
+    public void EndCurrentMinigame(float delay = 0)
+    {
+        if (!isMinigamePlaying)
+        {
             Debug.LogWarning("EndCurrentMinigame is called when a minigame is not being played. This might happen if you try to call EndCurrentMinigame right after the minigame ran out of time. This call will be ignored.");
             return;
         }
 
-        if (minigameEndCoroutine != null) {
+        if (minigameEndCoroutine != null)
+        {
             Debug.LogError("Attempt to call EndCurrentMinigame more than once!");
             return;
         }
@@ -143,19 +102,23 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     }
 
     // used by the timer to end a minigame regardless of whether the minigame has been ended by itself
-    public void ForceEndCurrentMinigame() {
-        if (!isMinigamePlaying) {
+    public void ForceEndCurrentMinigame()
+    {
+        if (!isMinigamePlaying)
+        {
             Debug.LogError("Attempt to call ForceEndCurrentMinigame when a minigame is not being played!");
             return;
         }
 
-        if (minigameEndCoroutine != null) {
+        if (minigameEndCoroutine != null)
+        {
             StopCoroutine(minigameEndCoroutine);
         }
         minigameEndCoroutine = StartCoroutine(DoEndMinigame(0));
     }
 
-    private IEnumerator DoEndMinigame(float delay) {
+    private IEnumerator DoEndMinigame(float delay)
+    {
         if (delay > 0)
             yield return new WaitForSeconds(delay);
 
@@ -163,8 +126,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         OnEndMinigame?.Invoke();
 
         Managers.__instance.audioManager.FadeMinigameAudio();
-        // TODO run a screen wipe and wait for it to finish
-        
+
         SceneManager.UnloadSceneAsync(status.nextMinigame.sceneName);
 
         UpdateMinigameStatus();
@@ -173,62 +135,79 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         minigameEndCoroutine = null;
     }
 
-    private void UpdateMinigameStatus() {
+    private void UpdateMinigameStatus()
+    {
+        // evalutate result
         status.previousMinigame = status.nextMinigame;
         status.previousMinigameResult = isCurrentMinigameWon ? WinLose.WIN : WinLose.LOSE;
 
-        if (isCurrentMinigameWon) {
-            status.healthDelta = 0;
-            status.nextRoundNumber = status.nextRoundNumber + 1;
-
-            if (status.previousMinigame.minigameType != MinigameType.Normal)
-                status.healthDelta = 1;
+        if (isCurrentMinigameWon)
+        {
+            //animations
+            //deal damage using upgradeManager.CalcDamage();
         }
-        else {
-            status.healthDelta = -1;
-
-            // only increase the round number if the minigame was a normal one
-            if (status.previousMinigame.minigameType == MinigameType.Normal) {
-                status.nextRoundNumber = status.nextRoundNumber + 1;
-            }
+        else
+        {
+            //animations
+            //take damage using upgradeManager.CalcDamageTaken();
+            //update healthbar/refresh stats ui
         }
 
-        status.currentHealth += status.healthDelta;
-        if (status.nextRoundNumber >= minigames.Count) {
-            status.gameResult = WinLose.WIN;
-            status.nextMinigame = null;
-        }
-        else if (status.currentHealth <= 0) {
+        if (/*out of health*/)
+        {
             status.gameResult = WinLose.LOSE;
-            status.nextMinigame = null;
+            //decrement lives
+            //end encounter
         }
-        else {
+        else if (/*encounter health done*/)
+        {
+            status.gameResult = WinLose.WIN;
+            //DoUpgrade
+        }
+        else
+        {
+            status.gameResult = WinLose.NONE;
             // game still running, proceed with next round
-            status.nextMinigame = GetCurrentMinigameDefinition();
+            status.nextMinigame = minigamePool[(minigameIndex + UnityEngine.Random.Range(1, minigamePool.Count)) % minigamePool.Count];
             Managers.__instance.scenesManager.LoadMinigameScene(status.nextMinigame);
         }
+
     }
 
+    private void EndEncounter()
+    {
+        //call encounter choicer
+        //load next encounter and go to it and call start minigame again
+    }
 
-    public void RunIntermission(MinigameStatus status) {
-        if (OnBeginIntermission == null) {
+    public void PostUpgrade()
+    {
+        EndEncounter();
+    }
+
+    public void RunIntermission(MinigameStatus status)
+    {
+        if (OnBeginIntermission == null)
+        {
             Debug.LogWarning("No one is subscribed to OnBeginIntermission. This is probably a mistake because we expect a listener here to then later call LoadNextMinigame");
         }
 
-        if (status.gameResult == WinLose.NONE) {
+        if (status.gameResult == WinLose.NONE)
+        {
             OnBeginIntermission?.Invoke(status, StartNextMinigame);
         }
-        else {
-            OnBeginIntermission?.Invoke(status, null);
-        }
-        
+
     }
 
 
     // Called when all of the between-minigame cinematics are complete and the
     // next minigame is ready to be put on screen.
-    public void StartNextMinigame() {
-        if (isMinigamePlaying) {
+    public void StartNextMinigame()
+    {
+
+        //
+        if (isMinigamePlaying)
+        {
             Debug.LogError("Cannot load next minigame when a minigame is playing!");
             return;
         }
@@ -245,7 +224,8 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     }
 
 
-    public MinigameDefinition GetMinigameDefForScene(Scene scene) {
+    public MinigameDefinition GetMinigameDefForScene(Scene scene)
+    {
         return allMinigames.Find(mDef => mDef.sceneName == scene.name);
     }
 }

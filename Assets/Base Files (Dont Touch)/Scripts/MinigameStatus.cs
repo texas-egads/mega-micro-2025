@@ -4,13 +4,9 @@ using UnityEngine;
 
 public struct MinigameStatus
 {
-    public int currentHealth;
-    public int healthDelta;
     public WinLose previousMinigameResult;
     public MinigameDefinition previousMinigame;
     public MinigameDefinition nextMinigame;
-    public int nextRoundNumber;
-    public int totalRounds;
     public WinLose gameResult;
 }
 

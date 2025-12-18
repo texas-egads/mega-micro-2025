@@ -4,8 +4,15 @@ using UnityEngine;
 public class UpgradeManager : MonoBehaviour
 {
 
-    // Meta stats
+    // Meta 
     private float lives;
+    private float health
+    {
+        get
+        {
+            return Managers.__instance.minigamesManager.health;
+        }
+    }
     private enum EncounterType
     {
         NORMAL,
@@ -92,7 +99,7 @@ public class UpgradeManager : MonoBehaviour
             difficultyAdjustments.Add(0);
         }
         upgradeTypes = new int[4];
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 4; i++)
         {
             upgradeTypes[i] = baseRarityBias;
         }
@@ -123,12 +130,23 @@ public class UpgradeManager : MonoBehaviour
     /** INTERNAL METHODS**/
     private float CalcDamageRaw()
     {
-        //TODO
-        return -1;
+        bool doEliteScalar = (MASK_EliteDamageMult & specialTraits) > 0;
+        float eliteScalar = (encounterType == EncounterType.ELITE && doEliteScalar) ? eliteDamageMult - 1 : 0;
+        bool doBossScalar = (MASK_BossDamageMult & specialTraits) > 0;
+        float bossScalar = (encounterType == EncounterType.BOSS && doBossScalar) ? bossDamageMult - 1 : 0;
+        float difficultyScalar = ((MASK_DamageMultByDifficulty & specialTraits) > 0) ? difficulty * difficultyHealthScaling + 0.5f : 0;
+        float healthMinorScalar = ((MASK_HealthDamageScalingMinor & specialTraits) > 0) ? health * healthDamageScalingMinor : 0;
+        float healthMajorScalar = ((MASK_HealthDamageScalingMajor & specialTraits) > 0) ? health * healthDamageScalingMajor : 0;
+        [SerializeField] private float difficultyDamageScaling;
+        const int MASK_DifficultyDamageScaling = 1 << 5;
+        [SerializeField] private float lifeDamageScaling;
+        const int MASK_LifeDamageScaling = 1 << 6;
+        return (baseDamage + flatDamageIncrease) * eliteScalar;
     }
     private float CalcInitialHealth()
     {
-        return baseHealth * (((MASK_DifficultyHealthScaling & specialTraits) > 0) ? 1+(difficulty*difficultyHealthScaling) : 1);
+        float difficultyScalar = ((MASK_DifficultyHealthScaling & specialTraits) > 0) ? 1 + (difficulty * difficultyHealthScaling) : 1;
+        return baseHealth * difficultyScalar;
     }
 
 }
