@@ -14,11 +14,13 @@ public class ScenesManager : MonoBehaviour
     private AsyncOperation currentMinigameLoad;
     private Action minigameLoadedCallback;
     bool canActivateMinigame = false;
-    
-    public void Initialize() {
+
+    public void Initialize()
+    {
         Scene startingScene = SceneManager.GetActiveScene();
-        
-        if (startingScene.name == mainSceneName) {
+
+        if (startingScene.name == mainSceneName)
+        {
             // TODO maybe do something here        
             return;
         }
@@ -28,12 +30,14 @@ public class ScenesManager : MonoBehaviour
         // this is so that jammers don't have to modify the Managers prefab in order to add their minigame to the list
         string[] guids = AssetDatabase.FindAssets($"t:{typeof(MinigameDefinition)}");
         MinigameDefinition def = null;
-        foreach (string guid in guids) {
+        foreach (string guid in guids)
+        {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             MinigameDefinition thisDef = AssetDatabase.LoadAssetAtPath<MinigameDefinition>(path);
 
             // check if the scene name is correct
-            if (thisDef.sceneName == startingScene.name) {
+            if (thisDef.sceneName == startingScene.name)
+            {
                 def = thisDef;
                 break;
             }
@@ -43,17 +47,13 @@ public class ScenesManager : MonoBehaviour
         MinigameDefinition def = Managers.__instance.minigamesManager.GetMinigameDefForScene(startingScene);
 #endif
 
-        if (def != null) {
-            for (int i = 0; i < Managers.__instance.minigamesManager.numRoundsDebug; i++)
-                Managers.__instance.minigamesManager.AddMinigameToList(def);
-            
-            LoadSceneImmediate(mainSceneName);
-        }
     }
 
 
-    public void LoadMinigameScene(MinigameDefinition minigame) {
-        if (currentMinigameLoad != null) {
+    public void LoadMinigameScene(MinigameDefinition minigame)
+    {
+        if (currentMinigameLoad != null)
+        {
             Debug.LogError("Trying to load a minigame scene, but a minigame scene is already being loaded!");
             return;
         }
@@ -61,8 +61,10 @@ public class ScenesManager : MonoBehaviour
         StartCoroutine(DoLoadMinigame(minigame.sceneName));
     }
 
-    public void ActivateMinigameScene(Action onLoadedCallback) {
-        if (currentMinigameLoad == null) {
+    public void ActivateMinigameScene(Action onLoadedCallback)
+    {
+        if (currentMinigameLoad == null)
+        {
             Debug.LogError("Trying to activate a minigame scene, but a minigame hasn't been loaded yet!");
             return;
         }
@@ -71,12 +73,14 @@ public class ScenesManager : MonoBehaviour
         canActivateMinigame = true;
     }
 
-    private IEnumerator DoLoadMinigame(string sceneName) {
+    private IEnumerator DoLoadMinigame(string sceneName)
+    {
         canActivateMinigame = false;
         currentMinigameLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         currentMinigameLoad.allowSceneActivation = false;
 
-        currentMinigameLoad.completed += _ => {
+        currentMinigameLoad.completed += _ =>
+        {
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
             minigameLoadedCallback?.Invoke();
             minigameLoadedCallback = null;
@@ -86,7 +90,7 @@ public class ScenesManager : MonoBehaviour
 
         while (currentMinigameLoad.progress < 0.9f || !canActivateMinigame)
             yield return null;
-        
+
         currentMinigameLoad.allowSceneActivation = true;
         /*
         while (!currentMinigameLoad.isDone)
@@ -99,7 +103,8 @@ public class ScenesManager : MonoBehaviour
     }
 
 
-    public void LoadSceneImmediate(string sceneName) {
+    public void LoadSceneImmediate(string sceneName)
+    {
         SceneManager.LoadScene(sceneName);
     }
 }

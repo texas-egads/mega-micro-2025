@@ -11,7 +11,7 @@ public class MainScene : MonoBehaviour
     public GameObject container;
     public TextMeshProUGUI statusText;
     public TextMeshProUGUI promptText;
-    public InstructionText instructionText;
+    //public InstructionText instructionText;
     public Image background;
 
     private Color normalBG;
@@ -23,11 +23,13 @@ public class MainScene : MonoBehaviour
 
     private String baseStatusText;
 
-    private void Awake() {
+    private void Awake()
+    {
         normalBG = background.color;
     }
 
-    private void Start() {
+    private void Start()
+    {
         Managers.__instance.minigamesManager.OnStartMinigame += OnStartMinigame;
         Managers.__instance.minigamesManager.OnEndMinigame += OnEndMinigame;
         Managers.__instance.minigamesManager.OnBeginIntermission += OnBeginIntermission;
@@ -35,17 +37,20 @@ public class MainScene : MonoBehaviour
         Managers.__instance.minigamesManager.StartMinigames();
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         Managers.__instance.minigamesManager.OnStartMinigame -= OnStartMinigame;
         Managers.__instance.minigamesManager.OnEndMinigame -= OnEndMinigame;
         Managers.__instance.minigamesManager.OnBeginIntermission -= OnBeginIntermission;
     }
 
 
-    private void Update() {
+    private void Update()
+    {
         // call the space pressed action whenever space is pressed
         bool spacePressed = Input.GetAxis("Space") > 0;
-        if (spacePressed && !oldSpacePressed) {
+        if (spacePressed && !oldSpacePressed)
+        {
             spacePressedAction?.Invoke();
             spacePressedAction = null;
         }
@@ -58,11 +63,13 @@ public class MainScene : MonoBehaviour
     }
 
 
-    private void OnStartMinigame(MinigameDefinition _) {
+    private void OnStartMinigame(MinigameDefinition _)
+    {
         container.SetActive(false);
     }
 
-    private void OnEndMinigame() {
+    private void OnEndMinigame()
+    {
         container.SetActive(true);
 
         // reset the prompt text
@@ -80,30 +87,34 @@ public class MainScene : MonoBehaviour
         String statusTextString =
             baseStatusText + $"\nCurrent Difficulty: {Managers.__instance.minigamesManager.minigameDifficulty.ToString()} (use slider to adjust)";
 
-        statusText.text = statusTextString;
+        //statusText.text = statusTextString;
     }
 
-    private void OnBeginIntermission(MinigameStatus status, Action intermissionFinishedCallback) {
+    private void OnBeginIntermission(MinigameStatus status, Action intermissionFinishedCallback)
+    {
         // write all of the status to the screen
         baseStatusText =
             $"Result of previous minigame: {(status.previousMinigameResult == WinLose.WIN ? "Won" : status.previousMinigameResult == WinLose.LOSE ? "Lost" : "N/A")}\n" +
-            $"Rounds completed: {status.nextRoundNumber} out of {status.totalRounds}\n" +
-            $"Lives: {status.currentHealth}\n" +
+            $"Lives: {Managers.__instance.minigamesManager.lives}\n" +
             $"Overall game status: {(status.gameResult == WinLose.WIN ? "Won" : status.gameResult == WinLose.LOSE ? "Lost" : "Playing")}";
 
         SetStatusText();
 
         // flash a color if the game was won/lost
-        if (status.previousMinigameResult == WinLose.WIN) {
+        if (status.previousMinigameResult == WinLose.WIN)
+        {
             background.color = winBG;
         }
-        if (status.previousMinigameResult == WinLose.LOSE) {
+        if (status.previousMinigameResult == WinLose.LOSE)
+        {
             background.color = loseBG;
         }
 
-        if (status.nextMinigame != null) {
+        if (status.nextMinigame != null)
+        {
             // prepare for the next minigame
-            DOVirtual.DelayedCall(1f, () => {
+            DOVirtual.DelayedCall(1f, () =>
+            {
                 // return the background color to what it was before
                 background.color = normalBG;
 
@@ -114,9 +125,11 @@ public class MainScene : MonoBehaviour
         }
     }
 
-    private void OnProceed(MinigameStatus status, Action intermissionFinishedCallback) {
+    private void OnProceed(MinigameStatus status, Action intermissionFinishedCallback)
+    {
         // start the sequence for the next minigame
-        instructionText.ShowImpactText(status.nextMinigame.instruction);
+        Debug.Log("space pressed!");
+        //instructionText.ShowImpactText(status.nextMinigame.instruction);
         DOVirtual.DelayedCall(0.5f, () => intermissionFinishedCallback?.Invoke(), false);
     }
 

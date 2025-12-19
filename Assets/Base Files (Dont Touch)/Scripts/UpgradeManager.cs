@@ -10,7 +10,7 @@ public class UpgradeManager : MonoBehaviour
     {
         get
         {
-            return Managers.__instance.minigamesManager.health;
+            return Managers.__instance.minigamesManager.encounterHealth;
         }
     }
     private enum EncounterType
@@ -109,7 +109,7 @@ public class UpgradeManager : MonoBehaviour
     public void EncounterStart(int currentLives, int type = 0)
     {
         lives = currentLives;
-        encounterType = (EncounterType) type;
+        encounterType = (EncounterType)type;
     }
     // Picks upgrades and instantiates their game objects
     public void DoUpgrade()
@@ -137,9 +137,9 @@ public class UpgradeManager : MonoBehaviour
         float difficultyScalar = ((MASK_DamageMultByDifficulty & specialTraits) > 0) ? difficulty * difficultyHealthScaling + 0.5f : 0;
         float healthMinorScalar = ((MASK_HealthDamageScalingMinor & specialTraits) > 0) ? health * healthDamageScalingMinor : 0;
         float healthMajorScalar = ((MASK_HealthDamageScalingMajor & specialTraits) > 0) ? health * healthDamageScalingMajor : 0;
-        [SerializeField] private float difficultyDamageScaling;
+        //[SerializeField] private float difficultyDamageScaling;
         const int MASK_DifficultyDamageScaling = 1 << 5;
-        [SerializeField] private float lifeDamageScaling;
+        //[SerializeField] private float lifeDamageScaling;
         const int MASK_LifeDamageScaling = 1 << 6;
         return (baseDamage + flatDamageIncrease) * eliteScalar;
     }

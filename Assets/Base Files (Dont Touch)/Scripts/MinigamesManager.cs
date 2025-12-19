@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static IMinigamesManager;
 
 public class MinigamesManager : MonoBehaviour, IMinigamesManager
@@ -17,8 +19,23 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public Action<MinigameStatus, Action> OnBeginIntermission;
     public Action<MinigameDefinition> OnStartMinigame;
     public Action OnEndMinigame;
-    public float health;
+
+    public float encounterHealth;
+    public float maxHealth;
+    public float currProgressBar;
+    public float tgtProgressBar;
     public int lives;
+
+    //encounter stats
+    private bool isElite;
+    private float critChance;
+    private float damage;
+
+    //Stats UI
+    public TextMeshProUGUI showDamage;
+    public TextMeshProUGUI showCritChance;
+    public Slider healthSlider;
+    public Slider progSlider;
 
     int minigameIndex;
     List<MinigameDefinition> minigamePool;
@@ -27,42 +44,75 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     {
         get
         {
-            return Managers.__instance.minigamesManager.upgradeManager;
+            return Managers.__instance.upgradeManager;
         }
     }
 
+    //from choicer
+    public int thisEncounter;
+
     public float minigameDifficulty;
 
-    private MinigameStatus status;
+    private MinigameStatus minigameStatus;
+    private EncounterStatus encounterStatus;
+    private bool readyForNext;
 
     private bool isMinigamePlaying;
     private bool isCurrentMinigameWon;
 
-    // stores a preloaded scene for an upcoming round.
-    private AsyncOperation nextMinigameLoadOperation;
-
     private Coroutine minigameEndCoroutine;
 
+
+    /*Day 3 goals:
+        Finish UI - simple approach
+        Finish Intermission : "press space to start"
+        for choicer -  called before loading each encounter
+        Handle encounter selection
+        Sort out postEncounter updates
+        */
     public void Initialize()
     {
         isMinigamePlaying = false;
         isCurrentMinigameWon = false;
+        thisEncounter = 0; //placeholder
+        minigameIndex = 0;
+        lives = 3;
     }
 
     public void StartMinigames()
     {
-        //set health/maxhealth to upgradeManager.Health;
-
-        //Call upgradeManager.StartEncounter();
-
+        upgradeManager.EncounterStart(lives); //enum needs setting up
+        loadNextEncounter(); //choicer called 1st time
+        maxHealth = upgradeManager.Health;
+        critChance = upgradeManager.CritChance;
+        damage = upgradeManager.Damage;
+        encounterHealth = maxHealth;
         //Update stats UI accordingly
+        tgtProgressBar = minigameDifficulty * 100;
+        currProgressBar = 0;
+        progSlider.maxValue = tgtProgressBar;
+        healthSlider.maxValue = maxHealth;
+        progSlider.value = currProgressBar;
+        healthSlider.value = encounterHealth;
+        showCritChance.text = $"Crit. Chance: {critChance}%";
+        showDamage.text = $"Damage: {damage}%";
 
         //Update minigame pool/index appropriately
-
-        status.nextMinigame = minigamePool[minigameIndex];
-        Managers.__instance.scenesManager.LoadMinigameScene(status.nextMinigame);
-
-        RunIntermission(status);
+        //thisEncounter = Choicer.GetStatus.MinigameType or somthing
+        if (thisEncounter == 1)
+        {
+            minigamePool = skillMinigames;
+        }
+        else if (thisEncounter == 2)
+        {
+            minigamePool = timingMinigames;
+        }
+        else
+        {
+            minigamePool = allMinigames;
+        }
+        minigameStatus.nextMinigame = minigamePool[minigameIndex];
+        RunIntermission(minigameStatus);
     }
 
     public void DeclareCurrentMinigameWon()
@@ -127,10 +177,10 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
         Managers.__instance.audioManager.FadeMinigameAudio();
 
-        SceneManager.UnloadSceneAsync(status.nextMinigame.sceneName);
+        SceneManager.UnloadSceneAsync(minigameStatus.nextMinigame.sceneName);
 
         UpdateMinigameStatus();
-        RunIntermission(status);
+        RunIntermission(minigameStatus);
 
         minigameEndCoroutine = null;
     }
@@ -138,51 +188,60 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     private void UpdateMinigameStatus()
     {
         // evalutate result
-        status.previousMinigame = status.nextMinigame;
-        status.previousMinigameResult = isCurrentMinigameWon ? WinLose.WIN : WinLose.LOSE;
+        minigameStatus.previousMinigame = minigameStatus.nextMinigame;
+        minigameStatus.previousMinigameResult = isCurrentMinigameWon ? WinLose.WIN : WinLose.LOSE;
 
         if (isCurrentMinigameWon)
         {
             //animations
-            //deal damage using upgradeManager.CalcDamage();
+            upgradeManager.CalcDamage();
+            if (currProgressBar == tgtProgressBar)
+            {
+                //to next encounter
+                EndEncounter(false);
+            }
         }
         else
         {
             //animations
-            //take damage using upgradeManager.CalcDamageTaken();
+            upgradeManager.CalcDamageTaken();
+            //flash animations?
             //update healthbar/refresh stats ui
         }
 
-        if (/*out of health*/)
+        if (encounterHealth <= 0)
         {
-            status.gameResult = WinLose.LOSE;
-            //decrement lives
+            minigameStatus.gameResult = WinLose.LOSE;
+            lives--;
+            EndEncounter(true);
             //end encounter
         }
-        else if (/*encounter health done*/)
+        else if (currProgressBar >= tgtProgressBar)
         {
-            status.gameResult = WinLose.WIN;
+            minigameStatus.gameResult = WinLose.WIN;
+            upgradeManager.DoUpgrade();
             //DoUpgrade
         }
         else
         {
-            status.gameResult = WinLose.NONE;
+            minigameStatus.gameResult = WinLose.NONE;
             // game still running, proceed with next round
-            status.nextMinigame = minigamePool[(minigameIndex + UnityEngine.Random.Range(1, minigamePool.Count)) % minigamePool.Count];
-            Managers.__instance.scenesManager.LoadMinigameScene(status.nextMinigame);
+            minigameStatus.nextMinigame = minigamePool[(minigameIndex + UnityEngine.Random.Range(1, minigamePool.Count)) % minigamePool.Count];
+            Managers.__instance.scenesManager.LoadMinigameScene(minigameStatus.nextMinigame);
         }
 
     }
 
-    private void EndEncounter()
+    private void EndEncounter(bool onLose)
     {
+        if (lives == 0 && onLose)
+        {
+            //end game
+        }
+
         //call encounter choicer
         //load next encounter and go to it and call start minigame again
-    }
-
-    public void PostUpgrade()
-    {
-        EndEncounter();
+        loadNextEncounter();
     }
 
     public void RunIntermission(MinigameStatus status)
@@ -191,7 +250,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         {
             Debug.LogWarning("No one is subscribed to OnBeginIntermission. This is probably a mistake because we expect a listener here to then later call LoadNextMinigame");
         }
-
+        IntermissionUI();
         if (status.gameResult == WinLose.NONE)
         {
             OnBeginIntermission?.Invoke(status, StartNextMinigame);
@@ -199,13 +258,21 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     }
 
+    public void IntermissionUI()
+    {
+        //show prompt UI
+        Time.timeScale = 0f;
+        if (readyForNext)
+        {
+            Time.timeScale = 1f;
+        }
+        //hide UI
+    }
 
     // Called when all of the between-minigame cinematics are complete and the
     // next minigame is ready to be put on screen.
     public void StartNextMinigame()
     {
-
-        //
         if (isMinigamePlaying)
         {
             Debug.LogError("Cannot load next minigame when a minigame is playing!");
@@ -218,8 +285,9 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         isCurrentMinigameWon = false;
 
         Managers.__instance.audioManager.StartMinigameAudio();
-        Managers.__instance.scenesManager.ActivateMinigameScene(() => {
-            OnStartMinigame?.Invoke(status.nextMinigame);
+        Managers.__instance.scenesManager.ActivateMinigameScene(() =>
+        {
+            OnStartMinigame?.Invoke(minigameStatus.nextMinigame);
         });
     }
 
@@ -227,5 +295,11 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public MinigameDefinition GetMinigameDefForScene(Scene scene)
     {
         return allMinigames.Find(mDef => mDef.sceneName == scene.name);
+    }
+
+    private void loadNextEncounter()
+    {
+        //call choicer
+        //
     }
 }
