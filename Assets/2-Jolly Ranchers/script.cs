@@ -46,7 +46,7 @@ namespace JollyRanchers{
 			snowCount = Mathf.CeilToInt(3.0f*difficulty - 0.5f) + 2;
 			// ------------------------------------------------------------------ //
 
-			UIText.text = $"Catch {snowCount} snow!";
+			UIText.text = $"Catch {snowCount} snowballs!";
 			
 			// Play Looped song
 			AudioSource loop = Managers.AudioManager.CreateAudioSource();
@@ -89,6 +89,21 @@ namespace JollyRanchers{
 			plr.x = plr.x + x;
 			plr.move();
 
+			if(x < 0f){
+				if(covered < 10f){
+					plr.img.sprite = playerSprites[1];
+				} else {
+					plr.img.sprite = playerSprites[3];
+				}
+			}
+			if(x > 0f){
+				if(covered < 10f){
+					plr.img.sprite = playerSprites[0];
+				} else {
+					plr.img.sprite = playerSprites[2];
+				}
+			}
+
 			// Move snow around
 			foreach(WorldObject obj in snow){
 				if(obj.doCollide){
@@ -103,26 +118,17 @@ namespace JollyRanchers{
 						obj.doCollide = false;
 						caught++;
 						covered = 20;
+						if(plr.img.sprite == playerSprites[0]){
+							plr.img.sprite = playerSprites[2];
+						}
+						if(plr.img.sprite == playerSprites[1]){
+							plr.img.sprite = playerSprites[3];
+						}
 					}
 
 					if(obj.y <= minY - obj.h){
 						isLoss = true;
 					}
-				}
-			}
-
-			if(x < 0f){
-				if(covered < 10f){
-					plr.img.sprite = playerSprites[1];
-				} else {
-					plr.img.sprite = playerSprites[3];
-				}
-			}
-			if(x > 0f){
-				if(covered < 10f){
-					plr.img.sprite = playerSprites[0];
-				} else {
-					plr.img.sprite = playerSprites[2];
 				}
 			}
 
