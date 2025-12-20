@@ -39,6 +39,7 @@ public class Upgrade : MonoBehaviour
         GAMBLE_DIFFICULTY,
         CRIT,
         GAMBLE_UPGRADES_FLAT,
+        DAMAGE_VARIANCE,
         GAMBLE_UPGRADES_SET
     }
     public UpgradeType type;
@@ -46,4 +47,9 @@ public class Upgrade : MonoBehaviour
     public UpgradeName id;
     public float val;
     public float val2;
+
+    public void SendUpgrade()
+    {
+        Managers.__instance.upgradeManager.HandleUpgrade(this);
+    }
 }

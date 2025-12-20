@@ -44,8 +44,6 @@ public class ScenesManager : MonoBehaviour
 #endif
 
         if (def != null) {
-            for (int i = 0; i < Managers.__instance.minigamesManager.numRoundsDebug; i++)
-                Managers.__instance.minigamesManager.AddMinigameToList(def);
             
             LoadSceneImmediate(mainSceneName);
         }

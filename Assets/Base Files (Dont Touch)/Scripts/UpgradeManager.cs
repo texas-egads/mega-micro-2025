@@ -23,7 +23,7 @@ public class UpgradeManager : MonoBehaviour
             return Managers.__instance.minigamesManager.health;
         }
     }
-    private enum EncounterType
+    public enum EncounterType
     {
         NORMAL,
         ELITE,
@@ -34,7 +34,7 @@ public class UpgradeManager : MonoBehaviour
     {
         get
         {
-            return Managers.__instance.minigamesManager.minigameDifficulty;
+            return Managers.__instance.minigamesManager.GetCurrentMinigameDifficulty();
         }
         set
         {
@@ -62,7 +62,7 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private float baseHealth;
     private float healthIncrease;
     private float damageResistance;
-    [SerializeField] private List<float> difficultyAdjustments;
+    private List<float> difficultyAdjustments;
     private int nulledElites;
     [SerializeField] private float eliteDifficultyIncrease;
     public float CritChance;
@@ -70,32 +70,32 @@ public class UpgradeManager : MonoBehaviour
 
     // Special upgrades
     private int specialTraits;
-    [SerializeField] private float eliteDamageMult;
+    private float eliteDamageMult;
     const int MASK_EliteDamageMult = 1 << 1;
-    [SerializeField] private float bossDamageMult;
+    private float bossDamageMult;
     const int MASK_BossDamageMult = 1 << 2;
-    [SerializeField] private float healthDamageScalingMinor;
+    private float healthDamageScalingMinor;
     const int MASK_HealthDamageScalingMinor = 1 << 3;
-    [SerializeField] private float healthDamageScalingMajor;
+    private float healthDamageScalingMajor;
     const int MASK_HealthDamageScalingMajor = 1 << 4;
-    [SerializeField] private float difficultyDamageScaling;
+    private float difficultyDamageScaling;
     const int MASK_DifficultyDamageScaling = 1 << 5;
-    [SerializeField] private float lifeDamageScaling;
+    private float lifeDamageScaling;
     const int MASK_LifeDamageScaling = 1 << 6;
-    [SerializeField] private float damageVariance;
+    private float damageVariance;
     const int MASK_DamageVariance = 1 << 7;
-    [SerializeField] private float difficultyHealthScaling;
+    private float difficultyHealthScaling;
     const int MASK_DifficultyHealthScaling = 1 << 8;
-    [SerializeField] private float regenTime;
+    private float regenTime;
     private float regenTimer;
     const int MASK_Regeneration = 1 << 9;
 
     // Upgrade meta stats
     [SerializeField] private float[] rarityOdds;
     private int[] upgradeTypesTaken;
-    [SerializeField] private int baseTypeBias;
     [SerializeField] private GameObject[] upgradeList;
     private List<List<GameObject>>[] upgrades;
+    private List<GameObject> upgradeChoices;
     private List<List<GameObject>> damageUpgrades
     {
         get { return upgrades[0]; }
@@ -117,28 +117,29 @@ public class UpgradeManager : MonoBehaviour
         set { upgrades[3] = value; }
     }
     private int extraUpgrades;
-    [SerializeField] private GameObject upgradeScreenPrefab;
-    private GameObject upgradeScreen;
+    [SerializeField] private GameObject upgradeScreen;
     private Dictionary<Upgrade.UpgradeName, System.Action> upgradeMethods;
+    private System.Action returnFunc;
     public void Initialize()
     {
         GameObject newObj = new GameObject();
         newObj.transform.parent = transform;
         // Setup lists
         difficultyAdjustments = new List<float>();
+        upgradeChoices = new List<GameObject>();
         for (int i = 0; i < 10; i++)
         {
             difficultyAdjustments.Add(0);
         }
         upgradeTypesTaken = new int[4];
         upgrades = new List<List<GameObject>>[4];
+        prevUpgrades = new List<Upgrade.UpgradeName>();
         damageUpgrades = new List<List<GameObject>>();
         healthUpgrades = new List<List<GameObject>>();
         difficultyUpgrades = new List<List<GameObject>>();
         critUpgrades = new List<List<GameObject>>();
         for (int i = 0; i < 4; i++)
         {
-            upgradeTypesTaken[i] = baseTypeBias;
             damageUpgrades.Add(new List<GameObject>());
             healthUpgrades.Add(new List<GameObject>());
             difficultyUpgrades.Add(new List<GameObject>());
@@ -182,17 +183,22 @@ public class UpgradeManager : MonoBehaviour
         upgradeMethods.Add(Upgrade.UpgradeName.GAMBLE_DIFFICULTY, UpgradeGambleDifficulty);
         upgradeMethods.Add(Upgrade.UpgradeName.CRIT, UpgradeCrit);
         upgradeMethods.Add(Upgrade.UpgradeName.GAMBLE_UPGRADES_FLAT, UpgradeGambleUpgradesFlat);
+        upgradeMethods.Add(Upgrade.UpgradeName.DAMAGE_VARIANCE, UpgradeDamageVariance);
         upgradeMethods.Add(Upgrade.UpgradeName.GAMBLE_UPGRADES_SET, UpgradeGambleUpgradesSet);
     }
     /** INTERFACE METHODS **/
     // Sets up encounter stats
-    public void EncounterStart(int type = 0)
+    public void EncounterStart(EncounterType type = EncounterType.NORMAL)
     {
-        encounterType = (EncounterType) type;
+        encounterType = type;
+
+        // Natural difficulty scaling
+        difficulty += 0.06f;
 
         // Handle elite difficulty changes
         if (encounterType == EncounterType.ELITE)
         {
+            extraUpgrades++;
             if(nulledElites > 0)
             {
                 nulledElites--;
@@ -210,21 +216,22 @@ public class UpgradeManager : MonoBehaviour
         // Handle regen
         if ((MASK_Regeneration & specialTraits) > 0)
         {
-            if(regenTimer == 0)
+            if(regenTimer <= 0)
             {
                 lives++;
                 regenTimer = regenTime;
-            } else
-            {
-                regenTimer--;
             }
+            regenTimer--;
         }
     }
     // Picks upgrades and instantiates their game objects
-    public void DoUpgrade()
+    public void DoUpgrade(System.Action returnAction)
     {
+        // Set return
+        returnFunc = returnAction;
+
         // Start display
-        GameObject container = Instantiate(upgradeScreenPrefab, GameObject.Find("Main Canvas").transform);
+        upgradeScreen.SetActive(true);
 
         // Pick Upgrades
         List<int> types = new List<int>();
@@ -233,10 +240,10 @@ public class UpgradeManager : MonoBehaviour
         {
             int type = Random.Range(0, types.Count);
             List<GameObject> pool = upgrades[types[type]][GetRandomRarity()];
-            Instantiate(pool[Random.Range(0, pool.Count)], container.transform);
+            upgradeChoices.Add(pool[Random.Range(0, pool.Count)]);
             types.RemoveAt(type);
         }
-        int maxFreq = 0;
+        int maxFreq = -1;
         int maxIndex = 0;
         foreach (int t in types)
         {
@@ -246,8 +253,16 @@ public class UpgradeManager : MonoBehaviour
                 maxIndex = t;
             }
         }
+        Debug.Log(maxIndex);
         List<GameObject> maxPool = upgrades[maxIndex][GetRandomRarity()];
-        Instantiate(maxPool[Random.Range(0, maxPool.Count)], container.transform);
+        upgradeChoices.Add(maxPool[Random.Range(0, maxPool.Count)]);
+
+        // Enable upgrades
+        upgradeChoices[0].transform.SetAsFirstSibling();
+        upgradeChoices[2].transform.SetAsLastSibling();
+        upgradeChoices[0].SetActive(true);
+        upgradeChoices[1].SetActive(true);
+        upgradeChoices[2].SetActive(true);
     }
     // Determines damage of an attack
     public float CalcDamage()
@@ -299,16 +314,63 @@ public class UpgradeManager : MonoBehaviour
     {
         // Hide options
         //TODO animate maybe?
-        Destroy(upgradeScreen);
-        upgradeScreen = null;
+        upgradeScreen.SetActive(false);
+        upgradeChoices[0].SetActive(false);
+        upgradeChoices[1].SetActive(false);
+        upgradeChoices[2].SetActive(false);
+        upgradeChoices.Clear();
 
         // Call appropriate method
+        prevUpgrades.Add(u.id);
         activeUpgrade = u;
         upgradeMethods[u.id]();
         activeUpgrade = null;
 
+        // Repeat if needed
+        if (extraUpgrades > 0)
+        {
+            extraUpgrades--;
+            DoUpgrade(returnFunc);
+            return;
+        }
+
         // Return control to manager
-        Managers.__instance.minigamesManager.PostUpgrade();
+        returnFunc();
+    }
+    private List<Upgrade.UpgradeName> prevUpgrades;
+    public string GetText()
+    {
+        string res = "Upgrades Summary:"
+            + $"\n\t Damage: {Damage}"
+            + $"\n\t Health: {Health}"
+            + $"\n\t Lives: {lives}"
+            + $"\n\t Difficulty: {difficulty}"
+            + $"\n\t Crit Chance: {CritChance}"
+            + $"\n\t Crit Damage: {critDamage}"
+            + $"\n\t damage bonuses: {flatDamageIncrease}"
+            + $"\n\t elite damage: {(MASK_EliteDamageMult & specialTraits) > 0}"
+            + $"\n\t difficulty damage: {(MASK_DifficultyDamageScaling & specialTraits) > 0}"
+            + $"\n\t boss damage: {(MASK_BossDamageMult & specialTraits) > 0}"
+            + $"\n\t health bonuses: {healthIncrease}"
+            + $"\n\t health damage minor: {(MASK_HealthDamageScalingMinor & specialTraits) > 0}"
+            + $"\n\t health damage major: {(MASK_HealthDamageScalingMajor & specialTraits) > 0}"
+            + $"\n\t lives damage: {(MASK_LifeDamageScaling & specialTraits) > 0}"
+            + $"\n\t damage resist: {damageResistance}"
+            + $"\n\t difficulty health: {(MASK_DifficultyHealthScaling & specialTraits) > 0}"
+            + $"\n\t regen: {(MASK_Regeneration & specialTraits) > 0}"
+            + $"\n\t nulled elites: {nulledElites}"
+            + $"\n\t elite difficulty: {difficulty + eliteDifficultyIncrease}";
+        res += "\n\tdifficulty list(s):";
+        for (int i = 0; i < difficultyAdjustments.Count; i++)
+        {
+            res += $" {difficultyAdjustments[i]}";
+        }
+        res += "\nlast upgrade(s): ";
+        for (int i=0; i<prevUpgrades.Count; i++)
+        {
+            res += $"\n\t{i}: {prevUpgrades[i]}";
+        }
+        return res;
     }
 
     /** UPGRADE METHODS **/
@@ -326,18 +388,21 @@ public class UpgradeManager : MonoBehaviour
     private void UpgradeEliteDamage()
     {
         upgradeTypesTaken[0]++;
+        eliteDamageMult = activeUpgrade.val;
         specialTraits |= MASK_EliteDamageMult;
         damageUpgrades[2].Remove(activeUpgrade.gameObject);
     }
     private void UpgradeDifficultyDamage()
     {
         upgradeTypesTaken[0]++;
+        difficultyDamageScaling = activeUpgrade.val;
         specialTraits |= MASK_DifficultyDamageScaling;
         damageUpgrades[3].Remove(activeUpgrade.gameObject);
     }
     private void UpgradeBossDamage()
     {
         upgradeTypesTaken[0]++;
+        bossDamageMult = activeUpgrade.val;
         specialTraits |= MASK_BossDamageMult;
         damageUpgrades[3].Remove(activeUpgrade.gameObject);
     }
@@ -350,12 +415,14 @@ public class UpgradeManager : MonoBehaviour
     private void UpgradeHealthDamageMinor()
     {
         upgradeTypesTaken[1]++;
+        healthDamageScalingMinor = activeUpgrade.val;
         specialTraits |= MASK_HealthDamageScalingMinor;
         healthUpgrades[1].Remove(activeUpgrade.gameObject);
     }
     private void UpgradeHealthDamageMajor()
     {
         upgradeTypesTaken[1]++;
+        healthDamageScalingMajor = activeUpgrade.val;
         specialTraits |= MASK_HealthDamageScalingMajor;
         healthUpgrades[2].Remove(activeUpgrade.gameObject);
     }
@@ -372,18 +439,21 @@ public class UpgradeManager : MonoBehaviour
     private void UpgradeDamageLives()
     {
         upgradeTypesTaken[1]++;
+        lifeDamageScaling = activeUpgrade.val;
         specialTraits |= MASK_LifeDamageScaling;
         healthUpgrades[2].Remove(activeUpgrade.gameObject);
     }
     private void UpgradeDifficultyHealth()
     {
         upgradeTypesTaken[1]++;
+        difficultyHealthScaling = activeUpgrade.val;
         specialTraits |= MASK_DifficultyHealthScaling;
         healthUpgrades[3].Remove(activeUpgrade.gameObject);
     }
     private void UpgradeRegeneration()
     {
         upgradeTypesTaken[1]++;
+        regenTime = activeUpgrade.val;
         specialTraits |= MASK_Regeneration;
         healthUpgrades[3].Remove(activeUpgrade.gameObject);
     }
@@ -436,6 +506,13 @@ public class UpgradeManager : MonoBehaviour
         {
             lives = Mathf.Clamp(lives-1, 1, lives);
         }
+        critUpgrades[2].Remove(activeUpgrade.gameObject);
+    }
+    private void UpgradeDamageVariance()
+    {
+        upgradeTypesTaken[3]++;
+        damageVariance = activeUpgrade.val;
+        specialTraits |= MASK_DamageVariance;
         critUpgrades[2].Remove(activeUpgrade.gameObject);
     }
     private void UpgradeGambleUpgradesSet()

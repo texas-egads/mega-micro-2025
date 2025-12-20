@@ -87,8 +87,6 @@ public class MainScene : MonoBehaviour
         // write all of the status to the screen
         baseStatusText =
             $"Result of previous minigame: {(status.previousMinigameResult == WinLose.WIN ? "Won" : status.previousMinigameResult == WinLose.LOSE ? "Lost" : "N/A")}\n" +
-            $"Rounds completed: {status.nextRoundNumber} out of {status.totalRounds}\n" +
-            $"Lives: {status.currentHealth}\n" +
             $"Overall game status: {(status.gameResult == WinLose.WIN ? "Won" : status.gameResult == WinLose.LOSE ? "Lost" : "Playing")}";
 
         SetStatusText();
