@@ -683,7 +683,7 @@ MonoBehaviour:
   parent: {fileID: 525829288}
   winText: You Win!
   loopSound: {fileID: 8300000, guid: 4abf22bbdf387144391c54df9ba368e1, type: 3}
-  winSound: {fileID: 8300000, guid: 338661444fb70164d816238cbaa9fdfa, type: 3}
+  winSound: {fileID: 8300000, guid: a939bd5f4b2b7764faf059e77e820927, type: 3}
   lossSound: {fileID: 8300000, guid: c6daaa77a5f6a6540b9cd0b8c65d014f, type: 3}
   collectSound: {fileID: 8300000, guid: 9be4511cc4c143d49ab717d25e56be2b, type: 3}
   snowSprites:

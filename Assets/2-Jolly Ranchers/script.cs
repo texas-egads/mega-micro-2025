@@ -137,7 +137,7 @@ namespace JollyRanchers{
 			}
 			// --------------------------------------------------- //
 
-			UIText.text = $"Catch {snowCount} snow!";
+			UIText.text = $"Catch {snowCount} snowballs!";
 
 			if(caught >= snowCount){
 				isWin = true;
