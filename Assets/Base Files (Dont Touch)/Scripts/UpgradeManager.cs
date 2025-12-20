@@ -13,7 +13,7 @@ public class UpgradeManager : MonoBehaviour
             return Managers.__instance.minigamesManager.encounterHealth;
         }
     }
-    private enum EncounterType
+    public enum EncounterType
     {
         NORMAL,
         ELITE,
@@ -117,14 +117,16 @@ public class UpgradeManager : MonoBehaviour
         //TODO
     }
     // Determines damage of an attack
-    public void CalcDamage()
+    public float CalcDamage()
     {
         //TODO
+        return 0f;
     }
     // Determines damage taken from an attack
-    public void CalcDamageTaken()
+    public float CalcDamageTaken()
     {
         //TODO
+        return 0f;
     }
 
     /** INTERNAL METHODS**/

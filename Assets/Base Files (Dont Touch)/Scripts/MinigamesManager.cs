@@ -27,9 +27,10 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public int lives;
 
     //encounter stats
-    private bool isElite;
+    private int eliteStats;
     private float critChance;
     private float damage;
+    public int encounterNum;
 
     //Stats UI
     public TextMeshProUGUI showDamage;
@@ -48,62 +49,45 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         }
     }
 
-    //from choicer
-    public int thisEncounter;
-
     public float minigameDifficulty;
 
     private MinigameStatus minigameStatus;
     private EncounterStatus encounterStatus;
-    private bool readyForNext;
 
     private bool isMinigamePlaying;
     private bool isCurrentMinigameWon;
 
     private Coroutine minigameEndCoroutine;
 
-
-    /*Day 3 goals:
-        Finish UI - simple approach
-        Finish Intermission : "press space to start"
-        for choicer -  called before loading each encounter
-        Handle encounter selection
-        Sort out postEncounter updates
-        */
+    //TODO Tomorrow: small 1.Finish Life UI 2.Add encounter count UI 3.Check for inconsistencies 4.Mark placeholders & animations 5.Mark mainScene for adaptations
+    //important: finish loadnextencounter and integrade choicer.
     public void Initialize()
     {
         isMinigamePlaying = false;
         isCurrentMinigameWon = false;
-        thisEncounter = 0; //placeholder
         minigameIndex = 0;
         lives = 3;
     }
 
     public void StartMinigames()
     {
-        upgradeManager.EncounterStart(lives); //enum needs setting up
-        loadNextEncounter(); //choicer called 1st time
+        upgradeManager.EncounterStart(lives); //call stats, gets maxHealth, crit, damage
+        //choicer called 1st time to get, gets difficculty, type
         maxHealth = upgradeManager.Health;
         critChance = upgradeManager.CritChance;
         damage = upgradeManager.Damage;
         encounterHealth = maxHealth;
-        //Update stats UI accordingly
-        tgtProgressBar = minigameDifficulty * 100;
+        tgtProgressBar = minigameDifficulty * 100; //scaling hand over to donn
         currProgressBar = 0;
-        progSlider.maxValue = tgtProgressBar;
-        healthSlider.maxValue = maxHealth;
-        progSlider.value = currProgressBar;
-        healthSlider.value = encounterHealth;
-        showCritChance.text = $"Crit. Chance: {critChance}%";
-        showDamage.text = $"Damage: {damage}%";
+        //Update stats UI accordingly
+        UpdatePlayerStatsUI();
 
         //Update minigame pool/index appropriately
-        //thisEncounter = Choicer.GetStatus.MinigameType or somthing
-        if (thisEncounter == 1)
+        if (encounterStatus.encounterType == EncounterType.SKILL)
         {
             minigamePool = skillMinigames;
         }
-        else if (thisEncounter == 2)
+        else if (encounterStatus.encounterType == EncounterType.TIME)
         {
             minigamePool = timingMinigames;
         }
@@ -111,6 +95,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         {
             minigamePool = allMinigames;
         }
+
         minigameStatus.nextMinigame = minigamePool[minigameIndex];
         RunIntermission(minigameStatus);
     }
@@ -195,32 +180,31 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         {
             //animations
             upgradeManager.CalcDamage();
-            if (currProgressBar == tgtProgressBar)
-            {
-                //to next encounter
-                EndEncounter(false);
-            }
         }
         else
         {
             //animations
             upgradeManager.CalcDamageTaken();
             //flash animations?
-            //update healthbar/refresh stats ui
         }
 
+        UpdateEncounterUI();
+
+        if (currProgressBar == tgtProgressBar)
+        {
+            EndEncounter(false);
+        }
         if (encounterHealth <= 0)
         {
             minigameStatus.gameResult = WinLose.LOSE;
             lives--;
             EndEncounter(true);
-            //end encounter
         }
         else if (currProgressBar >= tgtProgressBar)
         {
             minigameStatus.gameResult = WinLose.WIN;
             upgradeManager.DoUpgrade();
-            //DoUpgrade
+            EndEncounter(false);
         }
         else
         {
@@ -236,12 +220,9 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     {
         if (lives == 0 && onLose)
         {
-            //end game
+            Managers.__instance.scenesManager.LoadSceneImmediate("End");
         }
-
-        //call encounter choicer
-        //load next encounter and go to it and call start minigame again
-        loadNextEncounter();
+        LoadNextEncounter();
     }
 
     public void RunIntermission(MinigameStatus status)
@@ -250,7 +231,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         {
             Debug.LogWarning("No one is subscribed to OnBeginIntermission. This is probably a mistake because we expect a listener here to then later call LoadNextMinigame");
         }
-        IntermissionUI();
+        UpdatePlayerStatsUI();
         if (status.gameResult == WinLose.NONE)
         {
             OnBeginIntermission?.Invoke(status, StartNextMinigame);
@@ -258,16 +239,6 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     }
 
-    public void IntermissionUI()
-    {
-        //show prompt UI
-        Time.timeScale = 0f;
-        if (readyForNext)
-        {
-            Time.timeScale = 1f;
-        }
-        //hide UI
-    }
 
     // Called when all of the between-minigame cinematics are complete and the
     // next minigame is ready to be put on screen.
@@ -297,9 +268,25 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         return allMinigames.Find(mDef => mDef.sceneName == scene.name);
     }
 
-    private void loadNextEncounter()
+    //TODO
+    private void LoadNextEncounter()
     {
         //call choicer
-        //
+        //encounterStatus = choicer
+        //reloadscence with updated stats
+    }
+
+    private void UpdatePlayerStatsUI()
+    {
+        showCritChance.text = $"Crit. Chance: {critChance}%";
+        showDamage.text = $"Damage: {damage}%";
+    }
+
+    private void UpdateEncounterUI()
+    {
+        progSlider.maxValue = tgtProgressBar;
+        healthSlider.maxValue = maxHealth;
+        progSlider.value = currProgressBar;
+        healthSlider.value = encounterHealth;
     }
 }

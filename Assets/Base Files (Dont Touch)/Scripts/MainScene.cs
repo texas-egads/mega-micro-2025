@@ -101,14 +101,6 @@ public class MainScene : MonoBehaviour
         SetStatusText();
 
         // flash a color if the game was won/lost
-        if (status.previousMinigameResult == WinLose.WIN)
-        {
-            background.color = winBG;
-        }
-        if (status.previousMinigameResult == WinLose.LOSE)
-        {
-            background.color = loseBG;
-        }
 
         if (status.nextMinigame != null)
         {
