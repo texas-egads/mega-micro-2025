@@ -41,8 +41,10 @@ public class UpgradeManager : MonoBehaviour
             Managers.__instance.minigamesManager.minigameDifficulty = value;
         }
     }
+    private float rounds;
 
     // Base stats
+    [SerializeField] private float difficultyScaling;
     [SerializeField] private float baseDamage;
     private float flatDamageIncrease;
     public float Damage
@@ -188,12 +190,21 @@ public class UpgradeManager : MonoBehaviour
     }
     /** INTERFACE METHODS **/
     // Sets up encounter stats
+    private bool lostPrev;
     public void EncounterStart(EncounterType type = EncounterType.NORMAL)
     {
         encounterType = type;
+        rounds = 0;
+        if(lostPrev)
+        {
+            difficulty += difficultyScaling / 2f;
+        }
+        lostPrev = true;
 
-        // Natural difficulty scaling
-        difficulty += 0.06f;
+        // Handle temp difficulty changes
+        difficulty += difficultyAdjustments[0];
+        difficultyAdjustments.RemoveAt(0);
+        difficultyAdjustments.Add(0);
 
         // Handle elite difficulty changes
         if (encounterType == EncounterType.ELITE)
@@ -205,13 +216,9 @@ public class UpgradeManager : MonoBehaviour
             } else
             {
                 difficulty += eliteDifficultyIncrease;
+                difficultyAdjustments[0] -= eliteDifficultyIncrease;
             }
         }
-
-        // Handle temp difficulty changes
-        difficulty += difficultyAdjustments[0];
-        difficultyAdjustments.RemoveAt(0);
-        difficultyAdjustments.Add(0);
 
         // Handle regen
         if ((MASK_Regeneration & specialTraits) > 0)
@@ -253,7 +260,6 @@ public class UpgradeManager : MonoBehaviour
                 maxIndex = t;
             }
         }
-        Debug.Log(maxIndex);
         List<GameObject> maxPool = upgrades[maxIndex][GetRandomRarity()];
         upgradeChoices.Add(maxPool[Random.Range(0, maxPool.Count)]);
 
@@ -267,6 +273,7 @@ public class UpgradeManager : MonoBehaviour
     // Determines damage of an attack
     public float CalcDamage()
     {
+        rounds++;
         float res = CalcDamageRaw();
         if ((MASK_DamageVariance & specialTraits) > 0) res *= Random.Range(1 - damageVariance, 1 + damageVariance);
         if (Random.Range(0f, 1f) <= CritChance) res *= critDamage;
@@ -275,7 +282,8 @@ public class UpgradeManager : MonoBehaviour
     // Determines damage taken from an attack
     public float CalcDamageTaken(float rawDamage)
     {
-        return rawDamage * Mathf.Clamp01(1-damageResistance);
+        rounds++;
+        return rawDamage * Mathf.Clamp01(1-damageResistance) + Health * ((rounds-1)/15f);
     }
 
     /** INTERNAL METHODS **/
@@ -299,10 +307,10 @@ public class UpgradeManager : MonoBehaviour
         bool doBossScalar = (MASK_BossDamageMult & specialTraits) > 0;
         float bossScalar = (encounterType == EncounterType.BOSS && doBossScalar) ? bossDamageMult - 1 : 0;
         float difficultyScalar = ((MASK_DifficultyDamageScaling & specialTraits) > 0) ? difficulty * difficultyDamageScaling : 0;
-        float healthMinorScalar = ((MASK_HealthDamageScalingMinor & specialTraits) > 0) ? Mathf.Clamp(health - baseHealth, 0, health) * healthDamageScalingMinor : 0;
-        float healthMajorScalar = ((MASK_HealthDamageScalingMajor & specialTraits) > 0) ? Mathf.Clamp(health - baseHealth, 0, health) * healthDamageScalingMajor : 0;
+        float healthMinorAdder = ((MASK_HealthDamageScalingMinor & specialTraits) > 0) ? Mathf.Clamp(health - baseHealth, 0, health) * healthDamageScalingMinor : 0;
+        float healthMajorAdder = ((MASK_HealthDamageScalingMajor & specialTraits) > 0) ? Mathf.Clamp(health - baseHealth, 0, health) * healthDamageScalingMajor : 0;
         float lifeScaling = ((MASK_LifeDamageScaling & specialTraits) > 0) ? Mathf.Clamp(lives - 3, 0, lives) * lifeDamageScaling : 0;
-        return (baseDamage + flatDamageIncrease) * (1+eliteScalar+bossScalar+difficultyScalar+healthMajorScalar+healthMinorScalar+lifeScaling);
+        return (baseDamage + flatDamageIncrease + healthMinorAdder + healthMajorAdder) * (1+eliteScalar+bossScalar+difficultyScalar+lifeScaling);
     }
     private float CalcInitialHealth()
     {
@@ -335,6 +343,8 @@ public class UpgradeManager : MonoBehaviour
         }
 
         // Return control to manager
+        difficulty += difficultyScaling;
+        lostPrev = false;
         returnFunc();
     }
     private List<Upgrade.UpgradeName> prevUpgrades;
@@ -489,7 +499,7 @@ public class UpgradeManager : MonoBehaviour
     private void UpgradeGambleDifficulty()
     {
         upgradeTypesTaken[2]++;
-        difficulty += Random.Range(activeUpgrade.val, activeUpgrade.val2);
+        difficulty += Mathf.Round(Random.Range(activeUpgrade.val, activeUpgrade.val2)*20) / 20;
     }
     //Crit
     private void UpgradeCrit()
