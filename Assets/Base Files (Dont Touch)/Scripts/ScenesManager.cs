@@ -47,6 +47,11 @@ public class ScenesManager : MonoBehaviour
         MinigameDefinition def = Managers.__instance.minigamesManager.GetMinigameDefForScene(startingScene);
 #endif
 
+        if (def != null)
+        {
+
+            LoadSceneImmediate(mainSceneName);
+        }
     }
 
 

@@ -116,7 +116,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     public float GetCurrentMinigameDifficulty()
     {
-        return minigameDifficulty;
+        return Mathf.Clamp01(minigameDifficulty);
     }
 
     public void EndCurrentMinigame(float delay = 0)
