@@ -71,7 +71,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     public void StartMinigames()
     {
-        upgradeManager.EncounterStart(lives); //call stats, gets maxHealth, crit, damage
+        upgradeManager.EncounterStart(); //call stats, gets maxHealth, crit, damage
         //choicer called 1st time to get, gets difficculty, type
         maxHealth = upgradeManager.Health;
         critChance = upgradeManager.CritChance;
@@ -184,7 +184,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         else
         {
             //animations
-            upgradeManager.CalcDamageTaken();
+            upgradeManager.CalcDamageTaken(10f);
             //flash animations?
         }
 
@@ -203,7 +203,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         else if (currProgressBar >= tgtProgressBar)
         {
             minigameStatus.gameResult = WinLose.WIN;
-            upgradeManager.DoUpgrade();
+            upgradeManager.DoUpgrade(LoadNextEncounter);
             EndEncounter(false);
         }
         else

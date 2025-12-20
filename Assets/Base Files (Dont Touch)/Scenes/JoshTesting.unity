@@ -6747,7 +6747,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _upgradeManager
       value: 
-      objectReference: {fileID: 1198073448}
+      objectReference: {fileID: 0}
     - target: {fileID: 4637096852649538272, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: m_RootOrder
@@ -6810,19 +6810,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 566529860167362531, guid: 299268e851095ea429ce927bf2bef866,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1198073447}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 299268e851095ea429ce927bf2bef866, type: 3}
---- !u!4 &1024713138 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 566529860167362531, guid: 299268e851095ea429ce927bf2bef866,
-    type: 3}
-  m_PrefabInstance: {fileID: 1024713137}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1050106759
 GameObject:
   m_ObjectHideFlags: 0
@@ -7930,98 +7920,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &1198073446
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1198073447}
-  - component: {fileID: 1198073448}
-  m_Layer: 0
-  m_Name: UpgradeManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1198073447
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1198073446}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1024713138}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1198073448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1198073446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cc437e593b435b4b949916343bbd04c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  difficultyScaling: 0.05
-  baseDamage: 10
-  baseHealth: 100
-  eliteDifficultyIncrease: 0.2
-  CritChance: 0.05
-  critDamage: 1.5
-  rarityOdds:
-  - 0.53
-  - 0.3
-  - 0.12
-  - 0.05
-  upgradeList:
-  - {fileID: 1576826313}
-  - {fileID: 1485079071}
-  - {fileID: 1093471225}
-  - {fileID: 498193000}
-  - {fileID: 473119175}
-  - {fileID: 1153151330}
-  - {fileID: 1473339949}
-  - {fileID: 1860041666}
-  - {fileID: 1121140834}
-  - {fileID: 2067601541}
-  - {fileID: 1442679061}
-  - {fileID: 1114495483}
-  - {fileID: 559087744}
-  - {fileID: 197436762}
-  - {fileID: 1450717164}
-  - {fileID: 530548817}
-  - {fileID: 749781435}
-  - {fileID: 283746584}
-  - {fileID: 687614532}
-  - {fileID: 2056855740}
-  - {fileID: 1587302201}
-  - {fileID: 221688688}
-  - {fileID: 1768389145}
-  - {fileID: 1791614227}
-  - {fileID: 555637995}
-  - {fileID: 113000740}
-  - {fileID: 437462996}
-  - {fileID: 2077628754}
-  - {fileID: 264574976}
-  - {fileID: 453047908}
-  - {fileID: 525327721}
-  - {fileID: 471670621}
-  - {fileID: 934575288}
-  - {fileID: 1050106759}
-  - {fileID: 101754919}
-  upgradeScreen: {fileID: 1218130788}
 --- !u!1 &1218130788
 GameObject:
   m_ObjectHideFlags: 0
