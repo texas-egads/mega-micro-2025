@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: 3-Graupel
   minigameType: 0
-  gameTime: 5143
-  instruction: 
-  title: 
-  creditsText: 
+  gameTime: 10286
+  instruction: Collect the targeted snowflake!
+  title: Graupel
+  creditsText: 'Programmed By:
+
+    Assets Created By:'
   minigameScreenshot: {fileID: 0}

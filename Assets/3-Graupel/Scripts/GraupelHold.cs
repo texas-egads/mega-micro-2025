@@ -7,12 +7,12 @@ namespace Graupel
     {
         public Slider Slider_Main;
 
-        public float changeAmount = 50f;
+        public float changeAmount = 100f;
 
         void Start()
         {
             Slider_Main.minValue = 0f;
-            Slider_Main.maxValue = .5f;
+            Slider_Main.maxValue = .10f;
             Slider_Main.value = 0f;
         }
 
@@ -28,7 +28,7 @@ namespace Graupel
                 Slider_Main.value -= changeAmount * Time.deltaTime;
             }
 
-            Slider_Main.value = Mathf.Clamp(Slider_Main.value, 0f, .5f);
+            Slider_Main.value = Mathf.Clamp(Slider_Main.value, 0f, .10f);
         }
     }
 }
