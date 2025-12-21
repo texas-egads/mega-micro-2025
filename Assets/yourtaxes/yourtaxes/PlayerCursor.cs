@@ -9,6 +9,8 @@ namespace yourtaxes
         [SerializeField]
         private float soldierOffset;
         [SerializeField]
+        private float soldierSpeed;
+        [SerializeField]
         private int speed;
         [SerializeField]
         private int regularChance;
@@ -52,7 +54,11 @@ namespace yourtaxes
 
 
                 GameObject currentSoldier = soldiers[soldierIndex];
-                Instantiate(soldiers[soldierIndex], soldierPos, Quaternion.identity);
+
+                Rigidbody2D rb = Instantiate(soldiers[soldierIndex], soldierPos, Quaternion.identity).GetComponent<Rigidbody2D>();
+                rb.linearVelocityY = -soldierSpeed;
+                Debug.Log("boxSpeed " + rb.linearVelocityY);
+
             }
             if (Input.GetButtonDown("Enable Debug Button 2"))
             {

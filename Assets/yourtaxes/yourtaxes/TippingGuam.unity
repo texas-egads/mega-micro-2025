@@ -223,6 +223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerBounds: 6
   soldierOffset: -1
+  soldierSpeed: 1
   speed: 8
   regularChance: 60
   largeChance: 30
@@ -667,9 +668,8 @@ MonoBehaviour:
   guamTipped: 0
   regularColor: {r: 1, g: 1, b: 1, a: 1}
   warningColor: {r: 1, g: 0, b: 0, a: 1}
-  guamMaxAngle: 30
+  guamMaxAngle: 35
   guamWarningAngle: 20
-  warningFrictionMultiplier: 1.5
   currentRotation: 0
 --- !u!256 &1530977921
 FrictionJoint2D:
@@ -718,9 +718,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55acdf713a444bf9919b4febc86bf97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBoxes: 5
-  frictionAddedPerDevision: 75
-  extraFrictionPast3: 0
+  amntBoxes: 3
+  StandardWeights:
+  - 3
+  - 5
+  - 1
   regularChance: 60
   largeChance: 30
   smallChance: 10

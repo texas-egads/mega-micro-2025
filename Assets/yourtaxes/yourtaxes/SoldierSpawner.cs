@@ -5,11 +5,9 @@ namespace yourtaxes
     public class SoldierSpawner : MonoBehaviour
     {
         [SerializeField]
-        private int maxBoxes;
+        private int amntBoxes;
         [SerializeField]
-        private int frictionAddedPerDevision;
-        [SerializeField]
-        private int extraFrictionPast3;
+        private float[] StandardWeights;
         [SerializeField]
         private int regularChance;
         [SerializeField]
@@ -19,25 +17,23 @@ namespace yourtaxes
         [SerializeField]
         private GameObject[] soldiers;
         private float dificulty;
-        private FrictionJoint2D fj;
         private int subdivisions;
 
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            fj = GetComponent<FrictionJoint2D>();
             dificulty = Managers.MinigamesManager.GetCurrentMinigameDifficulty();
             int[] sides = new int[] { -1, 1 };
             int chosen = Random.Range(0, 2);
 
-            subdivisions = (int)(maxBoxes * (dificulty)) + 1;
+            
             //Debug.Log(subdivisions);
 
             //fj.maxTorque += (frictionAddedPerDevision + extraFrictionPast3) * (subdivisions - 1);
             //Debug.Log(fj.maxTorque);
             bool hasSpawnedLarge = false;
-            for (int i = 0; i < subdivisions; i++)
+            for (int i = 0; i < amntBoxes; i++)
             {
                 int soldierIndex = 0;
                 int soldierChance = Random.Range(0, 100) + 1;
@@ -78,8 +74,10 @@ namespace yourtaxes
                 Rigidbody2D currentRigidbody = currentSoldier.GetComponent<Rigidbody2D>();
                 //currentRigidbody.mass = currentRigidbody.mass * (1 - dificulty);
                 //currentRigidbody.mass = currentRigidbody.mass * ()
-                Debug.Log("dificulty = " + dificulty + ", MaxBoxes = " + maxBoxes + ", subdivisions = " + subdivisions);
-                Debug.Log(0.5f + (0.5f * (dificulty * maxBoxes) - subdivisions + 1));
+                //Debug.Log("dificulty = " + dificulty + ", MaxBoxes = " + maxBoxes + ", subdivisions = " + subdivisions);
+                //Debug.Log(0.5f + (0.5f * (dificulty * maxBoxes) - subdivisions + 1));
+                Debug.Log(0.5f + (0.5f * dificulty));
+                currentRigidbody.mass = StandardWeights[soldierIndex] * (0.5f + (0.5f * dificulty));
 
                 
                 

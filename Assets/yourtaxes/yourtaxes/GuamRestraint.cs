@@ -13,8 +13,6 @@ namespace yourtaxes {
         [SerializeField]
         private float guamWarningAngle;
         [SerializeField]
-        private float warningFrictionMultiplier;
-        [SerializeField]
         private float currentRotation;
         private Rigidbody2D rb;
         private Transform tf;
