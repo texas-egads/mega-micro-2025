@@ -499,6 +499,7 @@ GameObject:
   - component: {fileID: 1530977923}
   - component: {fileID: 1530977920}
   - component: {fileID: 1530977922}
+  - component: {fileID: 1530977924}
   - component: {fileID: 1530977916}
   - component: {fileID: 1530977919}
   - component: {fileID: 1530977921}
@@ -703,7 +704,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasWon: 0
-  timeToWin: 8
+  hasLost: 0
+  timeToWin: 6.5
   loseScreen: {fileID: 872089899}
   winScreen: {fileID: 1751899401}
 --- !u!114 &1530977923
@@ -713,7 +715,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1530977914}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c55acdf713a444bf9919b4febc86bf97, type: 3}
   m_Name: 
@@ -730,6 +732,21 @@ MonoBehaviour:
   - {fileID: 2213230836534055704, guid: fd9732533ff3c4ca08de26d56f8c9316, type: 3}
   - {fileID: 8600775728034921538, guid: 76dceefb9f1274752a6b4c215ad91d21, type: 3}
   - {fileID: 3710075952977249111, guid: ef0470f78b6334347aa5cfe9d2e83649, type: 3}
+--- !u!114 &1530977924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530977914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6531ba4875d4037994a6897eece804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMusic: {fileID: 8300000, guid: 7bad014f20c8a40808042fd29406863c, type: 3}
+  loseMusic: {fileID: 8300000, guid: 7dece82342edf4fee8f992ce6611d3ec, type: 3}
+  winMusic: {fileID: 8300000, guid: 90a91da791d0b46aab9d1f54c64712d5, type: 3}
 --- !u!1 &1751899401
 GameObject:
   m_ObjectHideFlags: 0

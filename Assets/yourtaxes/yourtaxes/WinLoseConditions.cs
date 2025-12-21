@@ -6,6 +6,7 @@ namespace yourtaxes
     {
         //determines if the player has survived until the time to win, and brings up the correct screen
         public bool hasWon;
+        public bool hasLost;
         public float timeToWin;
         [SerializeField]
         private GameObject loseScreen;
@@ -25,19 +26,26 @@ namespace yourtaxes
         // Update is called once per frame
         void Update()
         {
-            if (!guamRestraint.guamTipped)
+            timer += Time.deltaTime;
+            if (timer >= timeToWin)
             {
-                timer += Time.deltaTime;
-                if (timer >= timeToWin)
+
+                if (!guamRestraint.guamTipped)
                 {
                     hasWon = true;
                     guamRestraint.lockGuam();
                     winScreen.SetActive(true);
                     Managers.MinigamesManager.DeclareCurrentMinigameWon();
                 }
-            } else {
+                else
+                {
+                    Managers.MinigamesManager.DeclareCurrentMinigameLost();
+                    hasLost = true;
+                }
+            }
+            if (guamRestraint.guamTipped)
+            {
                 loseScreen.SetActive(true);
-                Managers.MinigamesManager.DeclareCurrentMinigameLost();
             }
         }
     }
