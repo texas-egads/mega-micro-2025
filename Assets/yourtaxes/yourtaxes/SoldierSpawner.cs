@@ -31,18 +31,18 @@ namespace yourtaxes
             int[] sides = new int[] { -1, 1 };
             int chosen = Random.Range(0, 2);
 
-            subdivisions = (int)(maxBoxes * dificulty) + 1;
+            subdivisions = (int)(maxBoxes * (dificulty)) + 1;
             //Debug.Log(subdivisions);
 
-            fj.maxTorque += (frictionAddedPerDevision + extraFrictionPast3) * (subdivisions - 1);
-            Debug.Log(fj.maxTorque);
+            //fj.maxTorque += (frictionAddedPerDevision + extraFrictionPast3) * (subdivisions - 1);
+            //Debug.Log(fj.maxTorque);
             bool hasSpawnedLarge = false;
             for (int i = 0; i < subdivisions; i++)
             {
                 int soldierIndex = 0;
                 int soldierChance = Random.Range(0, 100) + 1;
                 //Debug.Log(soldierChance);
-                if ((soldierChance <= largeChance) && !hasSpawnedLarge)
+                if (((soldierChance <= largeChance) && !hasSpawnedLarge) || (subdivisions == 1))
                 {
                     soldierIndex = 1;
                     hasSpawnedLarge = true;
@@ -63,10 +63,11 @@ namespace yourtaxes
                 {
                     soldierPos.x = Random.Range(3f, 4.5f) * sides[chosen];
                     soldierPos.y = -1;
+
                 }
                 else if (soldierIndex == 1)
                 {
-                    soldierPos.x = Random.Range(2f, 3.5f) * sides[chosen];
+                    soldierPos.x = Random.Range(3.0f, 3.5f) * sides[chosen];
                     soldierPos.y = -0.5f;
                 }
                 if (soldierIndex == 2)
@@ -74,6 +75,14 @@ namespace yourtaxes
                     soldierPos.x = Random.Range(4.5f, 4.75f) * sides[chosen];
                     soldierPos.y = -1.25f;
                 }
+                Rigidbody2D currentRigidbody = currentSoldier.GetComponent<Rigidbody2D>();
+                //currentRigidbody.mass = currentRigidbody.mass * (1 - dificulty);
+                //currentRigidbody.mass = currentRigidbody.mass * ()
+                Debug.Log("dificulty = " + dificulty + ", MaxBoxes = " + maxBoxes + ", subdivisions = " + subdivisions);
+                Debug.Log(0.5f + (0.5f * (dificulty * maxBoxes) - subdivisions + 1));
+
+                
+                
                 Instantiate(currentSoldier, soldierPos, Quaternion.identity);
             }
 

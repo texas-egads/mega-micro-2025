@@ -16,11 +16,18 @@ MonoBehaviour:
   minigameType: 0
   gameTime: 10286
   instruction: Don't Tip!
-  title: Tipping Guam
+  title: Balancing Bases
   creditsText: 'Finnegan McDevitt - Programming / Design / Music
 
-    Avery Polk
-    - Art
+    <link=https://www.linkedin.com/in/finnegan-mcdevitt-397b2b396/><u>LinkedIn</u></color></link>
 
-    Ethan Trinh - Art'
+
+    Avery
+    Polk - Art
+
+    <link=https://www.instagram.com/crocodilebiscuit?igsh=anhmY3Z1Z2xvM2Y0&utm_source=qr/><u>Instagram</u></color></link>
+
+    <link=https://x.com/crocobiscuit?s=21><u>X/Twitter</u></color></link>
+
+'
   minigameScreenshot: {fileID: 0}

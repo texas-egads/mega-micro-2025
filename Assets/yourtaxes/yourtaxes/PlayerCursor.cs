@@ -29,7 +29,7 @@ namespace yourtaxes
         void Update()
         {
             //Debug.Log(transform.position.x);
-            
+
             if (Input.GetButtonDown("Space") || Input.GetButton("Enable Debug Button 1"))
             {
                 Vector3 soldierPos = transform.position;
@@ -53,6 +53,11 @@ namespace yourtaxes
 
                 GameObject currentSoldier = soldiers[soldierIndex];
                 Instantiate(soldiers[soldierIndex], soldierPos, Quaternion.identity);
+            }
+            if (Input.GetButtonDown("Enable Debug Button 2"))
+            {
+                Managers.MinigamesManager.DeclareCurrentMinigameWon();
+                Managers.MinigamesManager.EndCurrentMinigame();
             }
         }
 

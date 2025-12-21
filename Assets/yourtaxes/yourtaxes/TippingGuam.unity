@@ -719,8 +719,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxBoxes: 5
-  frictionAddedPerDevision: 100
-  extraFrictionPast3: 25
+  frictionAddedPerDevision: 75
+  extraFrictionPast3: 0
   regularChance: 60
   largeChance: 30
   smallChance: 10
