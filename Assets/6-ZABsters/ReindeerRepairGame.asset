@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b6289b71b71e942a2499ed4eb71c02, type: 3}
   m_Name: ReindeerRepairGame
   m_EditorClassIdentifier: 
-  sceneName: 
+  sceneName: 6-Scene
   minigameType: 0
   gameTime: 0
-  instruction: 
-  title: 
+  instruction: Pick the correct tool!
+  title: Reindeer Repair
   creditsText: 
   minigameScreenshot: {fileID: 0}
