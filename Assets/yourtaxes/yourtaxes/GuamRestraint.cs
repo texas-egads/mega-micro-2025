@@ -14,15 +14,18 @@ namespace yourtaxes {
         private float guamWarningAngle;
         [SerializeField]
         private float currentRotation;
+        [SerializeField]
+        private GameObject island;
         private Rigidbody2D rb;
         private Transform tf;
         private SpriteRenderer sr;
+        
         private WinLoseConditions wlc;
         void Start()
         {
             rb = GetComponent<Rigidbody2D>();
             tf = GetComponent<Transform>();
-            sr = GetComponent<SpriteRenderer>();
+            sr = island.GetComponent<SpriteRenderer>();
             wlc = GetComponent<WinLoseConditions>();
         }
 
@@ -37,12 +40,15 @@ namespace yourtaxes {
             }
             if (tipped(guamWarningAngle))
             {
-                sr.color = warningColor;
+                //sr.color = warningColor;
+                sr.color = Color.red;
+
             }
             else
             {
-                sr.color = regularColor;
+                sr.color = Color.white;
             }
+            //Debug.Log(sr.color);
         }
 
         //freeses guam in place

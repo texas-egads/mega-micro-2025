@@ -30,7 +30,7 @@ namespace yourtaxes
 
             if (wlc.hasWon && !startedPlaying && !source.isPlaying)
             {
-                Debug.Log("hasWon");
+                //Debug.Log("hasWon");
                 AudioSource win = Managers.AudioManager.CreateAudioSource();
                 win.clip = winMusic;
                 win.Play();

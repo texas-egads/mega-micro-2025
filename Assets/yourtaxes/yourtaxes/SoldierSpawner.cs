@@ -58,18 +58,18 @@ namespace yourtaxes
                 if (soldierIndex == 0)
                 {
                     soldierPos.x = Random.Range(3f, 4.5f) * sides[chosen];
-                    soldierPos.y = -1;
+                    soldierPos.y = 2.5f;
 
                 }
                 else if (soldierIndex == 1)
                 {
                     soldierPos.x = Random.Range(3.0f, 3.5f) * sides[chosen];
-                    soldierPos.y = -0.5f;
+                    soldierPos.y = 2.5f;
                 }
                 if (soldierIndex == 2)
                 {
                     soldierPos.x = Random.Range(4.5f, 4.75f) * sides[chosen];
-                    soldierPos.y = -1.25f;
+                    soldierPos.y = 2.5f;
                 }
                 Rigidbody2D currentRigidbody = currentSoldier.GetComponent<Rigidbody2D>();
                 //currentRigidbody.mass = currentRigidbody.mass * (1 - dificulty);

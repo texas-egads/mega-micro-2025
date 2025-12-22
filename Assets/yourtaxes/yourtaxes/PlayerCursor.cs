@@ -22,12 +22,11 @@ namespace yourtaxes
         private GameObject[] soldiers;
         [SerializeField]
         private GameObject guamRestraint;
-        private GuamRestraint gr;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            gr = guamRestraint.GetComponent<GuamRestraint>();
+
         }
 
         // Update is called once per frame
@@ -35,7 +34,7 @@ namespace yourtaxes
         {
             //Debug.Log(transform.position.x);
 
-            if ((Input.GetButtonDown("Space") || Input.GetButton("Enable Debug Button 1")) && !gr.guamTipped)
+            if (Input.GetButtonDown("Space") || Input.GetButton("Enable Debug Button 1"))
             {
                 Vector3 soldierPos = transform.position;
                 soldierPos.y += soldierOffset;
@@ -72,8 +71,10 @@ namespace yourtaxes
 
         void FixedUpdate()
         {
+            Vector3 scale = transform.localScale;
             if (Input.GetAxis("Horizontal") > 0)
             {
+                scale.x = 1;
                 if (transform.position.x < playerBounds)
                 {
                     transform.Translate(Vector2.right * speed * Time.deltaTime);
@@ -81,11 +82,14 @@ namespace yourtaxes
             }
             if (Input.GetAxis("Horizontal") < 0)
             {
+                scale.x = -1;
                 if (transform.position.x > -playerBounds)
                 {
                     transform.Translate(Vector2.left * speed * Time.deltaTime);
                 }
             }
+            //Debug.Log(scale);
+            transform.localScale = scale;
         }
     }
 }

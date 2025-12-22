@@ -46,6 +46,7 @@ namespace yourtaxes
                 {
                     Managers.MinigamesManager.DeclareCurrentMinigameLost();
                     hasLost = true;
+                    //Debug.Log("loseScreen");
                     loseScreenAnimator.Play("loseMoveUp");
                 }
                 hasEnded = true;
