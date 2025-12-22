@@ -178,6 +178,7 @@ MonoBehaviour:
   - {fileID: 3546407750808686652, guid: dec281131d0d4431db3b9c5fe5276587, type: 3}
   - {fileID: 5782097745262973964, guid: 6f2f7c9b948e54bacbb103711189c052, type: 3}
   guamRestraint: {fileID: 1530977914}
+  senator: {fileID: 1462191888}
 --- !u!1001 &246273527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1083,6 +1084,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1462191886}
   - component: {fileID: 1462191887}
+  - component: {fileID: 1462191888}
   m_Layer: 0
   m_Name: senator
   m_TagString: Untagged
@@ -1098,13 +1100,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462191885}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.03, y: -0.66, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.028907724, w: 0.9995821}
+  m_LocalPosition: {x: 0.671, y: -0.415, z: 0}
   m_LocalScale: {x: 1.150552, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 171136972}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.313}
 --- !u!212 &1462191887
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1149,7 +1151,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
+  m_Sprite: {fileID: 3029528905732929983, guid: 0de90a8e72d2b4b2ea583a820fdd6dc3,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1161,6 +1163,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1462191888
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462191885}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 091c97f304c9841bc8bc339c0a18beec, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1485970498
 GameObject:
   m_ObjectHideFlags: 0
@@ -1585,9 +1609,11 @@ MonoBehaviour:
   hasWon: 0
   hasLost: 0
   timeToWin: 6.5
+  hasEnded: 0
   loseScreen: {fileID: 872089899}
   winScreenAnimator: {fileID: 1751899404}
   loseScreenAnimator: {fileID: 872089902}
+  senator: {fileID: 1462191888}
 --- !u!114 &1530977923
 MonoBehaviour:
   m_ObjectHideFlags: 0

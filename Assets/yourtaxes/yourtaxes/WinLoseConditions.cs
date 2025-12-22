@@ -9,15 +9,18 @@ namespace yourtaxes
         public bool hasWon;
         public bool hasLost;
         public float timeToWin;
+        public bool hasEnded;
         [SerializeField]
         private GameObject loseScreen;
         [SerializeField]
         private Animator winScreenAnimator;
         [SerializeField]
         private Animator loseScreenAnimator;
+        [SerializeField]
+        private Animator senator;
         private GuamRestraint guamRestraint;
         private float timer;
-        private bool hasEnded;
+        
 
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -25,6 +28,7 @@ namespace yourtaxes
         {
             timer = 0;
             guamRestraint = GetComponent<GuamRestraint>();
+
         }
 
         // Update is called once per frame
@@ -37,16 +41,15 @@ namespace yourtaxes
                 {
                     hasWon = true;
                     guamRestraint.lockGuam();
-                    //Debug.Log("playWin");
-                    //winScreen.SetActive(true);
                     winScreenAnimator.Play("winMoveUp", 0);
+                    senator.Play("SenatorWin");
                     Managers.MinigamesManager.DeclareCurrentMinigameWon();
                 }
                 else
                 {
                     Managers.MinigamesManager.DeclareCurrentMinigameLost();
                     hasLost = true;
-                    //Debug.Log("loseScreen");
+                    senator.Play("senatorLose");
                     loseScreenAnimator.Play("loseMoveUp");
                 }
                 hasEnded = true;

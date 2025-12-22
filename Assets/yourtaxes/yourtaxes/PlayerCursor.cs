@@ -22,11 +22,14 @@ namespace yourtaxes
         private GameObject[] soldiers;
         [SerializeField]
         private GameObject guamRestraint;
+        [SerializeField]
+        private Animator senator;
+        private WinLoseConditions wlc;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-
+            wlc = guamRestraint.GetComponent<WinLoseConditions>();
         }
 
         // Update is called once per frame
@@ -34,8 +37,9 @@ namespace yourtaxes
         {
             //Debug.Log(transform.position.x);
 
-            if (Input.GetButtonDown("Space") || Input.GetButton("Enable Debug Button 1"))
+            if ((Input.GetButtonDown("Space") || Input.GetButton("Enable Debug Button 1")) && !wlc.hasEnded)
             {
+                senator.Play("senatorPullLever");
                 Vector3 soldierPos = transform.position;
                 soldierPos.y += soldierOffset;
                 int soldierIndex = 0;
@@ -53,7 +57,6 @@ namespace yourtaxes
                 {
                     soldierIndex = 2;
                 }
-
 
                 GameObject currentSoldier = soldiers[soldierIndex];
 
