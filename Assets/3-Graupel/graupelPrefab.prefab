@@ -89,8 +89,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeedc79bb5ff59b4088639b491d1690d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 150
-  canvas: {fileID: 0}
+  speed: 100
+  areaWidth: 400
+  areaHeight: 450
 --- !u!114 &6733954842440431888
 MonoBehaviour:
   m_ObjectHideFlags: 0

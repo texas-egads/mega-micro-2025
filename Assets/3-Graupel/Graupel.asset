@@ -15,9 +15,9 @@ MonoBehaviour:
   sceneName: 3-Graupel
   minigameType: 0
   gameTime: 10286
-  instruction: Collect the targeted snowflake!
+  instruction: 'Collect the GREEN snowflake! '
   title: Graupel
-  creditsText: 'Programmed By:
+  creditsText: 'Programmed By: Tessa Johnson
 
-    Assets Created By:'
-  minigameScreenshot: {fileID: 0}
+    Assets Created By: Danielle Manibusan'
+  minigameScreenshot: {fileID: 21300000, guid: 4ebbe8219d392b143960b035af1428ca, type: 3}

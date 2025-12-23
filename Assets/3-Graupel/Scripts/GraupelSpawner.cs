@@ -11,8 +11,6 @@ namespace Graupel
         public Sprite[] graupelSprites;
 
         public Color highlightColor = Color.yellow;
-        public Color glowColor = Color.yellow; 
-        public float glowDistance = 5f; 
 
         public float difficulty = 0;
         public int spawnCount = 5;
@@ -22,7 +20,7 @@ namespace Graupel
         void Start()
         {
             difficulty = Managers.MinigamesManager.GetCurrentMinigameDifficulty() * 100f;
-            spawnCount += (int)(difficulty/10);
+            spawnCount += (int)((difficulty/10)/2);
             
             for (int i = 0; i < spawnCount; i++)
             {
@@ -71,14 +69,6 @@ namespace Graupel
         {
             Image img = obj1.GetComponent<Image>();
             img.color = highlightColor;
-
-        Outline outline = obj1.GetComponent<Outline>();
-        if (outline == null)
-        {
-            outline = obj1.AddComponent<Outline>();
-        }
-        outline.effectColor = glowColor;
-        outline.effectDistance = new Vector2(glowDistance, glowDistance);
         }
     }
 }

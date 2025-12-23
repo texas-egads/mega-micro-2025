@@ -12,9 +12,9 @@ namespace Graupel
 
         void Update()
         {
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetKey(KeyCode.W))
             {
-                Debug.Log("E Pressed");
+                Debug.Log("W Pressed");
                 currentWidth += changeAmount * Time.deltaTime;
             }
             else

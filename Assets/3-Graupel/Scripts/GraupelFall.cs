@@ -5,16 +5,20 @@ namespace Graupel
     public class GraupelFall : MonoBehaviour
     {
         public float speed = 300f;
-        public float areaWidth = 400f;
+        public float areaWidth = 800f;
         public float areaHeight = 450f;
 
         private RectTransform rectTransform;
         private Vector2 direction;
 
+        public float difficulty;
+
         void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
             direction = new Vector2(Random.value > 0.5f ? 1 : -1 , Random.value > 0.5f ? 1 : -1).normalized;
+            difficulty = Managers.MinigamesManager.GetCurrentMinigameDifficulty() * 100f;
+            speed += (difficulty * 2f);
         }
 
         void Update()
@@ -31,12 +35,8 @@ namespace Graupel
             float halfWidth = size.x / 2f;
             float halfHeight = size.y / 2f;
 
-            // Defined BG Area
-            float areaWidth = 400f;
-            float areaHeight = 450f;
-
-            float minX = -areaWidth / 2f + halfWidth;
-            float maxX = areaWidth / 2f - halfWidth;
+            float minX = -100f;
+            float maxX = 300f;
             float minY = -areaHeight / 2f + halfHeight;
             float maxY = areaHeight / 2f - halfHeight;
 
