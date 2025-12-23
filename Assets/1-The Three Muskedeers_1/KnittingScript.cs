@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace The_Three_Muskedeers{
+namespace The_Three_Muskedeers
+{
     public class MyScript : MonoBehaviour
     {
         [Header("UI")]
@@ -76,7 +77,7 @@ namespace The_Three_Muskedeers{
             loopSource.loop = true;
             loopSource.clip = loopSound;
             loopSource.Play();
-            
+
             StartCoroutine(ShowSequence());
         }
 
@@ -86,21 +87,21 @@ namespace The_Three_Muskedeers{
 
             if (Input.GetKeyDown(KeyCode.W))
             {
-                Debug.Log("meow");
                 HandleInput(KeyCode.W);
-            } else if (Input.GetKeyDown(KeyCode.A))
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
             {
-                Debug.Log("meow");
                 HandleInput(KeyCode.A);
-            } else if (Input.GetKeyDown(KeyCode.S))
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
             {
-                Debug.Log("meow");
                 HandleInput(KeyCode.S);
-            } else if (Input.GetKeyDown(KeyCode.D))
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
             {
-                Debug.Log("meow");
                 HandleInput(KeyCode.D);
-            } else
+            }
+            else
             {
                 return;
             }
@@ -163,7 +164,7 @@ namespace The_Three_Muskedeers{
                 int sockIndex = i % sockImages.Length;
                 sockImages[sockIndex].sprite = GetSockSprite(sequence[i]);
             }
-            
+
             yield break;
         }
 
@@ -171,7 +172,7 @@ namespace The_Three_Muskedeers{
         {
             foreach (var img in sockImages)
                 img.sprite = transparent;
-                
+
         }
 
         Sprite GetSockSprite(KeyCode key)
@@ -199,20 +200,23 @@ namespace The_Three_Muskedeers{
                 keySound.PlayOneShot(bellSound);
                 inputIndex++;
 
-                if (inputIndex >= sequence.Length) {
+                if (inputIndex >= sequence.Length)
+                {
                     finished = true;
                     inputLocked = true;
                     Managers.MinigamesManager.DeclareCurrentMinigameWon();
                     Managers.MinigamesManager.EndCurrentMinigame(1);
-                }    
-            } else {
-                    finished = true;
-                    inputLocked = true;
-                    AudioSource keySound = Managers.AudioManager.CreateAudioSource();
-                    keySound.PlayOneShot(cowbellSound);
-                    sockImages[sockIndex].color = Color.red;
-                    Managers.MinigamesManager.DeclareCurrentMinigameLost();
-                    Managers.MinigamesManager.EndCurrentMinigame(1);
+                }
+            }
+            else
+            {
+                finished = true;
+                inputLocked = true;
+                AudioSource keySound = Managers.AudioManager.CreateAudioSource();
+                keySound.PlayOneShot(cowbellSound);
+                sockImages[sockIndex].color = Color.red;
+                Managers.MinigamesManager.DeclareCurrentMinigameLost();
+                Managers.MinigamesManager.EndCurrentMinigame(1);
             }
         }
     }

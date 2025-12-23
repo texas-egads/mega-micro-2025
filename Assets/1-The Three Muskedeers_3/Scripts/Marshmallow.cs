@@ -37,7 +37,7 @@ namespace The_Three_Muskedeers
             if (difficulty < 0.33) // Easy
                 activeCount = 1;
             else if (difficulty < 0.66) // Medium
-                activeCount = 2; 
+                activeCount = 2;
             else // Hard
                 activeCount = 3;
 
@@ -46,7 +46,7 @@ namespace The_Three_Muskedeers
                 bool shouldBeActive = i < activeCount;
                 marshmallows[i].uiImage.gameObject.SetActive(shouldBeActive);
             }
-         }
+        }
 
         void Update()
         {
@@ -78,7 +78,7 @@ namespace The_Three_Muskedeers
             {
                 marshmallows[selectedIndex].SwitchImage();
                 CheckWinCondition();
-            } 
+            }
         }
 
         void CheckWinCondition()
@@ -87,25 +87,17 @@ namespace The_Three_Muskedeers
             {
                 if (!marshmallow.uiImage.gameObject.activeSelf)
                     continue;
-
-                // 🔴 INSTANT LOSS if ANY marshmallow hits 5
                 if (marshmallow.CurrentIndex == 5)
                 {
-                    Debug.Log("You lose!");
                     Managers.MinigamesManager.DeclareCurrentMinigameLost();
                     Managers.MinigamesManager.EndCurrentMinigame(0.5f);
                     return; // STOP CHECKING
                 }
-
-                // ❌ If ANY marshmallow is still 0, not a win yet
                 if (marshmallow.CurrentIndex == 0)
                 {
                     return;
                 }
             }
-
-            // ✅ ONLY reaches here if ALL marshmallows are NOT 0 or 5
-            Debug.Log("You win!");
             Managers.MinigamesManager.DeclareCurrentMinigameWon();
         }
 
@@ -114,7 +106,7 @@ namespace The_Three_Muskedeers
             // Optional: visually indicate selection
             for (int i = 0; i < marshmallows.Count; i++)
             {
-                if (i == selectedIndex) 
+                if (i == selectedIndex)
                 {
                     marshmallows[i].Highlight(true);  // Highlight active
                 }
@@ -131,7 +123,7 @@ namespace The_Three_Muskedeers
     [System.Serializable]
     public class MarshmallowMeow
     {
-        public Image uiImage; 
+        public Image uiImage;
         public Sprite[] images;
         public int currentIndex = 0;
 
@@ -143,9 +135,8 @@ namespace The_Three_Muskedeers
             if (currentIndex < images.Length - 1)
             {
                 currentIndex++;
-                Debug.Log(currentIndex);
             }
-            if (currentIndex >= images.Length) 
+            if (currentIndex >= images.Length)
             {
                 return;
             }
