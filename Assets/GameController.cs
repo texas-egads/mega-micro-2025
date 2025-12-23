@@ -6,15 +6,14 @@ namespace TeamShakra
   public class GameController : MonoBehaviour
   {
     // SPECIAL NAIL DEFINITIONS:
-    // NAIL 1 POS: (-5.8, 2, 2) no rotation
-    private Vector3 NAIL_1_POS = new Vector3(-5.8f, 2, 2);
-    private Quaternion NAIL_1_ROTATION = Quaternion.identity;
-    // NAIL 2 POS: (-2.5, -2, 2) 90 degree rotation
-    private Vector3 NAIL_2_POS = new Vector3(-2.5f, -2, 2);
-    private Quaternion NAIL_2_ROTATION = Quaternion.Euler(0, 0, 90);
+    // NAIL 1 POS: (-2.5, -2, 2) 90 degree rotation
+    private Vector3 NAIL_1_POS = new Vector3(-2.5f, -2, 2);
+    private Quaternion NAIL_1_ROTATION = Quaternion.Euler(0, 0, 90);
+    // NAIL 2 POS: (-5.8, 2, 2) no rotation
+    private Vector3 NAIL_2_POS = new Vector3(-5.8f, 2, 2);
+    private Quaternion NAIL_2_ROTATION = Quaternion.identity;
     private float gameDifficulty;
     private int numNails = 0;
-    [SerializeField] private float gameTimer;
     [SerializeField] private GameObject nailPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,11 +45,6 @@ namespace TeamShakra
     // Update is called once per frame
     void Update()
     {
-      gameTimer -= Time.deltaTime;
-      if (gameTimer <= 0.0f)
-      {
-        Managers.MinigamesManager.EndCurrentMinigame();
-      }
     }
 
     public void removeNail()
@@ -63,11 +57,15 @@ namespace TeamShakra
       }
     }
 
+    public void timeUp()
+    {
+      Managers.MinigamesManager.EndCurrentMinigame();
+    }
+
     private GameObject spawnNail(Vector3 position, Quaternion rotation)
     {
       // Scaling handled by prefab
       GameObject newNail = Instantiate(nailPrefab, position, rotation);
-      Debug.Log("Creating new Nail");
       return newNail;
     }
   }

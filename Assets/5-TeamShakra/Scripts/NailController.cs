@@ -6,10 +6,10 @@ namespace TeamShakra
 {
   public class NailHandler : MonoBehaviour
   {
-    [SerializeField] private float HAMMER_PULL_DISTANCE;
-    [SerializeField] private int PULLS_NEEDED;
-    [SerializeField] private float FLY_TIME;
-    [SerializeField] private float SPIN_SPEED; // degrees per second
+    [SerializeField] private float HAMMER_PULL_DISTANCE = 0.2f;
+    [SerializeField] private int PULLS_NEEDED = 3;
+    [SerializeField] private float FLY_TIME = 1.0f;
+    [SerializeField] private float SPIN_SPEED = 1800f; // degrees per second
     private GameObject nailDest;
     private GameController gameController;
     private int hammerPulls = 0;
