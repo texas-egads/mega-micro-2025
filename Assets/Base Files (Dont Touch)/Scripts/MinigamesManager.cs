@@ -59,8 +59,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private Coroutine minigameEndCoroutine;
 
-    //TODO Tomorrow: small 1.Finish Life UI 2.Add encounter count UI 3.Check for inconsistencies 4.Mark placeholders & animations 5.Mark mainScene for adaptations
-    //important: finish loadnextencounter and integrade choicer.
+    //TODO: Mostly done with main logic, waiting on choicer. After choicer, can tests gameplay loop & implement UI.
     public void Initialize()
     {
         isMinigamePlaying = false;
