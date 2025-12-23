@@ -36,7 +36,7 @@ namespace ZABsters {
         // public GameObject giftTaskObjects;
         // public GameObject snowTaskObjects;
 
-        void Start()
+        void Awake()
         {
             //ranodmly assign isSantaWorkshop value
             // Debug.Log("WSG BRODIE");
