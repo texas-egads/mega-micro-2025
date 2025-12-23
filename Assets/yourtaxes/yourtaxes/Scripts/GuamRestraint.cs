@@ -36,24 +36,20 @@ namespace yourtaxes {
         void Update()
         {
             currentRotation = tf.eulerAngles.z;
-            //Debug.Log(currentRotation);
             if (tipped(guamMaxAngle) && !wlc.hasWon && !guamTipped)
             {
                 guamTipped = true;
                 ap.playAudio(splashClip);
-                //Debug.Log("Guam Tipped");
             }
             if (tipped(guamWarningAngle))
             {
-                //sr.color = warningColor;
-                sr.color = Color.red;
+                sr.color = warningColor;
 
             }
             else
             {
-                sr.color = Color.white;
+                sr.color = regularColor;
             }
-            //Debug.Log(sr.color);
         }
 
         //freeses guam in place

@@ -26,18 +26,11 @@ namespace yourtaxes
             dificulty = Managers.MinigamesManager.GetCurrentMinigameDifficulty();
             int[] sides = new int[] { -1, 1 };
             int chosen = Random.Range(0, 2);
-
-            
-            //Debug.Log(subdivisions);
-
-            //fj.maxTorque += (frictionAddedPerDevision + extraFrictionPast3) * (subdivisions - 1);
-            //Debug.Log(fj.maxTorque);
             bool hasSpawnedLarge = false;
             for (int i = 0; i < amntBoxes; i++)
             {
                 int soldierIndex = 0;
                 int soldierChance = Random.Range(0, 100) + 1;
-                //Debug.Log(soldierChance);
                 if (((soldierChance <= largeChance) && !hasSpawnedLarge) || (subdivisions == 1))
                 {
                     soldierIndex = 1;
@@ -72,11 +65,6 @@ namespace yourtaxes
                     soldierPos.y = 2.5f;
                 }
                 Rigidbody2D currentRigidbody = currentSoldier.GetComponent<Rigidbody2D>();
-                //currentRigidbody.mass = currentRigidbody.mass * (1 - dificulty);
-                //currentRigidbody.mass = currentRigidbody.mass * ()
-                //Debug.Log("dificulty = " + dificulty + ", MaxBoxes = " + maxBoxes + ", subdivisions = " + subdivisions);
-                //Debug.Log(0.5f + (0.5f * (dificulty * maxBoxes) - subdivisions + 1));
-                //Debug.Log(0.5f + (0.5f * dificulty));
                 currentRigidbody.mass = StandardWeights[soldierIndex] * (0.5f + (0.5f * dificulty));
 
                 

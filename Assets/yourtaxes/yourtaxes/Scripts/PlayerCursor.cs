@@ -35,8 +35,6 @@ namespace yourtaxes
         // Update is called once per frame
         void Update()
         {
-            //Debug.Log(transform.position.x);
-
             if ((Input.GetButtonDown("Space") || Input.GetButton("Enable Debug Button 1")) && !wlc.hasEnded)
             {
                 senator.Play("senatorPullLever");
@@ -44,7 +42,6 @@ namespace yourtaxes
                 soldierPos.y += soldierOffset;
                 int soldierIndex = 0;
                 int soldierChance = Random.Range(0, 100) + 1;
-                //Debug.Log(soldierChance);
                 if (soldierChance <= regularChance)
                 {
                     soldierIndex = 0;
@@ -57,18 +54,8 @@ namespace yourtaxes
                 {
                     soldierIndex = 2;
                 }
-
-                GameObject currentSoldier = soldiers[soldierIndex];
-
                 Rigidbody2D rb = Instantiate(soldiers[soldierIndex], soldierPos, Quaternion.identity).GetComponent<Rigidbody2D>();
                 rb.linearVelocityY = -soldierSpeed;
-                //Debug.Log("boxSpeed " + rb.linearVelocityY);
-
-            }
-            if (Input.GetButtonDown("Enable Debug Button 2"))
-            {
-                Managers.MinigamesManager.DeclareCurrentMinigameWon();
-                Managers.MinigamesManager.EndCurrentMinigame();
             }
         }
 
@@ -91,7 +78,6 @@ namespace yourtaxes
                     transform.Translate(Vector2.left * speed * Time.deltaTime);
                 }
             }
-            //Debug.Log(scale);
             transform.localScale = scale;
         }
     }
