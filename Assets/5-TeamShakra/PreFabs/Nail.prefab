@@ -232,3 +232,7 @@ MonoBehaviour:
   PULLS_NEEDED: 3
   FLY_TIME: 1
   SPIN_SPEED: 1800
+  nailParticlePrefab: {fileID: 5797052207261879294, guid: 986eea961f577c441944dce6baa0ff12,
+    type: 3}
+  nailImpactPrefab: {fileID: 3065187787278496864, guid: 33e9ba8e350f7ef449bbe39d607c3218,
+    type: 3}

@@ -6,12 +6,12 @@ namespace TeamShakra
   public class GameController : MonoBehaviour
   {
     // SPECIAL NAIL DEFINITIONS:
-    // NAIL 1 POS: (-2.5, -2, 2) 90 degree rotation
-    private Vector3 NAIL_1_POS = new Vector3(-2.5f, -2, 2);
-    private Quaternion NAIL_1_ROTATION = Quaternion.Euler(0, 0, 90);
-    // NAIL 2 POS: (-5.8, 2, 2) no rotation
-    private Vector3 NAIL_2_POS = new Vector3(-5.8f, 2, 2);
-    private Quaternion NAIL_2_ROTATION = Quaternion.identity;
+    // NAIL 1 POS: (-5.8, 2, 2) no rotation
+    private Vector3 NAIL_1_POS = new Vector3(-5.8f, 2, 2);
+    private Quaternion NAIL_1_ROTATION = Quaternion.identity;
+    // NAIL 2 POS: (-2.5, -2, 2) 90 degree rotation
+    private Vector3 NAIL_2_POS = new Vector3(-2.5f, -2, 2);
+    private Quaternion NAIL_2_ROTATION = Quaternion.Euler(0, 0, 90);
     private float gameDifficulty;
     private int numNails = 0;
     [SerializeField] private GameObject nailPrefab;

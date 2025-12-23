@@ -28,7 +28,6 @@ namespace TeamShakra
       if (currentTime < 0) currentTime = 0;
       
       float timePercent = currentTime / gameTime;
-      Debug.Log($"Current Time: {currentTime}");
       if (timePercent <= 0.0f)
       {
           gameController.timeUp();
