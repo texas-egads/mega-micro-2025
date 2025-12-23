@@ -15,7 +15,14 @@ MonoBehaviour:
   sceneName: 56-boinkthatboy
   minigameType: 0
   gameTime: 10286
-  instruction: 
-  title: 
-  creditsText: 
-  minigameScreenshot: {fileID: 0}
+  instruction: Press Space to save your buddy!
+  title: Schrodinger's Cat
+  creditsText: 'Programmer, 3D Modeling & Animation
+
+    David Wang
+
+
+    << Generative
+    AI was used to create this game >>'
+  minigameScreenshot: {fileID: 3853515669415099730, guid: 439c89326ca57404f8ae090e3aafe634,
+    type: 3}
