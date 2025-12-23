@@ -36,28 +36,7 @@ namespace ZABsters {
         // public GameObject giftTaskObjects;
         // public GameObject snowTaskObjects;
 
-        private AudioClipsList audioClipsList;
-        private AudioSource winSound;
-        private AudioSource loseSound;
-        private ToolSelectionAnimator toolAnimator; //to end ui animations
-
-        private int sampleCorrectAnswer = 0;
-
-        public GameObject[] taskObjects;
-        public GameObject[] winObjects;
-        public GameObject[] nonWinObjects;
-
-        public AudioClip guitarClip;
-        public AudioClip pixieClip;
-
-        public AudioClip fireStartClip;
-        public AudioClip extinguisherClip;
-        public AudioClip timerClip;
-
-
-        // public GameObject giftTaskObjects;
-        // public GameObject snowTaskObjects;
-
+    
         void Awake()
         {
             //ranodmly assign isSantaWorkshop value
