@@ -13,7 +13,10 @@ namespace The_Three_Muskedeers
             canWin = true;
             //position = transform.position;
             //transform.position = new Vector3(-10f, -3.3f, 0);
-            transform.position = new Vector3(-10f, -3.089966f, 0);
+            //transform.position = new Vector3(-10f, -3.089966f, 0);
+            
+            gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(GameObject.FindGameObjectWithTag("Object 2").GetComponent<RectTransform>().anchoredPosition.x - 910, GameObject.FindGameObjectWithTag("Object 2").GetComponent<RectTransform>().anchoredPosition.y, 0);
+            //transform.position = new Vector3(GameObject.FindGameObjectWithTag("Object 2").transform.position.x - 14, GameObject.FindGameObjectWithTag("Object 2").transform.position.y, GameObject.FindGameObjectWithTag("Object 2").transform.position.z);
             //transform.position = new Vector3(-10, -2.891647f, 0);
         }
 
@@ -29,7 +32,7 @@ namespace The_Three_Muskedeers
             {
                 Destroy(gameObject);
             }
-            if (transform.position.x > 10)
+            if (gameObject.GetComponent<RectTransform>().anchoredPosition.x > 600)
             {
                 canWin = false;
                 Managers.MinigamesManager.DeclareCurrentMinigameLost();
@@ -49,8 +52,8 @@ namespace The_Three_Muskedeers
 
         public void Spawn()
         {
-            //Instantiate(gameObject);
-            Instantiate(gameObject, GameObject.FindGameObjectWithTag("Object 1").transform);
+            Instantiate(gameObject);
+            //Instantiate(gameObject, GameObject.FindGameObjectWithTag("Object 1").transform);
 
         }
     }

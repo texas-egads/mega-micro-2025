@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10b6289b71b71e942a2499ed4eb71c02, type: 3}
-  m_Name: Knitting
+  m_Name: Marshmallow Game
   m_EditorClassIdentifier: 
-  sceneName: 1-Scene
+  sceneName: 1-The Three Muskedeers_3
   minigameType: 0
-  gameTime: 6857
-  instruction: Follow the pattern
-  title: Knitting
-  creditsText: 'Jenny Nguyen - Art + Visuals
+  gameTime: 5143
+  instruction: Press SPACE
+  title: Toast N' Roast
+  creditsText: 'Jenna Barro - Programmer
 
-    Jenny Barro - Music
+    Tiffany Lam - Artist
 
-    Tiffany
-    Lam - Programming'
+    Jenny Nguyen
+    - Musician
+
+'
   minigameScreenshot: {fileID: 0}
