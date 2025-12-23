@@ -34,6 +34,7 @@ Transform:
   - {fileID: 8010271753699012250}
   - {fileID: 8163484928679483813}
   - {fileID: 5770805938254022695}
+  - {fileID: 6726916926677980100}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3494345104809831076
@@ -52,6 +53,7 @@ MonoBehaviour:
   _audioManager: {fileID: 1414119333161545066}
   _scenesManager: {fileID: 1914113568}
   _upgradeManager: {fileID: 354225542106749782}
+  _encounterManager: {fileID: 5941439095739128627}
 --- !u!1 &3024076375283223524
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,6 +196,75 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainSceneName: TestMain
+--- !u!1 &8273892508415162463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6726916926677980100}
+  - component: {fileID: 5941439095739128627}
+  m_Layer: 0
+  m_Name: EncounterManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6726916926677980100
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8273892508415162463}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 344.94052, y: 115.036995, z: -0.12992519}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 566529860167362531}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5941439095739128627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8273892508415162463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66c788a695a0c0a45b36e0e82357e090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  encounterScreen: {fileID: 0}
+  screenPrompt: 'Choose a factory:'
+  cardCount: 2
+  difficultyCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  encounterCount: 0
+  maxEncounters: 15
+  eliteChance: 0.2
+  guaranteedEliteOn: 050000000a000000
+  minimumHealth: 25
+  minimumDamage: 30
+  flavorImages:
+  - flavor: 0
+    name: 
+    sprite: {fileID: 0}
+  - flavor: 0
+    name: 
+    sprite: {fileID: 0}
+  - flavor: 0
+    name: 
+    sprite: {fileID: 0}
 --- !u!1 &9133125244238399707
 GameObject:
   m_ObjectHideFlags: 0
