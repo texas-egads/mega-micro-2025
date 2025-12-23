@@ -25,6 +25,10 @@ namespace ZABsters {
 
             //if 0, set bgimage to sprites[0], otherwise set to sprites[1]
             bgImage.sprite = (taskNumber == 0) ? sprites[0] : sprites[1];
+
+            //0 is gift task
+            //1 is sleigh repair
+            //2 is snow shoveling task
         }
 
 
