@@ -13,7 +13,7 @@ namespace ZABsters {
         
         [Header("tool sprites for fixing gift")] //isSantasWorkshop
         public GameObject teddyBear;
-        public GameObject extinguisher; //right answer, second button a
+        public GameObject extinguisher; //right answer, first button W
         public GameObject appleCore;
         
         [Header("tool sprites for snow shoveling")]
