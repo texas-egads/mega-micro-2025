@@ -280,8 +280,8 @@ public class UpgradeManager : MonoBehaviour
         if (Random.Range(0f, 1f) <= CritChance) res *= critDamage;
         return res;
     }
-    // Determines damage taken from an attack
-    public float CalcDamageTaken(float rawDamage)
+    // Determines damage taken from a failed minigame
+    public float CalcHealthLost(float rawDamage)
     {
         rounds++;
         return rawDamage * Mathf.Clamp01(1 - damageResistance) + Health * ((rounds - 1) / 15f);

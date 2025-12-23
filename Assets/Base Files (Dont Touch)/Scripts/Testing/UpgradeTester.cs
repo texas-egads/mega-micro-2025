@@ -65,7 +65,7 @@ public class UpgradeTester : MonoBehaviour
         {
             // Lose microgame
             status1 = "Lost";
-            lastHurt = uMan.CalcDamageTaken(encounterDamage.Evaluate(round));
+            lastHurt = uMan.CalcHealthLost(encounterDamage.Evaluate(round));
             mMan.encounterHealth -= lastHurt;
             if (mMan.encounterHealth <= 0)
             {

@@ -179,12 +179,12 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         if (isCurrentMinigameWon)
         {
             //animations
-            upgradeManager.CalcDamage();
+            currProgressBar += upgradeManager.CalcDamage();
         }
         else
         {
             //animations
-            upgradeManager.CalcDamageTaken(10f);
+            encounterHealth -= upgradeManager.CalcHealthLost(10f);
             //flash animations?
         }
 
@@ -273,13 +273,17 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     {
         //call choicer
         //encounterStatus = choicer
+        //use dataTransfer to update
         //reloadscence with updated stats
+        Managers.__instance.scenesManager.LoadSceneImmediate("Main");
+
     }
 
     private void UpdatePlayerStatsUI()
     {
         showCritChance.text = $"Crit. Chance: {critChance}%";
         showDamage.text = $"Damage: {damage}%";
+
     }
 
     private void UpdateEncounterUI()
