@@ -22,15 +22,24 @@ public class UpgradeTester : MonoBehaviour
             return Managers.__instance.minigamesManager;
         }
     }
+    private EncounterManager eMan
+    {
+        get
+        {
+            return Managers.__instance.encounterManager;
+        }
+    }
     private int round;
     private float currentHealth;
     private int status;
     private string status1;
     private string status2;
-    private string roundType;
+    private UpgradeManager.EncounterType roundType;
     private float lastDamage;
     private float lastHurt;
     private bool phase2;
+    private bool waitingForEncounterChoice;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,15 +53,29 @@ public class UpgradeTester : MonoBehaviour
         // Stop when done
         if (status != 0) return;
 
+        if (waitingForEncounterChoice) return;
+
         // Setup
-        if(currentHealth == 0)
+        if (currentHealth == 0)
         {
+            waitingForEncounterChoice = true;
+
             uMan.EncounterStart();
             mMan.health = uMan.Health;
-            currentHealth = encounterHealth.Evaluate(round);
-            status1 = "N/A";
-            status2 = "N/A";
-            roundType = "normal";
+
+            // Start Encounter Choicer
+            eMan.StartEncounterChoicer(round, (firstEncounter) =>
+            {
+                currentHealth = firstEncounter.health;
+                roundType = firstEncounter.type;
+
+                status1 = "N/A";
+                status2 = "N/A";
+
+                waitingForEncounterChoice = false;
+            });
+
+            return;
         }
 
         int autoPick = 0;
@@ -128,21 +151,20 @@ public class UpgradeTester : MonoBehaviour
     void PostUpgrade()
     {
         text.text = Managers.__instance.upgradeManager?.GetText();
-        if(round == 5 || round == 10 || Random.Range(0f, 1f) <= 0.2f)
+
+        waitingForEncounterChoice = true;
+
+        eMan.StartEncounterChoicer(round, (encounter) =>
         {
-            roundType = "elite";
-            uMan.EncounterStart(UpgradeManager.EncounterType.ELITE);
-        } else if(round == 15)
-        {
-            roundType = "boss";
-            uMan.EncounterStart(UpgradeManager.EncounterType.BOSS);
-        } else
-        {
-            roundType = "normal";
-            uMan.EncounterStart();
-        }
-        status1 = "N/A"; 
-        mMan.health = uMan.Health;
-        currentHealth = encounterHealth.Evaluate(round) * (roundType == "boss" ? 2 : 1);
+            uMan.EncounterStart(encounter.type);
+
+            status1 = "N/A";
+            mMan.health = uMan.Health;
+
+            roundType = encounter.type;
+            currentHealth = encounter.health * (roundType == UpgradeManager.EncounterType.BOSS ? 2 : 1);
+
+            waitingForEncounterChoice = false;
+        });
     }
 }
