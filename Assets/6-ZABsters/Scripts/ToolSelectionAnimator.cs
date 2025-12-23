@@ -162,5 +162,41 @@ namespace ZABsters {
             canvasGroup.alpha = 0f;
             gameObject.SetActive(false);
         }
+        public void PulseButton(int buttonIndex)
+        {
+            //buttonIndex: 0 = W, 1 = A , 2 = S 
+            Image glowToPulse = null;
+            switch (buttonIndex)
+            {
+                case 0:
+                    glowToPulse = glow1;
+                    break;
+                case 1:
+                    glowToPulse = glow2;
+                    break;
+                case 2:
+                    glowToPulse = glow3;
+                    break;
+            }
+            if (glowToPulse != null)
+            {
+                StartCoroutine(ButtonPulseEffect(glowToPulse));
+            }
+        }
+        IEnumerator ButtonPulseEffect(Image glow) 
+        {
+            //quick bright flash
+            float duration = 0.15f;
+            float elapsed = 0f;
+            Color originalColor = glow.color;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float intensity = Mathf.PingPong(elapsed / duration * 2f, 1f);
+                glow.color = Color.Lerp(originalColor, Color.white, intensity * 0.5f);
+                yield return null;
+            }
+            glow.color = originalColor;
+        }
     }
 }

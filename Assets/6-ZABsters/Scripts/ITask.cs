@@ -27,10 +27,24 @@ namespace ZABsters {
         {
             if(CheckKeyPressed())
             {
-                //to initiate fade out of ui
-                if (toolAnimator != null)
+                //to initiate button ui feedback and fade out of ui
+                int buttonIndex = -1;
+                if (Input.GetKeyDown(KeyCode.W))
                 {
-                    toolAnimator.FadeOut();
+                    buttonIndex = 0;
+                }
+                else if (Input.GetKeyDown(KeyCode.A))
+                {
+                    buttonIndex = 1;
+                }
+                else if (Input.GetKeyDown(KeyCode.S))
+                {
+                    buttonIndex = 2;
+                }
+                if (toolAnimator != null && buttonIndex != -1)
+                {
+                    toolAnimator.PulseButton(buttonIndex);
+                    Invoke("CallFadeOut", 0.5f);
                 }
 
                 float endGameDelay = 0.5f;
@@ -75,6 +89,13 @@ namespace ZABsters {
             else
             {
                 return false;
+            }
+        }
+        void CallFadeOut()
+        {
+            if (toolAnimator != null)
+            {
+                toolAnimator.FadeOut();
             }
         }
     }
