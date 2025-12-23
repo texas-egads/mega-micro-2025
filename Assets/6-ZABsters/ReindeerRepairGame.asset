@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: 6-Scene
   minigameType: 0
-  gameTime: 0
+  gameTime: 10286
   instruction: Pick the correct tool!
   title: Reindeer Repair
   creditsText: 
