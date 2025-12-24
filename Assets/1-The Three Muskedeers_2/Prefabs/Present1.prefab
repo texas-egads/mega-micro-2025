@@ -93,6 +93,10 @@ MonoBehaviour:
   speed: 330
   canWin: 0
   canBePressed: 0
+  canvas: {fileID: 1369711806008036324}
+  cam: {fileID: 4878292530257881791, guid: d4aea32018d6ab04ab56ce99e495f1b2, type: 3}
+  xOffset: 500
+  yOffset: 130
 --- !u!61 &1795336985412951459
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -257,3 +261,7 @@ MonoBehaviour:
   speed: 400
   canWin: 0
   canBePressed: 0
+  canvas: {fileID: 1369711806008036324}
+  cam: {fileID: 4878292530257881791, guid: d4aea32018d6ab04ab56ce99e495f1b2, type: 3}
+  xOffset: 500
+  yOffset: 130
