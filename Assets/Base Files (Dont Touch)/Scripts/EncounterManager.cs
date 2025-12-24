@@ -39,7 +39,7 @@ public class EncounterManager : MonoBehaviour
         public string name;
         public Sprite sprite;
     }
-    
+
     // Elite percentage functions
     public void SetEliteChance(float chance)
     {
@@ -60,6 +60,7 @@ public class EncounterManager : MonoBehaviour
         encounters.Clear();
         generateEncounters();
 
+
         encounterScreen.transform.GetComponentInChildren<TMPro.TMP_Text>().text = screenPrompt;
         encounterScreen.SetActive(true);
 
@@ -76,7 +77,7 @@ public class EncounterManager : MonoBehaviour
 
         card1.ResetSelection();
         card2.ResetSelection();
-        
+
         yield return new WaitUntil(() => card1.IsCardSelected || card2.IsCardSelected);
 
         int choice = card1.IsCardSelected ? 0 : 1;
@@ -117,15 +118,15 @@ public class EncounterManager : MonoBehaviour
                     // Define health and damage for encounter
                     float curveWeight = difficultyCurve.Evaluate((float)encounterCount / maxEncounters);
 
-                    encounter.health = minimumHealth + (int)(difficulty * 1000 * curveWeight);
-                    encounter.damage = minimumDamage + (difficulty * 1000 * curveWeight);
+                    encounter.tgtProgress = minimumHealth + (int)(difficulty * 1000 * curveWeight);
+                    encounter.failedPunishment = minimumDamage + (difficulty * 1000 * curveWeight);
                     encounter.flavor = checkFlavor(encounter);
 
                     title.text = "BOSS";
 
                     title.text += "\n" + encounterCount + " / " + maxEncounters;
-                    title.text += "\n" + encounter.health + " HP";
-                    title.text += "\n" + encounter.damage + " DMG";
+                    title.text += "\n" + encounter.tgtProgress + " Progress";
+                    title.text += "\n" + encounter.failedPunishment + " DMG taken";
                     title.text += "\n" + curveWeight;
 
                     encounters.Add(encounter);
@@ -138,22 +139,22 @@ public class EncounterManager : MonoBehaviour
                 // Define health and damage for encounter
                 float curveWeight = difficultyCurve.Evaluate((float)encounterCount / maxEncounters);
 
-                encounter.health = minimumHealth + (int)(difficulty * 1000 * curveWeight);
-                encounter.damage = minimumDamage + (difficulty * 1000 * curveWeight);
+                encounter.tgtProgress = minimumHealth + (int)(difficulty * 1000 * curveWeight);
+                encounter.failedPunishment = minimumDamage + (difficulty * 1000 * curveWeight);
                 encounter.flavor = checkFlavor(encounter);
 
                 encounters.Add(encounter);
-                
+
                 // Get Flavor data if available
                 FlavorTypeImage flavorImage = flavorDefinitions[(int)encounter.flavor];
-                
+
                 if (flavorImage.sprite != null) image.sprite = flavorImage.sprite;
                 if (flavorImage.name != null) title.text = flavorImage.name;
                 else title.text = "Not Found";
 
                 title.text += "\n" + encounterCount + " / " + maxEncounters;
-                title.text += "\n" + encounter.health + " HP";
-                title.text += "\n" + encounter.damage + " DMG";
+                title.text += "\n" + encounter.tgtProgress + " Progress";
+                title.text += "\n" + encounter.failedPunishment + " DMG taken";
                 title.text += "\n" + curveWeight;
 
                 if (encounter.type == UpgradeManager.EncounterType.ELITE)
@@ -173,13 +174,16 @@ public class EncounterManager : MonoBehaviour
 
     private Flavors checkFlavor(Encounter encounter)
     {
-        if (encounter.health > 100) {
+        if (encounter.tgtProgress > 100)
+        {
             return Flavors.TANK;
         }
-        else if (encounter.damage > 100) {
+        else if (encounter.failedPunishment > 100)
+        {
             return Flavors.CANNON;
         }
-        else {
+        else
+        {
             return Flavors.NORMAL;
         }
     }
@@ -187,7 +191,7 @@ public class EncounterManager : MonoBehaviour
     private UpgradeManager.EncounterType decideEncounterType()
     {
         int chance = Random.Range(0, 100); // Used to set percentages 
-        
+
         // Check if final Boss next
         if (encounterCount == maxEncounters)
         {

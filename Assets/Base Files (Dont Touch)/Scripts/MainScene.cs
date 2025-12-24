@@ -8,7 +8,8 @@ using DG.Tweening;
 
 public class MainScene : MonoBehaviour
 {
-    public GameObject container;
+    //container not made yet
+    //public GameObject container; 
     public TextMeshProUGUI statusText;
     public TextMeshProUGUI promptText;
     //public InstructionText instructionText;
@@ -65,12 +66,12 @@ public class MainScene : MonoBehaviour
 
     private void OnStartMinigame(MinigameDefinition _)
     {
-        container.SetActive(false);
+        //container.SetActive(false);
     }
 
     private void OnEndMinigame()
     {
-        container.SetActive(true);
+        //container.SetActive(true);
 
         // reset the prompt text
         promptText.text = "";

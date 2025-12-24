@@ -27,7 +27,8 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public int lives;
 
     //encounter stats
-    private int eliteStats;
+    //encounter type use not determined
+    private UpgradeManager.EncounterType encounterType;
     private float critChance;
     private float damage;
     public int encounterNum;
@@ -35,10 +36,12 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     //Stats UI
     public TextMeshProUGUI showDamage;
     public TextMeshProUGUI showCritChance;
+    public TextMeshProUGUI showEncounter;
     public Slider healthSlider;
     public Slider progSlider;
 
     int minigameIndex;
+    int[] indices = { 0, 0, 0 };
     List<MinigameDefinition> minigamePool;
 
     private UpgradeManager upgradeManager
@@ -52,49 +55,52 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public float minigameDifficulty;
 
     private MinigameStatus minigameStatus;
-    private EncounterStatus encounterStatus;
+    private Encounter currentEncounter;
 
     private bool isMinigamePlaying;
     private bool isCurrentMinigameWon;
 
     private Coroutine minigameEndCoroutine;
-
-    //TODO: Mostly done with main logic, waiting on choicer. After choicer, can tests gameplay loop & implement UI.
+    private int round;
+    //TODO: Organize variable names for consistency. Tests gameplay loop & implement UI.
     public void Initialize()
     {
         isMinigamePlaying = false;
         isCurrentMinigameWon = false;
-        minigameIndex = 0;
         lives = 3;
+        minigameDifficulty = 0.1f; //Place Holder
     }
 
     public void StartMinigames()
     {
-        upgradeManager.EncounterStart(); //call stats, gets maxHealth, crit, damage
-        //choicer called 1st time to get, gets difficculty, type
-        maxHealth = upgradeManager.Health;
-        critChance = upgradeManager.CritChance;
-        damage = upgradeManager.Damage;
-        encounterHealth = maxHealth;
-        tgtProgressBar = minigameDifficulty * 100; //scaling hand over to donn
-        currProgressBar = 0;
-        //Update stats UI accordingly
+        Managers.__instance.encounterManager.StartEncounterChoicer(round, (currentEncounter) =>
+        {
+            upgradeManager.EncounterStart();
+            encounterType = currentEncounter.type;
+            round++;
+            maxHealth = upgradeManager.Health;
+            critChance = upgradeManager.CritChance;
+            damage = upgradeManager.Damage;
+            encounterHealth = maxHealth;
+            tgtProgressBar = currentEncounter.tgtProgress;
+            currProgressBar = 0;
+        }
+        );
         UpdatePlayerStatsUI();
-
-        //Update minigame pool/index appropriately
-        if (encounterStatus.encounterType == EncounterType.SKILL)
-        {
-            minigamePool = skillMinigames;
-        }
-        else if (encounterStatus.encounterType == EncounterType.TIME)
-        {
-            minigamePool = timingMinigames;
-        }
-        else
-        {
-            minigamePool = allMinigames;
-        }
-
+        //select kind of minigame, need more specific steps after sorted submissions
+        // if (currentEncounter.type == UpgradeManager.EncounterType.NORMAL)
+        // {
+        //     minigamePool = skillMinigames;
+        // }
+        // else if (currentEncounter.type == UpgradeManager.EncounterType.ELITE)
+        // {
+        //     minigamePool = timingMinigames;
+        // }
+        // else
+        // {
+        minigamePool = allMinigames;
+        //}
+        minigameIndex = indices[(int)currentEncounter.type]++;
         minigameStatus.nextMinigame = minigamePool[minigameIndex];
         RunIntermission(minigameStatus);
     }
@@ -183,7 +189,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         else
         {
             //animations
-            encounterHealth -= upgradeManager.CalcHealthLost(10f);
+            encounterHealth -= upgradeManager.CalcHealthLost(currentEncounter.failedPunishment);
             //flash animations?
         }
 
@@ -270,19 +276,14 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     //TODO
     private void LoadNextEncounter()
     {
-        //call choicer
-        //encounterStatus = choicer
-        //use dataTransfer to update
-        //reloadscence with updated stats
         Managers.__instance.scenesManager.LoadSceneImmediate("Main");
-
     }
 
     private void UpdatePlayerStatsUI()
     {
         showCritChance.text = $"Crit. Chance: {critChance}%";
         showDamage.text = $"Damage: {damage}%";
-
+        showEncounter.text = $"Encounter#: {encounterNum}";
     }
 
     private void UpdateEncounterUI()

@@ -30,7 +30,8 @@ public class UpgradeTester : MonoBehaviour
         }
     }
     private int round;
-    private float currentHealth;
+    private float tgtProgress;
+    private float currProgress;
     private int status;
     private string status1;
     private string status2;
@@ -56,17 +57,17 @@ public class UpgradeTester : MonoBehaviour
         if (waitingForEncounterChoice) return;
 
         // Setup
-        if (currentHealth == 0)
+        if (tgtProgress == 0)
         {
             waitingForEncounterChoice = true;
 
             uMan.EncounterStart();
-            mMan.health = uMan.Health;
+            mMan.encounterHealth = uMan.Health;
 
             // Start Encounter Choicer
             eMan.StartEncounterChoicer(round, (firstEncounter) =>
             {
-                currentHealth = firstEncounter.health;
+                tgtProgress = firstEncounter.tgtProgress;
                 roundType = firstEncounter.type;
 
                 status1 = "N/A";
@@ -111,16 +112,16 @@ public class UpgradeTester : MonoBehaviour
             // Win microgame
             status1 = "Won";
             lastDamage = uMan.CalcDamage();
-            currentHealth -= lastDamage;
-            if (round == 15 && !phase2 && currentHealth <= encounterHealth.Evaluate(round))
+            currProgress += lastDamage;
+            if (round == 15 && !phase2 && tgtProgress >= encounterHealth.Evaluate(round))
             {
                 phase2 = true;
             }
             if (phase2)
             {
-                currentHealth = Mathf.Clamp(currentHealth + encounterHealth.Evaluate(round) * 0.4f, 0, encounterHealth.Evaluate(round) * 2);
+                tgtProgress = Mathf.Clamp(tgtProgress + encounterHealth.Evaluate(round) * 0.4f, 0, encounterHealth.Evaluate(round) * 2);
             }
-            if (currentHealth <= 0)
+            if (currProgress >= tgtProgress)
             {
                 status2 = "Won";
                 // Win encounter
@@ -137,7 +138,7 @@ public class UpgradeTester : MonoBehaviour
             }
         }
 
-        text2.text = $"Round {round}\nType {roundType}\nHealth {currentHealth}\nDamage {encounterDamage.Evaluate(round)}\nLast Attack {lastDamage}\nLast Damage Taken {lastHurt}\nMicrogame {status1}\nEncounter {status2}\nGame Status ";
+        text2.text = $"Round {round}\nType {roundType}\nHealth {currProgress}\nDamage {encounterDamage.Evaluate(round)}\nLast Attack {lastDamage}\nLast Damage Taken {lastHurt}\nMicrogame {status1}\nEncounter {status2}\nGame Status ";
         if (status == 0)
         {
             text2.text += "In Progress";
@@ -164,10 +165,10 @@ public class UpgradeTester : MonoBehaviour
             uMan.EncounterStart(encounter.type);
 
             status1 = "N/A";
-            mMan.health = uMan.Health;
+            mMan.encounterHealth = uMan.Health;
 
             roundType = encounter.type;
-            currentHealth = encounter.health * (roundType == UpgradeManager.EncounterType.BOSS ? 2 : 1);
+            currProgress = encounter.tgtProgress * (roundType == UpgradeManager.EncounterType.BOSS ? 2 : 1);
 
             waitingForEncounterChoice = false;
         });
