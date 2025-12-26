@@ -1204,6 +1204,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 5941439095739128627, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941439095739128627, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: encountersEnabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9133125244238399707, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: m_StaticEditorFlags

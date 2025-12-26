@@ -44,7 +44,7 @@ namespace JollyRanchers{
 		private void Start(){			
 			// Difficulty
 			float difficulty = Managers.MinigamesManager.GetCurrentMinigameDifficulty();
-			snowCount = Mathf.CeilToInt(3.0f*difficulty - 0.5f) + 2;
+			snowCount = Mathf.CeilToInt(9.0f*difficulty - 0.5f) + 2;
 			// ------------------------------------------------------------------ //
 
 			UIText.text = $"Catch {snowCount} snowballs!";
@@ -60,14 +60,16 @@ namespace JollyRanchers{
 			wrld = new World(maxX,maxY,minX,minY);
 
 			snow = new List<WorldObject>();
+			float lastX = 225.5f + 524f/2;
 			for(int i = 0; i < snowCount; i++){
 				GameObject newImageObject = new GameObject("Snow");
 				newImageObject.transform.SetParent(parent.transform, false);
 				Image newImage = newImageObject.AddComponent<Image>();
 				newImage.sprite = snowSprites[0];
 
+				lastX = Mathf.Clamp(524.0f * UnityEngine.Random.Range(0.0f, 1.0f) + 225.5f, lastX-300, lastX+300);
 				snow.Add(new WorldObject(
-					(524.0f * UnityEngine.Random.Range(0.0f,1.0f)) + 225.5f,
+					lastX,
 					maxY + ((800.0f * i)/snowCount),
 					50.0f,50.0f,newImage));
 				snow[i].move();

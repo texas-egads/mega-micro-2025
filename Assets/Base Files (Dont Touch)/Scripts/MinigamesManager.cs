@@ -280,9 +280,9 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private void UpdatePlayerStatsUI()
     {
-        showCritChance.text = $"Crit. Chance: {critChance}%";
-        showDamage.text = $"Damage: {damage}%";
-        showEncounter.text = $"Encounter#: {encounterNum}";
+        if(showCritChance) showCritChance.text = $"Crit. Chance: {critChance}%";
+        if (showDamage) showDamage.text = $"Damage: {damage}%";
+        if (showEncounter) showEncounter.text = $"Encounter#: {encounterNum}";
     }
 
     private void UpdateEncounterUI()
