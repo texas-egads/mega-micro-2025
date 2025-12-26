@@ -118,6 +118,7 @@ public class EncounterManager : MonoBehaviour
                     // Define health and damage for encounter
                     float curveWeight = difficultyCurve.Evaluate((float)encounterCount / maxEncounters);
 
+                    encounter.minigameType = Encounter.MinigameType.ALL;
                     encounter.tgtProgress = minimumHealth + (int)(difficulty * 1000 * curveWeight);
                     encounter.failedPunishment = minimumDamage + (difficulty * 1000 * curveWeight);
                     encounter.flavor = checkFlavor(encounter);
@@ -139,6 +140,7 @@ public class EncounterManager : MonoBehaviour
                 // Define health and damage for encounter
                 float curveWeight = difficultyCurve.Evaluate((float)encounterCount / maxEncounters);
 
+                encounter.minigameType = Encounter.MinigameType.ALL; //TODO fix
                 encounter.tgtProgress = minimumHealth + (int)(difficulty * 1000 * curveWeight);
                 encounter.failedPunishment = minimumDamage + (difficulty * 1000 * curveWeight);
                 encounter.flavor = checkFlavor(encounter);

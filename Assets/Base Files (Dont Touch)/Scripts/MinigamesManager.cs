@@ -41,7 +41,6 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public Slider progSlider;
 
     int minigameIndex;
-    int[] indices = { 0, 0, 0 };
     List<MinigameDefinition> minigamePool;
 
     private UpgradeManager upgradeManager
@@ -68,15 +67,18 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         isMinigamePlaying = false;
         isCurrentMinigameWon = false;
         lives = 3;
-        minigameDifficulty = 0.1f; //Place Holder
+        minigameDifficulty = 0.0f; //Place Holder
     }
 
     public void StartMinigames()
     {
+        UpdatePlayerStatsUI();
         Managers.__instance.encounterManager.StartEncounterChoicer(round, (currentEncounter) =>
         {
-            upgradeManager.EncounterStart();
+            // Set data
+            this.currentEncounter = currentEncounter;
             encounterType = currentEncounter.type;
+            upgradeManager.EncounterStart(encounterType);
             round++;
             maxHealth = upgradeManager.Health;
             critChance = upgradeManager.CritChance;
@@ -84,25 +86,27 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             encounterHealth = maxHealth;
             tgtProgressBar = currentEncounter.tgtProgress;
             currProgressBar = 0;
+
+            //select kind of minigame
+            if (currentEncounter.minigameType == Encounter.MinigameType.SPAM)
+            {
+                minigamePool = skillMinigames;
+            }
+            else if (currentEncounter.minigameType == Encounter.MinigameType.PRECISION)
+            {
+                minigamePool = timingMinigames;
+            }
+            else
+            {
+                minigamePool = allMinigames;
+            }
+            minigameIndex = UnityEngine.Random.Range(0, minigamePool.Count);
+            minigameStatus.gameResult = WinLose.NONE;
+            minigameStatus.nextMinigame = minigamePool[minigameIndex];
+            Managers.__instance.scenesManager.LoadMinigameScene(minigameStatus.nextMinigame);
+            RunIntermission(minigameStatus);
         }
         );
-        UpdatePlayerStatsUI();
-        //select kind of minigame, need more specific steps after sorted submissions
-        // if (currentEncounter.type == UpgradeManager.EncounterType.NORMAL)
-        // {
-        //     minigamePool = skillMinigames;
-        // }
-        // else if (currentEncounter.type == UpgradeManager.EncounterType.ELITE)
-        // {
-        //     minigamePool = timingMinigames;
-        // }
-        // else
-        // {
-        minigamePool = allMinigames;
-        //}
-        minigameIndex = indices[(int)currentEncounter.type]++;
-        minigameStatus.nextMinigame = minigamePool[minigameIndex];
-        RunIntermission(minigameStatus);
     }
 
     public void DeclareCurrentMinigameWon()
@@ -195,10 +199,6 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
         UpdateEncounterUI();
 
-        if (currProgressBar == tgtProgressBar)
-        {
-            EndEncounter(false);
-        }
         if (encounterHealth <= 0)
         {
             minigameStatus.gameResult = WinLose.LOSE;
@@ -209,7 +209,6 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         {
             minigameStatus.gameResult = WinLose.WIN;
             upgradeManager.DoUpgrade(LoadNextEncounter);
-            EndEncounter(false);
         }
         else
         {

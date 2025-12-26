@@ -488,7 +488,8 @@ public class UpgradeManager : MonoBehaviour
     private void UpgradeLikelierElites()
     {
         upgradeTypesTaken[2]++;
-        //TODO
+        EncounterManager EM = Managers.__instance.encounterManager;
+        EM.SetEliteChance(EM.GetEliteChance() + activeUpgrade.val);
         difficultyUpgrades[1].Remove(activeUpgrade.gameObject);
     }
     private void UpgradeEasierElites()
