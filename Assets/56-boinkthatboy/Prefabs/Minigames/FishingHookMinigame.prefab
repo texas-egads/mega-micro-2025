@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6883263013520439858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4866904951145264571}
+  - component: {fileID: 966107049540849483}
+  m_Layer: 0
+  m_Name: FishingHookMinigame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4866904951145264571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6883263013520439858}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &966107049540849483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6883263013520439858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373f70c4ef73ab5419a9bd4b6552778f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boatRb: {fileID: 0}
+  playerMovement: {fileID: 0}
+  catAnimator: {fileID: 0}
+  waterline: {fileID: 0}
+  fishingRodObject: {fileID: 0}
+  rodTip: {fileID: 0}
+  line: {fileID: 0}
+  logLineOffset: {x: 0, y: 0.25, z: 0}
+  showLineOnlyDuringAttempt: 0
+  logPrefab: {fileID: 919132149155446097, guid: 181a2348f82aa3e4da181f10c1c59111,
+    type: 3}
+  logsParent: {fileID: 0}
+  minLogs: 4
+  maxLogs: 8
+  beatEasy: 1.25
+  beatHard: 0.65
+  greenEasy: 0.14
+  greenHard: 0.07
+  yellowEasy: 0.28
+  yellowHard: 0.18
+  logSpacing: 2
+  popFromBelow: 1.2
+  popUp: 0.7
+  popTime: 0.25
+  perfectImpulse: 7
+  okImpulseMultiplier: 0.5
+  upBump: 0.4
+  boatDragDuring: 1.2
+  endDelay: 0.6
