@@ -23,5 +23,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/2-Jolly Ranchers/2-Jolly Ranchers.unity
     guid: 6246503e3d209424faf7b367cd9f90fa
+  - enabled: 1
+    path: Assets/pingypenguin/pingypenguin.unity
+    guid: 4a6aa9976bc6e0443aaa55cb4c71aa20
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

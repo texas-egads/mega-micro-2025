@@ -15,6 +15,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     [SerializeField] private List<MinigameDefinition> allMinigames;
     [SerializeField] private List<MinigameDefinition> skillMinigames;
     [SerializeField] private List<MinigameDefinition> timingMinigames;
+    [SerializeField] private GameObject[] containers;
 
     public Action<MinigameStatus, Action> OnBeginIntermission;
     public Action<MinigameDefinition> OnStartMinigame;
@@ -167,7 +168,12 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             yield return new WaitForSeconds(delay);
 
         isMinigamePlaying = false;
+        foreach (GameObject g in containers)
+        {
+            g.SetActive(true);
+        }
         OnEndMinigame?.Invoke();
+
 
         Managers.__instance.audioManager.FadeMinigameAudio();
 
@@ -259,6 +265,10 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         isMinigamePlaying = true;
         isCurrentMinigameWon = false;
 
+        foreach (GameObject g in containers)
+        {
+            g.SetActive(false);
+        }
         Managers.__instance.audioManager.StartMinigameAudio();
         Managers.__instance.scenesManager.ActivateMinigameScene(() =>
         {
@@ -281,7 +291,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     private void UpdatePlayerStatsUI()
     {
         if(showCritChance) showCritChance.text = $"Crit. Chance: {critChance}%";
-        if (showDamage) showDamage.text = $"Damage: {damage}%";
+        if (showDamage) showDamage.text = $"Production: {damage}";
         if (showEncounter) showEncounter.text = $"Encounter#: {encounterNum}";
     }
 
