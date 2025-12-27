@@ -54,8 +54,8 @@ namespace boinkthatboy
 
         public float minimumForwardStep = 0.10f;
 
-        public int minLogs = 4;
-        public int maxLogs = 5;
+        public int minLogs = 1;
+        public int maxLogs = 3;
 
         [Header("Cleanup")]
         public float endDelay = 0.6f;
@@ -95,7 +95,7 @@ namespace boinkthatboy
             float d = Mathf.Clamp01( Managers.MinigamesManager.GetCurrentMinigameDifficulty() );
 
             // log count
-            logCount = Mathf.RoundToInt( Mathf.Lerp( minLogs, maxLogs, d ) );
+            logCount = Mathf.RoundToInt( Mathf.Lerp( 2, 3, d ) );
 
             // needle speed
             ApplyDifficultyToUI( d );

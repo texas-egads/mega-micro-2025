@@ -26,5 +26,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/pingypenguin/pingypenguin.unity
     guid: 4a6aa9976bc6e0443aaa55cb4c71aa20
+  - enabled: 1
+    path: Assets/56-boinkthatboy/56-boinkthatboy.unity
+    guid: 7c07dd83bf03f694c94d3d2a1845007f
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

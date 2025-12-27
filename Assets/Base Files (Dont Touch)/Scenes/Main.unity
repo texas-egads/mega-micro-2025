@@ -582,7 +582,13 @@ PrefabInstance:
         type: 3}
       propertyPath: 'allMinigames.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 0299f58eaee2f1940ba9b5593473cdd0,
+      objectReference: {fileID: 11400000, guid: a563fda4203b6bb4da25315b09a1e2da,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'skillMinigames.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a563fda4203b6bb4da25315b09a1e2da,
         type: 2}
     - target: {fileID: 354225542106749782, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
