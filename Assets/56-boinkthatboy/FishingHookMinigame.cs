@@ -95,7 +95,7 @@ namespace boinkthatboy
             float d = Mathf.Clamp01( Managers.MinigamesManager.GetCurrentMinigameDifficulty() );
 
             // log count
-            logCount = Mathf.RoundToInt( Mathf.Lerp( 2, 3, d ) );
+            logCount = Mathf.RoundToInt( Mathf.Lerp( 2, 4, d ) );
 
             // needle speed
             ApplyDifficultyToUI( d );

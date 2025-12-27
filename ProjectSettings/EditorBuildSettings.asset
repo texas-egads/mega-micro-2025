@@ -29,5 +29,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/56-boinkthatboy/56-boinkthatboy.unity
     guid: 7c07dd83bf03f694c94d3d2a1845007f
+  - enabled: 1
+    path: Assets/5-TeamShakra/5-TeamShakra.unity
+    guid: be02dc1d00daab948a407eba301647de
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
