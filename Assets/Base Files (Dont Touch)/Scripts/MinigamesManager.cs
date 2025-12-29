@@ -272,7 +272,6 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         return allMinigames.Find(mDef => mDef.sceneName == scene.name);
     }
 
-    //TODO
     private void LoadNextEncounter()
     {
         Managers.__instance.scenesManager.LoadSceneImmediate("Main");
