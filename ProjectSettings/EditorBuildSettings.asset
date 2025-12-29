@@ -38,5 +38,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/WyvernOfWhimsy/ReindeerHands.unity
     guid: c0ce102775c0f7041bd6e141458b931c
+  - enabled: 1
+    path: Assets/yourtaxes/yourtaxes/TippingGuam.unity
+    guid: b926d14b9d1144f1eb2d27bae155445b
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
