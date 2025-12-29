@@ -35,5 +35,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/3-Graupel/3-Graupel.unity
     guid: 9a6d3d788c3168f47b330fffc5a6a503
+  - enabled: 1
+    path: Assets/WyvernOfWhimsy/ReindeerHands.unity
+    guid: c0ce102775c0f7041bd6e141458b931c
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

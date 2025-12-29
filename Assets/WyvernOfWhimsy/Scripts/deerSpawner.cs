@@ -25,7 +25,7 @@ namespace WyvernOfWhimsy
         {
             while (true)
             {
-                yield return new WaitForSecondsRealtime(spawnTime);
+                yield return new WaitForSeconds(spawnTime);
                 int listIndex = Random.Range(0, deerList.Count);
                 Instantiate(deerList[listIndex], transform.position, Quaternion.identity);
             }
