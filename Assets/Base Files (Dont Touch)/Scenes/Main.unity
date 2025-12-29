@@ -737,11 +737,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4ae7b692c43e0ff4e9004f3b0249efe0,
         type: 2}
-    - target: {fileID: 354225542106749782, guid: 299268e851095ea429ce927bf2bef866,
-        type: 3}
-      propertyPath: difficultyScaling
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 566529860167362531, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: m_LocalPosition.x
