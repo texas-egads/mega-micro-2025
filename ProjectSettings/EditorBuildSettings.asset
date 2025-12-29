@@ -47,5 +47,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/TURN_IN/6-JollyDevs/lmckiller.unity
     guid: 61dc7fa61cf56024f98d565830fd4de8
+  - enabled: 1
+    path: Assets/1-The Three Muskedeers_1/1-The Three Muskedeers_1.unity
+    guid: 9160e3d2e0b8d6646ba9915395c46a1c
+  - enabled: 1
+    path: Assets/1-The Three Muskedeers_2/1-The Three Muskedeers_2.unity
+    guid: 5d38bb0f4eee55543af9eb1c9f9a1c19
+  - enabled: 1
+    path: Assets/1-The Three Muskedeers_3/1-The Three Muskedeers_3.unity
+    guid: 30685466d0d9f4166b4acbe8f743c485
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

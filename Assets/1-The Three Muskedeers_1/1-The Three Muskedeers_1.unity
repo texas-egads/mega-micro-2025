@@ -188,6 +188,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers (Don't Delete)
       objectReference: {fileID: 0}
+    - target: {fileID: 4424684051311441562, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424684051311441562, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031040880533032455, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031040880533032455, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -433,7 +453,7 @@ GameObject:
   - component: {fileID: 561419536}
   - component: {fileID: 561419535}
   m_Layer: 0
-  m_Name: sixSock
+  m_Name: eightSock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -509,7 +529,7 @@ GameObject:
   - component: {fileID: 597690724}
   - component: {fileID: 597690723}
   m_Layer: 0
-  m_Name: eightSock
+  m_Name: nineSock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -585,7 +605,7 @@ GameObject:
   - component: {fileID: 634233143}
   - component: {fileID: 634233142}
   m_Layer: 0
-  m_Name: sevenSock
+  m_Name: sixSock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -724,10 +744,12 @@ MonoBehaviour:
   twoSock: {fileID: 442714541}
   threeSock: {fileID: 1126022835}
   fourSock: {fileID: 878641779}
-  fiveSock: {fileID: 634233140}
-  sixSock: {fileID: 1456472733}
-  sevenSock: {fileID: 561419533}
-  eightSock: {fileID: 597690721}
+  fiveSock: {fileID: 1814738052}
+  sixSock: {fileID: 634233140}
+  sevenSock: {fileID: 1456472733}
+  eightSock: {fileID: 561419533}
+  nineSock: {fileID: 597690721}
+  tenSock: {fileID: 2054472272}
   redsock: {fileID: 4743547906901622844, guid: 454838c69e10b8b44982df680da8ad10, type: 3}
   orangesock: {fileID: -1583195187580082652, guid: 02c1d18f82c36154e9a82d2bfbe6ae51,
     type: 3}
@@ -1042,6 +1064,14 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4878292530126713372, guid: d4aea32018d6ab04ab56ce99e495f1b2,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1814738053}
+    - targetCorrespondingSourceObject: {fileID: 4878292530126713372, guid: d4aea32018d6ab04ab56ce99e495f1b2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 634233141}
+    - targetCorrespondingSourceObject: {fileID: 4878292530126713372, guid: d4aea32018d6ab04ab56ce99e495f1b2,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1456472734}
     - targetCorrespondingSourceObject: {fileID: 4878292530126713372, guid: d4aea32018d6ab04ab56ce99e495f1b2,
         type: 3}
@@ -1050,11 +1080,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4878292530126713372, guid: d4aea32018d6ab04ab56ce99e495f1b2,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 634233141}
+      addedObject: {fileID: 597690722}
     - targetCorrespondingSourceObject: {fileID: 4878292530126713372, guid: d4aea32018d6ab04ab56ce99e495f1b2,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 597690722}
+      addedObject: {fileID: 2054472273}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4878292530126713373, guid: d4aea32018d6ab04ab56ce99e495f1b2,
         type: 3}
@@ -1153,7 +1183,7 @@ GameObject:
   - component: {fileID: 1456472736}
   - component: {fileID: 1456472735}
   m_Layer: 0
-  m_Name: fiveSock
+  m_Name: sevenSock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1368,6 +1398,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758446951}
   m_CullTransparentMesh: 1
+--- !u!1 &1814738052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1814738053}
+  - component: {fileID: 1814738055}
+  - component: {fileID: 1814738054}
+  m_Layer: 0
+  m_Name: fiveSock
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1814738053
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814738052}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 828795441}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 320, y: 140}
+  m_SizeDelta: {x: 60, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1814738054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814738052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 4219417416489508099, guid: 9de6258a90fb49c4ca31fda7eff62879,
+    type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1814738055
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814738052}
+  m_CullTransparentMesh: 1
 --- !u!1 &1893098310
 GameObject:
   m_ObjectHideFlags: 0
@@ -1442,6 +1548,82 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893098310}
+  m_CullTransparentMesh: 1
+--- !u!1 &2054472272
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2054472273}
+  - component: {fileID: 2054472275}
+  - component: {fileID: 2054472274}
+  m_Layer: 0
+  m_Name: tenSock
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2054472273
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054472272}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 828795441}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 320, y: -110}
+  m_SizeDelta: {x: 60, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2054472274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054472272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 4219417416489508099, guid: 9de6258a90fb49c4ca31fda7eff62879,
+    type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2054472275
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054472272}
   m_CullTransparentMesh: 1
 --- !u!1 &2134989387
 GameObject:

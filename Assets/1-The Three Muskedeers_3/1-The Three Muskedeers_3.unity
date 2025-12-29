@@ -244,6 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08efffcdf8d484dbdaf9e67f66a82aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winClip: {fileID: 8300000, guid: f25fc727fa304da49bad0d1313c8dcf3, type: 3}
+  loseClip: {fileID: 8300000, guid: 8490c91fc1120b049a64c532a842ab1e, type: 3}
   marshmallows:
   - uiImage: {fileID: 1203054188}
     images:
@@ -341,6 +343,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Managers (Don't Delete)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424684051311441562, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424684051311441562, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031040880533032455, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031040880533032455, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -598,6 +620,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08efffcdf8d484dbdaf9e67f66a82aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winClip: {fileID: 0}
+  loseClip: {fileID: 0}
   marshmallows: []
   _audioSource: {fileID: 0}
   marshMusic: {fileID: 0}
@@ -803,6 +827,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08efffcdf8d484dbdaf9e67f66a82aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winClip: {fileID: 0}
+  loseClip: {fileID: 0}
   marshmallows: []
   _audioSource: {fileID: 0}
   marshMusic: {fileID: 0}

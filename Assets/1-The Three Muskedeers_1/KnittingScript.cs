@@ -24,6 +24,8 @@ namespace The_Three_Muskedeers
         public GameObject sixSock;
         public GameObject sevenSock;
         public GameObject eightSock;
+        public GameObject nineSock;
+        public GameObject tenSock;
 
         [Header("Sock Sprites")]
         public Sprite redsock;     // W
@@ -62,10 +64,12 @@ namespace The_Three_Muskedeers
                 twoSock.GetComponent<Image>(),
                 threeSock.GetComponent<Image>(),
                 fourSock.GetComponent<Image>(),
-                fiveSock.GetComponent<Image>(),
-                sixSock.GetComponent<Image>(),
                 sevenSock.GetComponent<Image>(),
-                eightSock.GetComponent<Image>()
+                eightSock.GetComponent<Image>(),
+                sixSock.GetComponent<Image>(),
+                nineSock.GetComponent<Image>(),
+                fiveSock.GetComponent<Image>(),
+                tenSock.GetComponent<Image>()
             };
 
             float difficulty = Managers.MinigamesManager.GetCurrentMinigameDifficulty();
@@ -112,12 +116,26 @@ namespace The_Three_Muskedeers
         // -----------------------------
         int GetSequenceLength(float difficulty)
         {
-            if (difficulty < 0.33)
-                return 4;   // Easy
-            else if (difficulty < 0.66)
-                return 6;   // Medium
+            int res = 0;
+            if (difficulty < 0.25)
+                res = 4;   // Easy
+            else if (difficulty < 0.50)
+                res = 6;   // Medium
+            else if (difficulty < 0.75)
+                res = 8;   // Hard
             else
-                return 8;   // Hard
+            {
+                foreach (Image i in sockImages)
+                {
+                    i.rectTransform.position += Vector3.left * 35f;
+                }
+                res = 10;   // Extreme
+            }
+            for (int i=res; i<sockImages.Length; i++)
+            {
+                sockImages[i].enabled = false;
+            }
+            return res;
         }
 
         // -----------------------------
@@ -129,12 +147,11 @@ namespace The_Three_Muskedeers
 
             ClearSocks();
 
+            int keyIndex = UnityEngine.Random.Range(0, validKeys.Length);
             for (int i = 0; i < length; i++)
             {
-                seq[i] = validKeys[UnityEngine.Random.Range(0, validKeys.Length)];
-
-                int sockIndex = i % sockImages.Length;
-                sockImages[sockIndex].sprite = GetSockSprite(seq[i]);
+                seq[i] = validKeys[keyIndex];
+                keyIndex = (keyIndex + UnityEngine.Random.Range(1, validKeys.Length)) % validKeys.Length;
             }
 
             return seq;
@@ -156,13 +173,17 @@ namespace The_Three_Muskedeers
                 fiveSock.GetComponent<Image>(),
                 sixSock.GetComponent<Image>(),
                 sevenSock.GetComponent<Image>(),
-                eightSock.GetComponent<Image>()
+                eightSock.GetComponent<Image>(),
+                nineSock.GetComponent<Image>(),
+                tenSock.GetComponent<Image>()
             };
 
+            int sockIndex = 0;
             for (int i = 0; i < sequence.Length; i++)
             {
-                int sockIndex = i % sockImages.Length;
+                while (!sockImages[sockIndex].enabled) { sockIndex++; }
                 sockImages[sockIndex].sprite = GetSockSprite(sequence[i]);
+                sockIndex++;
             }
 
             yield break;
@@ -190,15 +211,17 @@ namespace The_Three_Muskedeers
         // -----------------------------
         // Input Handling
         // -----------------------------
+        private int persistentSockIndex = 0;
         void HandleInput(KeyCode key)
         {
-            int sockIndex = inputIndex % sockImages.Length;
+            while (!sockImages[persistentSockIndex].enabled) { persistentSockIndex++; }
             if (key == sequence[inputIndex])
             {
-                sockImages[sockIndex].color = Color.gray;
+                sockImages[persistentSockIndex].color = Color.gray;
                 AudioSource keySound = Managers.AudioManager.CreateAudioSource();
                 keySound.PlayOneShot(bellSound);
                 inputIndex++;
+                persistentSockIndex++;
 
                 if (inputIndex >= sequence.Length)
                 {
@@ -214,7 +237,7 @@ namespace The_Three_Muskedeers
                 inputLocked = true;
                 AudioSource keySound = Managers.AudioManager.CreateAudioSource();
                 keySound.PlayOneShot(cowbellSound);
-                sockImages[sockIndex].color = Color.red;
+                sockImages[persistentSockIndex].color = Color.red;
                 Managers.MinigamesManager.DeclareCurrentMinigameLost();
                 Managers.MinigamesManager.EndCurrentMinigame(1);
             }

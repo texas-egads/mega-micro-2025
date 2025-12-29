@@ -6,14 +6,24 @@ namespace The_Three_Muskedeers
 {
     public class Marshmallow : MonoBehaviour
     {
+        public static AudioSource clipSource;
+        public static AudioClip[] clips;
+        public AudioClip winClip;
+        public AudioClip loseClip;
         public List<MarshmallowMeow> marshmallows; // assign all marshmallow objects in inspector
         private int selectedIndex = 0;
 
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioClip marshMusic;
+        private int activeCount;
 
         void Start()
         {
+            if (clips == null) clips = new AudioClip[2];
+            clips[0] = winClip;
+            clips[1] = loseClip;
+            if (!clipSource) clipSource = Managers.AudioManager.CreateAudioSource();
+
             float difficulty = Managers.MinigamesManager.GetCurrentMinigameDifficulty();
             UpdateSelection();
 
@@ -21,8 +31,6 @@ namespace The_Three_Muskedeers
             _audioSource.loop = true;
             _audioSource.clip = marshMusic;
             _audioSource.Play();
-
-            int activeCount = 1;
 
             if (difficulty < 0.33) // Easy
                 activeCount = 1;
@@ -35,28 +43,36 @@ namespace The_Three_Muskedeers
             {
                 bool shouldBeActive = i < activeCount;
                 marshmallows[i].uiImage.gameObject.SetActive(shouldBeActive);
+                float rand = Random.Range(0f, 1f);
+                int initCook = rand <= 0.6f ? 0 : rand <= 0.25f ? 1 : 2;
+                for (int j=0; j<initCook; j++)
+                {
+                    marshmallows[i].SwitchImage();
+                }
             }
         }
-
+        private int currentCook;
         void Update()
         {
             //Navigate between marshmallows
             if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
+                currentCook = 0;
                 selectedIndex--;
 
                 if (selectedIndex < 0)
                 {
-                    selectedIndex = marshmallows.Count - 1;
+                    selectedIndex = activeCount - 1;
                 }
 
                 UpdateSelection();
             }
             else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
+                currentCook = 0;
                 selectedIndex++;
 
-                if (selectedIndex >= marshmallows.Count)
+                if (selectedIndex >= activeCount)
                 {
                     selectedIndex = 0;
                 }
@@ -66,24 +82,32 @@ namespace The_Three_Muskedeers
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                marshmallows[selectedIndex].SwitchImage();
-                CheckWinCondition();
+                currentCook++;
+                if(currentCook == 3)
+                {
+                    marshmallows[selectedIndex].SwitchImage();
+                    CheckWinCondition();
+                    currentCook = 0;
+                }
             }
         }
-
+        private bool gameOver;
         void CheckWinCondition()
         {
+            if (gameOver) return;
             foreach (var marshmallow in marshmallows)
             {
                 if (!marshmallow.uiImage.gameObject.activeSelf)
                     continue;
                 if (marshmallow.CurrentIndex == 5)
                 {
+                    clipSource.PlayOneShot(clips[1]);
                     Managers.MinigamesManager.DeclareCurrentMinigameLost();
                     Managers.MinigamesManager.EndCurrentMinigame(0.5f);
+                    gameOver = true;
                     return; // STOP CHECKING
                 }
-                if (marshmallow.CurrentIndex == 0)
+                if (marshmallow.CurrentIndex < 4)
                 {
                     return;
                 }
@@ -131,6 +155,10 @@ namespace The_Three_Muskedeers
                 return;
             }
             uiImage.sprite = images[currentIndex];
+            if(currentIndex == 4)
+            {
+                Marshmallow.clipSource.PlayOneShot(Marshmallow.clips[0]);
+            }
         }
 
         // Highlights the currently selected marshmallow

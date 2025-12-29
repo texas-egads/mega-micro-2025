@@ -36,8 +36,11 @@ namespace The_Three_Muskedeers
         }
 
         // Update is called once per frame
+        public float timer = 17;
         void Update()
         {
+            timer -= Time.deltaTime;
+            if (timer <= 0) Managers.MinigamesManager.EndCurrentMinigame();
             foreach (Intervals interval in _intervals)
             {
                 sampledTime = _audioSource.timeSamples / (_audioSource.clip.frequency * interval.GetIntervalLength(_bpm));

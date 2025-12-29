@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: 1-The Three Muskedeers_2
   minigameType: 0
-  gameTime: 10286
+  gameTime: 0
   instruction: Stamp the presents
   title: Stamp N' Champ
   creditsText: 'Jenny Nguyen - Programmer
