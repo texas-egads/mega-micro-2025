@@ -6,7 +6,9 @@ public class Encounter
     {
         ALL,
         SPAM,
-        PRECISION
+        PRECISION,
+        TIMING,
+        MOVEMENT
     }
 
     public UpgradeManager.EncounterType type;

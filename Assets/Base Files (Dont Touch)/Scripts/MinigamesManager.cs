@@ -13,8 +13,10 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public const int STARTING_LIVES = 3;
 
     [SerializeField] private List<MinigameDefinition> allMinigames;
-    [SerializeField] private List<MinigameDefinition> skillMinigames;
     [SerializeField] private List<MinigameDefinition> timingMinigames;
+    [SerializeField] private List<MinigameDefinition> precisionMinigames;
+    [SerializeField] private List<MinigameDefinition> spamMinigames;
+    [SerializeField] private List<MinigameDefinition> movementMinigames;
     [SerializeField] private GameObject[] containers;
 
     public Action<MinigameStatus, Action> OnBeginIntermission;
@@ -91,7 +93,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             //select kind of minigame
             if (currentEncounter.minigameType == Encounter.MinigameType.SPAM)
             {
-                minigamePool = skillMinigames;
+                minigamePool = spamMinigames;
             }
             else if (currentEncounter.minigameType == Encounter.MinigameType.PRECISION)
             {

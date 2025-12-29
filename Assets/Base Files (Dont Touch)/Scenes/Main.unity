@@ -585,6 +585,11 @@ PrefabInstance:
       objectReference: {fileID: 1223678318}
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
+      propertyPath: spamMinigames.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
       propertyPath: skillMinigames.Array.size
       value: 6
       objectReference: {fileID: 0}
@@ -651,7 +656,7 @@ PrefabInstance:
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: timingMinigames.Array.size
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
@@ -665,6 +670,35 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4ae7b692c43e0ff4e9004f3b0249efe0,
         type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'spamMinigames.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ae7b692c43e0ff4e9004f3b0249efe0,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'spamMinigames.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 033018841a0db445b8f33bd2a4b29895,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'spamMinigames.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8456588c1cfded446879b45ca79730a6,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'spamMinigames.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 0299f58eaee2f1940ba9b5593473cdd0,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: movementMinigames.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: 'skillMinigames.Array.data[0]'
@@ -703,27 +737,32 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
+      propertyPath: precisionMinigames.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
       propertyPath: 'timingMinigames.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: a563fda4203b6bb4da25315b09a1e2da,
+      objectReference: {fileID: 11400000, guid: 4ae7b692c43e0ff4e9004f3b0249efe0,
         type: 2}
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: 'timingMinigames.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 43365f028665b604cbb35152bd77042c,
+      objectReference: {fileID: 11400000, guid: a563fda4203b6bb4da25315b09a1e2da,
         type: 2}
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: 'timingMinigames.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: b4486a1efd70d5a41a79e10a7ad19dba,
+      objectReference: {fileID: 11400000, guid: 42ff35ecf1577fe4cac3ac2f403cc150,
         type: 2}
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: 'timingMinigames.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: 8456588c1cfded446879b45ca79730a6,
+      objectReference: {fileID: 11400000, guid: b4486a1efd70d5a41a79e10a7ad19dba,
         type: 2}
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
@@ -736,6 +775,78 @@ PrefabInstance:
       propertyPath: 'timingMinigames.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: 4ae7b692c43e0ff4e9004f3b0249efe0,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'movementMinigames.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 35bb4634ab19ae2429e6d1901fd3d6f3,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'movementMinigames.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 43365f028665b604cbb35152bd77042c,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'movementMinigames.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 227f258acbfdc0247b3077785f545036,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'movementMinigames.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 0299f58eaee2f1940ba9b5593473cdd0,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'precisionMinigames.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: bb53be182fd25604bb38685efc46d959,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'precisionMinigames.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 43365f028665b604cbb35152bd77042c,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'precisionMinigames.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 227f258acbfdc0247b3077785f545036,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'precisionMinigames.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8456588c1cfded446879b45ca79730a6,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'precisionMinigames.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a563fda4203b6bb4da25315b09a1e2da,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'precisionMinigames.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 42ff35ecf1577fe4cac3ac2f403cc150,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'precisionMinigames.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b7c87fc392f342caae8b32a5f2c4a19,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'precisionMinigames.Array.data[7]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b7c87fc392f342caae8b32a5f2c4a19,
         type: 2}
     - target: {fileID: 566529860167362531, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
