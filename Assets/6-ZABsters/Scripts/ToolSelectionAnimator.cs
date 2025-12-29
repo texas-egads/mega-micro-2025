@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 namespace ZABsters {
     public class ToolSelectionAnimator : MonoBehaviour
@@ -64,6 +65,8 @@ namespace ZABsters {
                 StartCoroutine(FadeInAnimation());
             }
         }
+        private List<Image> currentTools = new List<Image>();
+        private List<Image> prevTools = new List<Image>();
         void SpawnRandomizedTools()
         {
             if (gameInitializer != null)
@@ -81,6 +84,7 @@ namespace ZABsters {
                     int buttonIndex = availableButtons[randomIndex];
                     //spawn tool in slot
                     GameObject tool = Instantiate(toolPrefab, slot);
+                    currentTools.Add(tool.GetComponent<Image>());
                     RectTransform rectTransform = tool.GetComponent<RectTransform>();
                     rectTransform.anchoredPosition = Vector2.zero; // Center in slot
                     // setcorrect answer to button
@@ -91,6 +95,56 @@ namespace ZABsters {
                     availableSlots.RemoveAt(randomIndex);
                     availableButtons.RemoveAt(randomIndex);
                 }
+            }
+        }
+        private void Update()
+        {
+            for (int j=prevTools.Count-1; j>=0; j--)
+            {
+                Image i = prevTools[j];
+                i.color = new Color(1, 1, 1, i.color.a - Time.deltaTime * 4);
+                if(i.color.a <= 0)
+                {
+                    prevTools.RemoveAt(j);
+                    Destroy(i.gameObject);
+                }
+            }
+            foreach (Image i in currentTools)
+            {
+                i.color = new Color(1, 1, 1, Mathf.Clamp(i.color.a + Time.deltaTime * 4, -1, 1));
+            }
+        }
+        public void RandomizeKeys()
+        {
+            prevTools.AddRange(currentTools);
+            currentTools.Clear();
+            int taskNumber = gameInitializer.taskNumber;
+            GameObject[] toolsForTask = GetToolsForTask(taskNumber, out GameObject correctTool);
+            Transform[] slots = { leftSlot, centerSlot, rightSlot };
+            //setting workshop tools randomly
+            List<Transform> availableSlots = new List<Transform>(slots);
+            List<int> availableButtons = new List<int> { 0, 1, 2 }; // W, A, S
+            foreach (GameObject toolPrefab in toolsForTask)
+            {
+                int randomIndex = Random.Range(0, availableSlots.Count);
+                Transform slot = availableSlots[randomIndex];
+                int buttonIndex = availableButtons[randomIndex];
+                //spawn tool in slot
+                GameObject tool = Instantiate(toolPrefab, slot);
+                currentTools.Add(tool.GetComponent<Image>());
+                RectTransform rectTransform = tool.GetComponent<RectTransform>();
+                rectTransform.anchoredPosition = Vector2.zero; // Center in slot
+                // setcorrect answer to button
+                if (toolPrefab == correctTool)
+                {
+                    correctAnswer = buttonIndex;
+                }
+                availableSlots.RemoveAt(randomIndex);
+                availableButtons.RemoveAt(randomIndex);
+            }
+            foreach (Image i in currentTools)
+            {
+                i.color = new Color(1,1,1,-1);
             }
         }
 //         void SpawnRandomizedTools()

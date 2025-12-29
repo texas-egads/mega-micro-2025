@@ -80,9 +80,9 @@ namespace ZABsters {
             loseSound = Managers.AudioManager.CreateAudioSource();
             loseSound.clip = audioClipsList.loseClip;
 
-
+            pressesNeeded = Mathf.CeilToInt(Managers.MinigamesManager.GetCurrentMinigameDifficulty()*9);
         }
-
+        private int pressesNeeded;
         void Update()
         {
             if(CheckKeyPressed())
@@ -104,12 +104,19 @@ namespace ZABsters {
                 if (toolAnimator != null && buttonIndex != -1)
                 {
                     toolAnimator.PulseButton(buttonIndex);
-                    Invoke("CallFadeOut", 0.2f);
                 }
 
                 float endGameDelay = 0.5f;
                 if(CheckTool())
                 {
+                    if(--pressesNeeded > 0)
+                    {
+                        toolAnimator.RandomizeKeys();
+                        return;
+                    } else
+                    {
+                        Invoke("CallFadeOut", 0.2f);
+                    }
                     //if the tool is correct, declare the minigame won and end it
                     Managers.MinigamesManager.DeclareCurrentMinigameWon();
                     endGameDelay = winSound.clip.length;
@@ -151,6 +158,7 @@ namespace ZABsters {
                 }
                 else
                 {
+                    Invoke("CallFadeOut", 0.2f);
                     //if the tool is incorrect, declare the minigame lost and end it
                     Managers.MinigamesManager.DeclareCurrentMinigameLost();
                     loseSound.Play();
@@ -159,7 +167,7 @@ namespace ZABsters {
                     loseObjects[taskNumber].SetActive(true);
                 }
                 //end minigame in 2 seconds:
-                Invoke("EndMinigame", endGameDelay);
+                Managers.MinigamesManager.EndCurrentMinigame(endGameDelay);
 
             }
         }
@@ -181,12 +189,6 @@ namespace ZABsters {
             AudioSource pixieSound = Managers.AudioManager.CreateAudioSource();
             pixieSound.clip = pixieClip;
             pixieSound.Play();
-        }
-
-        void EndMinigame()
-        {
-            //end the minigame
-            Managers.MinigamesManager.EndCurrentMinigame();
         }
         public bool CheckTool()
         {

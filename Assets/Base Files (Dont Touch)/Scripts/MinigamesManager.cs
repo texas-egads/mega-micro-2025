@@ -128,7 +128,6 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     {
         return Mathf.Clamp01(minigameDifficulty);
     }
-
     public void EndCurrentMinigame(float delay = 0)
     {
         if (!isMinigamePlaying)
@@ -157,7 +156,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
         if (minigameEndCoroutine != null)
         {
-            StopCoroutine(minigameEndCoroutine);
+            return;
         }
         minigameEndCoroutine = StartCoroutine(DoEndMinigame(0));
     }
