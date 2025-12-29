@@ -556,7 +556,7 @@ PrefabInstance:
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: allMinigames.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
@@ -597,7 +597,7 @@ PrefabInstance:
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: timingMinigames.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
@@ -646,6 +646,12 @@ PrefabInstance:
       propertyPath: 'timingMinigames.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 8456588c1cfded446879b45ca79730a6,
+        type: 2}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: 'timingMinigames.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 42ff35ecf1577fe4cac3ac2f403cc150,
         type: 2}
     - target: {fileID: 354225542106749782, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
