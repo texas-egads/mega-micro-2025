@@ -17,6 +17,7 @@ namespace JollyDevs
         public AudioClip loopSound;
         public AudioClip difficultySound;
         public AudioClip loseSound;
+        public AudioClip winSound;
 
         public SpriteRenderer patty;
 
@@ -28,11 +29,12 @@ namespace JollyDevs
         float speed;
         float decaySpeed;
         private bool canCook = true;
+        private float difficulty;
 
         private void Start()
         {
 
-            float difficulty = Managers.MinigamesManager.GetCurrentMinigameDifficulty();
+            difficulty = Managers.MinigamesManager.GetCurrentMinigameDifficulty();
 
             speed = diffultyCurve.Evaluate(difficulty);
             decaySpeed = diffultyCurve.Evaluate(difficulty);
@@ -69,9 +71,15 @@ namespace JollyDevs
                 if (progressBar.value >= winArea.x && progressBar.value <= winArea.y)
                 {
                     fillBar.color = Color.yellow;
-                    Managers.MinigamesManager.DeclareCurrentMinigameWon();
-                    patty.sprite = cookedPatty;
-                    
+                    patty.color = new Color(1,1,1,Mathf.Clamp01(patty.color.a + Time.deltaTime / (1.5f+difficulty * 1.5f)));
+                    if(patty.color.a == 1)
+                    {
+                        Managers.MinigamesManager.DeclareCurrentMinigameWon();
+                        Managers.MinigamesManager.EndCurrentMinigame(1.5f);
+                        AudioSource win = Managers.AudioManager.CreateAudioSource();
+                        win.PlayOneShot(winSound);
+                        canCook = false;
+                    }
                 } // burnt
                 else if (progressBar.value > winArea.y)
                 {
@@ -79,6 +87,7 @@ namespace JollyDevs
                     Managers.MinigamesManager.DeclareCurrentMinigameLost();
                     fillBar.color = Color.red;
                     patty.sprite = burntPatty;
+                    patty.color = Color.white;
                     Managers.MinigamesManager.EndCurrentMinigame(1.5f);
 
                     AudioSource lose = Managers.AudioManager.CreateAudioSource();
@@ -88,7 +97,6 @@ namespace JollyDevs
                 {
                     Managers.MinigamesManager.DeclareCurrentMinigameLost();
                     fillBar.color = Color.green;
-                    patty.sprite = rawPatty;
                 }
 
                 // Clamp value between 0 and max

@@ -44,5 +44,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/6-ZABsters/6-Scene.unity
     guid: 6c6e29b518a211648a660f5ba981f34c
+  - enabled: 1
+    path: Assets/TURN_IN/6-JollyDevs/lmckiller.unity
+    guid: 61dc7fa61cf56024f98d565830fd4de8
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
