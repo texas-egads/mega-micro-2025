@@ -5,12 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class EndScreen : MonoBehaviour
 {
-    // TODO make a new end screen
-    
-    /*
-    public void LoadTitle()
+    // TODO make win and loose scenes
+    public bool won;
+    void Awake()
     {
-        GameManager.Instance.LoadScene("TitleScreen");
+        //sent won  
+
     }
-    */
+
+    private void WinScreen()
+    {
+
+    }
+
+    private void LostScreen()
+    {
+
+    }
 }
