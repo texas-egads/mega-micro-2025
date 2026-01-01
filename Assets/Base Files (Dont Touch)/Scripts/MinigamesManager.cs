@@ -13,8 +13,11 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public const int STARTING_LIVES = 3;
 
     [SerializeField] private List<MinigameDefinition> allMinigames;
-    [SerializeField] private List<MinigameDefinition> skillMinigames;
     [SerializeField] private List<MinigameDefinition> timingMinigames;
+    [SerializeField] private List<MinigameDefinition> precisionMinigames;
+    [SerializeField] private List<MinigameDefinition> spamMinigames;
+    [SerializeField] private List<MinigameDefinition> movementMinigames;
+    [SerializeField] private GameObject[] containers;
 
     public Action<MinigameStatus, Action> OnBeginIntermission;
     public Action<MinigameDefinition> OnStartMinigame;
@@ -90,7 +93,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             //select kind of minigame
             if (currentEncounter.minigameType == Encounter.MinigameType.SPAM)
             {
-                minigamePool = skillMinigames;
+                minigamePool = spamMinigames;
             }
             else if (currentEncounter.minigameType == Encounter.MinigameType.PRECISION)
             {
@@ -127,7 +130,6 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     {
         return Mathf.Clamp01(minigameDifficulty);
     }
-
     public void EndCurrentMinigame(float delay = 0)
     {
         if (!isMinigamePlaying)
@@ -156,7 +158,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
         if (minigameEndCoroutine != null)
         {
-            StopCoroutine(minigameEndCoroutine);
+            return;
         }
         minigameEndCoroutine = StartCoroutine(DoEndMinigame(0));
     }
@@ -167,7 +169,12 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             yield return new WaitForSeconds(delay);
 
         isMinigamePlaying = false;
+        foreach (GameObject g in containers)
+        {
+            g.SetActive(true);
+        }
         OnEndMinigame?.Invoke();
+
 
         Managers.__instance.audioManager.FadeMinigameAudio();
 
@@ -259,6 +266,10 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         isMinigamePlaying = true;
         isCurrentMinigameWon = false;
 
+        foreach (GameObject g in containers)
+        {
+            g.SetActive(false);
+        }
         Managers.__instance.audioManager.StartMinigameAudio();
         Managers.__instance.scenesManager.ActivateMinigameScene(() =>
         {
@@ -279,9 +290,9 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private void UpdatePlayerStatsUI()
     {
-        showCritChance.text = $"Crit. Chance: {critChance}%";
-        showDamage.text = $"Damage: {damage}%";
-        showEncounter.text = $"Encounter#: {encounterNum}";
+        if(showCritChance) showCritChance.text = $"Crit. Chance: {critChance}%";
+        if (showDamage) showDamage.text = $"Production: {damage}";
+        if (showEncounter) showEncounter.text = $"Encounter#: {encounterNum}";
     }
 
     private void UpdateEncounterUI()

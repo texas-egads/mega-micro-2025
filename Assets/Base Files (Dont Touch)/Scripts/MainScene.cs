@@ -9,10 +9,10 @@ using DG.Tweening;
 public class MainScene : MonoBehaviour
 {
     //container not made yet
-    //public GameObject container; 
+    public GameObject container; 
     public TextMeshProUGUI statusText;
     public TextMeshProUGUI promptText;
-    //public InstructionText instructionText;
+    public InstructionText instructionText;
     public Image background;
 
     private Color normalBG;
@@ -66,12 +66,12 @@ public class MainScene : MonoBehaviour
 
     private void OnStartMinigame(MinigameDefinition _)
     {
-        //container.SetActive(false);
+        container.SetActive(false);
     }
 
     private void OnEndMinigame()
     {
-        //container.SetActive(true);
+        container.SetActive(true);
 
         // reset the prompt text
         promptText.text = "";
@@ -122,7 +122,7 @@ public class MainScene : MonoBehaviour
     {
         // start the sequence for the next minigame
         Debug.Log("space pressed!");
-        //instructionText.ShowImpactText(status.nextMinigame.instruction);
+        instructionText.ShowImpactText(status.nextMinigame.instruction);
         DOVirtual.DelayedCall(0.5f, () => intermissionFinishedCallback?.Invoke(), false);
     }
 
