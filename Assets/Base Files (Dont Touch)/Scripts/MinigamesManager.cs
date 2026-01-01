@@ -10,8 +10,6 @@ using static IMinigamesManager;
 
 public class MinigamesManager : MonoBehaviour, IMinigamesManager
 {
-    public const int STARTING_LIVES = 3;
-
     [SerializeField] private List<MinigameDefinition> allMinigames;
     [SerializeField] private List<MinigameDefinition> timingMinigames;
     [SerializeField] private List<MinigameDefinition> precisionMinigames;
@@ -37,6 +35,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public int encounterNum;
 
     //Stats UI
+    public GameObject playerStats;
     public TextMeshProUGUI showDamage;
     public TextMeshProUGUI showCritChance;
     public TextMeshProUGUI showEncounter;
@@ -61,7 +60,13 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private bool isMinigamePlaying;
     private bool isCurrentMinigameWon;
-
+    public bool gameWon
+    {
+        get
+        {
+            return isCurrentMinigameWon;
+        }
+    }
     private Coroutine minigameEndCoroutine;
     private int round;
     //TODO: Organize variable names for consistency. Tests gameplay loop & implement UI.
@@ -210,13 +215,21 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         {
             minigameStatus.gameResult = WinLose.LOSE;
             lives--;
-            EndEncounter(true);
+            EndEncounter();
         }
         else if (currProgressBar >= tgtProgressBar)
         {
-            minigameStatus.gameResult = WinLose.WIN;
-            upgradeManager.DoUpgrade(LoadNextEncounter);
+            if (lives > 0)
+            {
+                minigameStatus.gameResult = WinLose.WIN;
+                upgradeManager.DoUpgrade(EndEncounter);
+            }
+            else
+            {
+                EndEncounter();
+            }
         }
+
         else
         {
             minigameStatus.gameResult = WinLose.NONE;
@@ -227,11 +240,20 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     }
 
-    private void EndEncounter(bool onLose)
+    private void EndEncounter()
     {
-        if (lives == 0 && onLose)
+        if (lives == 0)
         {
-            Managers.__instance.scenesManager.LoadSceneImmediate("End");
+            Debug.Log("Ending encounter");
+            playerStats.SetActive(false);
+            if (Managers.__instance)
+            {
+                Managers.__instance.scenesManager.LoadSceneImmediate("End");
+            }
+            else
+            {
+                Debug.Log("failed to end");
+            }
         }
         LoadNextEncounter();
     }
@@ -290,7 +312,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private void UpdatePlayerStatsUI()
     {
-        if(showCritChance) showCritChance.text = $"Crit. Chance: {critChance}%";
+        if (showCritChance) showCritChance.text = $"Crit. Chance: {critChance}%";
         if (showDamage) showDamage.text = $"Production: {damage}";
         if (showEncounter) showEncounter.text = $"Encounter#: {encounterNum}";
     }
