@@ -9,7 +9,7 @@ public class MenuScreens : MonoBehaviour
 
     private void Awake()
     {
-        gameWon = true;
+        gameWon = MinigamesManager.gameWon;
 
         if (gameWon)
         {

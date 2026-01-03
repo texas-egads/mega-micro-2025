@@ -60,22 +60,16 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private bool isMinigamePlaying;
     private bool isCurrentMinigameWon;
-    public bool gameWon
-    {
-        get
-        {
-            return isCurrentMinigameWon;
-        }
-    }
+    public static bool gameWon; //When the boss is beaten.
     private Coroutine minigameEndCoroutine;
     private int round;
-    //TODO: Organize variable names for consistency. Tests gameplay loop & implement UI.
+    //TODO: Tests gameplay loop & implement UI.
     public void Initialize()
     {
         isMinigamePlaying = false;
         isCurrentMinigameWon = false;
         lives = 3;
-        minigameDifficulty = 0.0f; //Place Holder
+        minigameDifficulty = Title.difficulty;
     }
 
     public void StartMinigames()
@@ -222,6 +216,11 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             if (lives > 0)
             {
                 minigameStatus.gameResult = WinLose.WIN;
+                if (currentEncounter.type == UpgradeManager.EncounterType.BOSS)
+                {
+                    gameWon = true;
+                    Managers.__instance.scenesManager.LoadSceneImmediate("End");
+                }
                 upgradeManager.DoUpgrade(EndEncounter);
             }
             else
