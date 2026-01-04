@@ -42,6 +42,8 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public TextMeshProUGUI showEncounter;
     public Slider healthSlider;
     public Slider progSlider;
+    public Image[] livesSprite = new Image[3];
+    public Sprite deadLiveSprite;
 
     int minigameIndex;
     List<MinigameDefinition> minigamePool;
@@ -210,6 +212,9 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         {
             minigameStatus.gameResult = WinLose.LOSE;
             lives--;
+            UpdateLives();
+            Debug.Log("lose live current lives: "+ lives);
+
             EndEncounter(true);
         }
         else if (currProgressBar >= tgtProgressBar)
@@ -302,5 +307,14 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         healthSlider.maxValue = maxHealth;
         progSlider.value = currProgressBar;
         healthSlider.value = encounterHealth;
+    }
+
+    private void UpdateLives()
+    {
+        if (lives < 3)
+        {
+            livesSprite[lives].sprite = deadLiveSprite;
+        }
+
     }
 }
