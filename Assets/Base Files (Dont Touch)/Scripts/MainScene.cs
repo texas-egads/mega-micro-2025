@@ -5,11 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using Spine.Unity;
 
 public class MainScene : MonoBehaviour
 {
     //container not made yet
-    public GameObject container; 
+    public GameObject container;
+    public GameObject deerScreen;
     public TextMeshProUGUI statusText;
     public TextMeshProUGUI promptText;
     public InstructionText instructionText;
@@ -24,6 +26,10 @@ public class MainScene : MonoBehaviour
 
     private String baseStatusText;
 
+    //animations
+    private SkeletonAnimation deerAnimator;
+    private Animator explosionAnimator;
+
     private void Awake()
     {
         normalBG = background.color;
@@ -31,6 +37,9 @@ public class MainScene : MonoBehaviour
 
     private void Start()
     {
+        deerAnimator = deerScreen.transform.GetChild(1).GetComponent<SkeletonAnimation>();
+        explosionAnimator = deerScreen.transform.GetChild(3).GetComponent<Animator>();
+
         Managers.__instance.minigamesManager.OnStartMinigame += OnStartMinigame;
         Managers.__instance.minigamesManager.OnEndMinigame += OnEndMinigame;
         Managers.__instance.minigamesManager.OnBeginIntermission += OnBeginIntermission;
@@ -66,12 +75,15 @@ public class MainScene : MonoBehaviour
 
     private void OnStartMinigame(MinigameDefinition _)
     {
+
         container.SetActive(false);
+        deerScreen.SetActive(false);
     }
 
     private void OnEndMinigame()
     {
         container.SetActive(true);
+        deerScreen.SetActive(true);
 
         // reset the prompt text
         promptText.text = "";
@@ -102,6 +114,8 @@ public class MainScene : MonoBehaviour
         SetStatusText();
 
         // flash a color if the game was won/lost
+        updateDeerAnimation(status);
+
 
         if (status.nextMinigame != null)
         {
@@ -110,6 +124,7 @@ public class MainScene : MonoBehaviour
             {
                 // return the background color to what it was before
                 background.color = normalBG;
+                deerAnimator.AnimationState.AddAnimation(0, "IDLE", true, 5);
 
                 // await input
                 promptText.text = "Press SPACE to start next minigame";
@@ -122,11 +137,30 @@ public class MainScene : MonoBehaviour
     {
         // start the sequence for the next minigame
         Debug.Log("space pressed!");
+        deerAnimator.AnimationState.SetAnimation(0, "THINKING", false);
+
         instructionText.ShowImpactText(status.nextMinigame.instruction);
         DOVirtual.DelayedCall(0.5f, () => intermissionFinishedCallback?.Invoke(), false);
     }
 
+    public void updateDeerAnimation(MinigameStatus status)
+    {
 
+        switch (status.previousMinigameResult)
+        {
+            case WinLose.WIN:
+                deerAnimator.AnimationState.SetAnimation(0, "SUCCESS", false);
+                break;
+            case WinLose.LOSE:
+                deerAnimator.AnimationState.SetAnimation(0, "EXPLOSION", false);
+                explosionAnimator.SetTrigger("explosion");
+
+                break;
+            default:
+                deerAnimator.AnimationState.SetAnimation(0, "IDLE", false);//
+                break;
+        }
+    }
     /*
     private Animator _animator;
 

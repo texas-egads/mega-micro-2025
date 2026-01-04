@@ -1,0 +1,767 @@
+fileFormatVersion: 2
+guid: 23be1b69311e5584bab8f9b0205fdc10
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4403177903803740526
+    second: deer_rig_0
+  - first:
+      213: 3175716732309063124
+    second: deer_rig_1
+  - first:
+      213: 7792066603213082177
+    second: deer_rig_2
+  - first:
+      213: -229726595224852073
+    second: deer_rig_3
+  - first:
+      213: -561554315752314710
+    second: deer_rig_4
+  - first:
+      213: 2458406120076828898
+    second: deer_rig_5
+  - first:
+      213: -8185741467014857298
+    second: deer_rig_6
+  - first:
+      213: 4509884151688204622
+    second: deer_rig_7
+  - first:
+      213: -2872490882729615591
+    second: deer_rig_8
+  - first:
+      213: 1440860953840290383
+    second: deer_rig_9
+  - first:
+      213: 8667336262826409891
+    second: deer_rig_10
+  - first:
+      213: -6334948282901571142
+    second: deer_rig_11
+  - first:
+      213: 2461982405310846295
+    second: deer_rig_12
+  - first:
+      213: -3108566239392909373
+    second: deer_rig_13
+  - first:
+      213: -1480235147041050379
+    second: deer_rig_14
+  - first:
+      213: 2008278372021006407
+    second: deer_rig_15
+  - first:
+      213: -7262678322090325933
+    second: deer_rig_16
+  - first:
+      213: 7862113518048089645
+    second: deer_rig_17
+  - first:
+      213: 7318298466514098030
+    second: deer_rig_18
+  - first:
+      213: 646077417702379734
+    second: deer_rig_19
+  - first:
+      213: -6481023461065333759
+    second: deer_rig_20
+  - first:
+      213: -878874335212635279
+    second: deer_rig_21
+  - first:
+      213: -9027704296657929159
+    second: deer_rig_22
+  - first:
+      213: -3838117439453534315
+    second: deer_rig_23
+  - first:
+      213: 6634672033499287280
+    second: deer_rig_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 0
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 0
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 0
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: deer_rig_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1713
+        width: 69
+        height: 104
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e61321779fa3b1d30800000000000000
+      internalID: 4403177903803740526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_1
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 1713
+        width: 77
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d5cb88da89621c20800000000000000
+      internalID: 3175716732309063124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_2
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 1713
+        width: 77
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14e43be9a4bf22c60800000000000000
+      internalID: 7792066603213082177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_3
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 1712
+        width: 80
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 799a928f0e8dfccf0800000000000000
+      internalID: -229726595224852073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_4
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 1712
+        width: 80
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa8ee773355f438f0800000000000000
+      internalID: -561554315752314710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_5
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 1713
+        width: 114
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e063dc47530e1220800000000000000
+      internalID: 2458406120076828898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_6
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 1712
+        width: 83
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eadf4637187666e80800000000000000
+      internalID: -8185741467014857298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_7
+      rect:
+        serializedVersion: 2
+        x: 589
+        y: 1784
+        width: 38
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e411a87ddb3569e30800000000000000
+      internalID: 4509884151688204622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_8
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 1770
+        width: 45
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91f5a52e2ccd228d0800000000000000
+      internalID: -2872490882729615591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_9
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 1713
+        width: 69
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4a816c4767fef310800000000000000
+      internalID: 1440860953840290383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_10
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 1713
+        width: 45
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3af31a6d860984870800000000000000
+      internalID: 8667336262826409891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_11
+      rect:
+        serializedVersion: 2
+        x: 707
+        y: 1732
+        width: 136
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab95e27c91eb518a0800000000000000
+      internalID: -6334948282901571142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_12
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 1372
+        width: 492
+        height: 404
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75590d714f7ba2220800000000000000
+      internalID: 2461982405310846295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_13
+      rect:
+        serializedVersion: 2
+        x: 1377
+        y: 1376
+        width: 207
+        height: 404
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c7b634a9772cd4d0800000000000000
+      internalID: -3108566239392909373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_14
+      rect:
+        serializedVersion: 2
+        x: 1586
+        y: 1376
+        width: 276
+        height: 358
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f0f194f9f5257be0800000000000000
+      internalID: -1480235147041050379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_15
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 984
+        width: 881
+        height: 728
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 740796ef986dedb10800000000000000
+      internalID: 2008278372021006407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_16
+      rect:
+        serializedVersion: 2
+        x: 711
+        y: 1712
+        width: 125
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35840ed9b88c53b90800000000000000
+      internalID: -7262678322090325933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_17
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 1113
+        width: 531
+        height: 257
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d269d03e696db1d60800000000000000
+      internalID: 7862113518048089645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_18
+      rect:
+        serializedVersion: 2
+        x: 1416
+        y: 970
+        width: 492
+        height: 404
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e67dbd86ea1df8560800000000000000
+      internalID: 7318298466514098030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_19
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2
+        width: 844
+        height: 981
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d05d830df357f800800000000000000
+      internalID: 646077417702379734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_20
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 854
+        width: 531
+        height: 257
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1046a360087ce06a0800000000000000
+      internalID: -6481023461065333759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_21
+      rect:
+        serializedVersion: 2
+        x: 1542
+        y: 692
+        width: 358
+        height: 276
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17b7177d27c9dc3f0800000000000000
+      internalID: -878874335212635279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_22
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 2
+        width: 692
+        height: 850
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93cbf64e5c627b280800000000000000
+      internalID: -9027704296657929159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_23
+      rect:
+        serializedVersion: 2
+        x: 1542
+        y: 354
+        width: 358
+        height: 336
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 597e32726844cbac0800000000000000
+      internalID: -3838117439453534315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deer_rig_24
+      rect:
+        serializedVersion: 2
+        x: 1542
+        y: 2
+        width: 390
+        height: 350
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fe81fdff07131c50800000000000000
+      internalID: 6634672033499287280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      deer_rig_0: 4403177903803740526
+      deer_rig_1: 3175716732309063124
+      deer_rig_10: 8667336262826409891
+      deer_rig_11: -6334948282901571142
+      deer_rig_12: 2461982405310846295
+      deer_rig_13: -3108566239392909373
+      deer_rig_14: -1480235147041050379
+      deer_rig_15: 2008278372021006407
+      deer_rig_16: -7262678322090325933
+      deer_rig_17: 7862113518048089645
+      deer_rig_18: 7318298466514098030
+      deer_rig_19: 646077417702379734
+      deer_rig_2: 7792066603213082177
+      deer_rig_20: -6481023461065333759
+      deer_rig_21: -878874335212635279
+      deer_rig_22: -9027704296657929159
+      deer_rig_23: -3838117439453534315
+      deer_rig_24: 6634672033499287280
+      deer_rig_3: -229726595224852073
+      deer_rig_4: -561554315752314710
+      deer_rig_5: 2458406120076828898
+      deer_rig_6: -8185741467014857298
+      deer_rig_7: 4509884151688204622
+      deer_rig_8: -2872490882729615591
+      deer_rig_9: 1440860953840290383
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

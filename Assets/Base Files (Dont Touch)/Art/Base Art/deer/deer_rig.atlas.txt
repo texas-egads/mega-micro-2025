@@ -1,0 +1,69 @@
+deer_rig.png
+size:1934,1827
+filter:Linear,Linear
+pma:true
+antler l
+bounds:1542,1475,390,350
+antler r
+bounds:1542,1137,358,336
+arm_bottom_left
+bounds:883,716,531,257
+arm_bottom_right
+bounds:883,457,531,257
+arm_top_left
+bounds:1416,453,492,404
+arm_top_right
+bounds:883,51,492,404
+body
+bounds:2,844,844,981
+bubble_1
+bounds:590,4,38,36
+rotate:90
+bubble_2
+bounds:507,33,81,81
+bubble_3
+bounds:2,116,879,726
+ear left
+bounds:1542,859,358,276
+ear right
+bounds:1586,93,358,276
+rotate:90
+eye c left
+bounds:73,21,93,77
+rotate:90
+eye c right
+bounds:152,21,93,77
+rotate:90
+eye h left
+bounds:231,24,90,78
+rotate:90
+eye h right
+bounds:311,24,90,78
+rotate:90
+eye open left
+bounds:590,44,70,69
+rotate:90
+eye open right
+bounds:590,44,70,69
+rotate:90
+eye s left
+bounds:708,65,134,49
+eye s right
+bounds:708,65,134,49
+head
+bounds:848,975,850,692
+rotate:90
+neck
+bounds:1377,47,404,207
+rotate:90
+nose
+bounds:2,10,104,69
+rotate:90
+open mouth
+bounds:391,31,114,83
+sample_mouth left
+bounds:661,59,55,45
+rotate:90
+sample_mouth right
+bounds:661,2,55,45
+rotate:90
