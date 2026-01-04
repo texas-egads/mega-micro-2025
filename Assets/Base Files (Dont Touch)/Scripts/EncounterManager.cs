@@ -4,7 +4,8 @@ using UnityEngine;
 public class EncounterManager : MonoBehaviour
 {
     // Variables for Encounter Generation
-    public GameObject encounterScreen;
+    public GameObject encounterUI;
+    private GameObject encounterScreen;
     public string screenPrompt = "Choose a factory:";
     public AnimationCurve difficultyCurve;
     public int encounterCount = 0;
@@ -18,6 +19,16 @@ public class EncounterManager : MonoBehaviour
     private bool screenActive = false;
     private System.Collections.Generic.List<Encounter> encounters = new System.Collections.Generic.List<Encounter>();
     private Encounter currentEncounter;
+
+    //UI
+    public GameObject rectProgPrefab;
+    private GameObject progressBarUI;
+
+    public void Start()
+    {
+        encounterScreen = encounterUI.transform.GetChild(1).gameObject;
+        progressBarUI = encounterUI.transform.GetChild(3).gameObject;
+    }
     private float difficulty
     {
         get
@@ -62,7 +73,19 @@ public class EncounterManager : MonoBehaviour
 
 
         encounterScreen.transform.GetComponentInChildren<TMPro.TMP_Text>().text = screenPrompt;
-        encounterScreen.SetActive(true);
+        /*
+        for (int x = 0; x < encounterCount; x++)
+        {
+           Instantiate(rectProgPrefab, progressBarUI.transform);
+        }
+        */
+        if (encounterCount != 0)
+        {
+            Instantiate(rectProgPrefab, progressBarUI.transform);
+
+        }
+
+        encounterUI.SetActive(true);
 
         StartCoroutine(HandleEncounterChoice(onEncounterSelected));
     }
@@ -90,7 +113,7 @@ public class EncounterManager : MonoBehaviour
 
         currentEncounter = encounters[choice];
 
-        encounterScreen.SetActive(false);
+        encounterUI.SetActive(false);
         screenActive = false;
 
         onEncounterSelected?.Invoke(currentEncounter);
