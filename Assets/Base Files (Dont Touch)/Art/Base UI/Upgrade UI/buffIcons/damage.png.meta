@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: d3dcf41bbf5c6914fbe2a95290f2c5ea
+guid: f3442264805424646b844a8cb9119300
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8864161598196001867
-    second: powerup_0
-  - first:
-      213: -3886345949671643513
-    second: powerup_1
+      213: -3753825769889500098
+    second: sword_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -103,35 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: powerup_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 161
-        width: 132
-        height: 147
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b4ca12c5204d30b70800000000000000
-      internalID: 8864161598196001867
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: powerup_1
+      name: sword_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 157
-        height: 182
+        width: 219
+        height: 271
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7862b8313fce01ac0800000000000000
-      internalID: -3886345949671643513
+      spriteID: e347705d95bb7ebc0800000000000000
+      internalID: -3753825769889500098
       vertices: []
       indices: 
       edges: []
@@ -150,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      powerup_0: 8864161598196001867
-      powerup_1: -3886345949671643513
+      sword_0: -3753825769889500098
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

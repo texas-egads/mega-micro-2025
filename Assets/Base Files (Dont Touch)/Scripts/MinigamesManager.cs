@@ -213,7 +213,6 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             minigameStatus.gameResult = WinLose.LOSE;
             lives--;
             UpdateLives();
-            Debug.Log("lose live current lives: "+ lives);
 
             EndEncounter(true);
         }
