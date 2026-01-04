@@ -29,6 +29,9 @@ public class MainScene : MonoBehaviour
     //animations
     private SkeletonAnimation deerAnimator;
     private Animator explosionAnimator;
+    private ParticleSystem dustAnimaiton;
+    private GameObject encounterObject;
+    private Animator encounterObjAnimator;
 
     private void Awake()
     {
@@ -38,8 +41,11 @@ public class MainScene : MonoBehaviour
     private void Start()
     {
         deerAnimator = deerScreen.transform.GetChild(1).GetComponent<SkeletonAnimation>();
-        explosionAnimator = deerScreen.transform.GetChild(3).GetComponent<Animator>();
+        encounterObject = deerScreen.transform.GetChild(3).gameObject;
+        encounterObjAnimator = encounterObject.GetComponent<Animator>();
 
+        explosionAnimator = deerScreen.transform.GetChild(4).GetComponent<Animator>();
+        dustAnimaiton = deerScreen.transform.GetChild(5).GetComponent<ParticleSystem>();
         Managers.__instance.minigamesManager.OnStartMinigame += OnStartMinigame;
         Managers.__instance.minigamesManager.OnEndMinigame += OnEndMinigame;
         Managers.__instance.minigamesManager.OnBeginIntermission += OnBeginIntermission;
@@ -112,10 +118,7 @@ public class MainScene : MonoBehaviour
             $"Overall game status: {(status.gameResult == WinLose.WIN ? "Won" : status.gameResult == WinLose.LOSE ? "Lost" : "Playing")}";
 
         SetStatusText();
-
-        // flash a color if the game was won/lost
         updateDeerAnimation(status);
-
 
         if (status.nextMinigame != null)
         {
@@ -124,8 +127,6 @@ public class MainScene : MonoBehaviour
             {
                 // return the background color to what it was before
                 background.color = normalBG;
-                deerAnimator.AnimationState.AddAnimation(0, "IDLE", true, 5);
-
                 // await input
                 promptText.text = "Press SPACE to start next minigame";
                 spacePressedAction = () => OnProceed(status, intermissionFinishedCallback);
@@ -137,29 +138,62 @@ public class MainScene : MonoBehaviour
     {
         // start the sequence for the next minigame
         Debug.Log("space pressed!");
-        deerAnimator.AnimationState.SetAnimation(0, "THINKING", false);
+        //StartCoroutine(startMiniGameAnimation());
+        var track = deerAnimator.AnimationState.SetAnimation(0, "THINKING", false);
+        float triggerTime = Mathf.Max(0, track.Animation.Duration - 0.25f);
 
         instructionText.ShowImpactText(status.nextMinigame.instruction);
-        DOVirtual.DelayedCall(0.5f, () => intermissionFinishedCallback?.Invoke(), false);
+        DOVirtual.DelayedCall(triggerTime, () => intermissionFinishedCallback?.Invoke(), false);
     }
 
-    public void updateDeerAnimation(MinigameStatus status)
+    private void updateDeerAnimation(MinigameStatus status)
     {
-
-        switch (status.previousMinigameResult)
+        //assembly
+        if (status.previousMinigame != null)
         {
-            case WinLose.WIN:
-                deerAnimator.AnimationState.SetAnimation(0, "SUCCESS", false);
-                break;
-            case WinLose.LOSE:
-                deerAnimator.AnimationState.SetAnimation(0, "EXPLOSION", false);
-                explosionAnimator.SetTrigger("explosion");
+            deerAnimator.AnimationState.SetAnimation(0, "ASSEMBLING", false);
+            dustAnimaiton.Play();
 
-                break;
-            default:
-                deerAnimator.AnimationState.SetAnimation(0, "IDLE", false);//
-                break;
+            //result
+            switch (status.previousMinigameResult)
+            {
+                case WinLose.WIN:
+                    deerAnimator.AnimationState.AddAnimation(0, "SUCCESS", false, 0f);
+                    StartCoroutine(timerChangeObject(true));
+                    break;
+                case WinLose.LOSE:
+                    deerAnimator.AnimationState.AddAnimation(0, "EXPLOSION", false, 0f);
+                    explosionAnimator.SetTrigger("explosion");
+                    break;
+                default:
+                    deerAnimator.AnimationState.AddAnimation(0, "IDLE", true, 0f);
+                    break;
+            }
+            StartCoroutine(endSequence());
+            deerAnimator.AnimationState.AddAnimation(0, "IDLE", true, 5);
         }
+    }
+
+    IEnumerator endSequence()
+    {
+        yield return new WaitForSeconds(2f);
+
+        encounterObjAnimator.SetTrigger("end");
+        StartCoroutine(timerChangeObject(false));
+    }
+
+    IEnumerator startMiniGameAnimation()
+    {
+        deerAnimator.AnimationState.SetAnimation(0, "THINKING", false);
+        //camera zoom in
+        yield return new WaitForSeconds(5f);
+
+    }
+
+    IEnumerator timerChangeObject(bool change)
+    {
+        yield return new WaitForSeconds(1f);
+        encounterObject.GetComponent<EncounterObject>().changeType(change);
     }
     /*
     private Animator _animator;
