@@ -28,82 +28,55 @@ public class EncounterObject : MonoBehaviour
     public List<SpriteMapping> spriteDatabase;
     private static Dictionary<(Object, bool), Sprite> spriteMap;
 
+    private bool _isInitialized = false;
+    
     void Awake()
     {
         mySprite = GetComponent<SpriteRenderer>();
-
-        if (spriteMap == null)
+        InitializeDatabase();
+    }
+    private void InitializeDatabase()
+    {
+        spriteMap = new Dictionary<(Object, bool), Sprite>();
+        foreach (var mapping in spriteDatabase)
         {
-            spriteMap = new Dictionary<(Object, bool), Sprite>();
-
-            foreach (var mapping in spriteDatabase)
+            var combinedKey = (mapping.size, mapping.type);
+            if (!spriteMap.ContainsKey(combinedKey))
             {
-                var combinedKey = (mapping.size, mapping.type);
-
-                if (!spriteMap.ContainsKey(combinedKey))
-                {
-                    spriteMap.Add(combinedKey, mapping.sprite);
-                }
-                else
-                {
-                    Debug.LogWarning("Duplicate database entry for: " + mapping.size + " / " + mapping.type);
-                }
+                spriteMap.Add(combinedKey, mapping.sprite);
             }
         }
-   
     }
 
-    public void Update()
+    void OnEnable()
     {
-        //Debug.Log("Assigned sprite: " + mySprite.sprite + " based on object: " + myObject + " and type: " + myType);
+        if (spriteMap == null) InitializeDatabase();
+        if (_isInitialized)
+        {
+            RefreshSprite();
+        }
     }
-    /*
-    private void Start()
+
+    public void RefreshSprite()
     {
-        mySprite = GetComponent<SpriteRenderer>();
+        if (mySprite == null) mySprite = GetComponent<SpriteRenderer>();
         var lookupKey = (myObject, myType);
-
         if (spriteMap.ContainsKey(lookupKey))
         {
             mySprite.sprite = spriteMap[lookupKey];
-            //Debug.Log("Assigned sprite: " +  mySprite.sprite + " based on object: " + myObject + " and type: " + myType);
-
-        }
-        else
-        {
-            // Debug.LogError("Sprite for " + myObject + " / " + myType + " not found in database!", this.gameObject);
         }
     }
-    */
+
     public void changeType(bool changeType)
     {
-        myType = changeType;
-        var lookupKey = (myObject, myType);
-        if (spriteMap.ContainsKey(lookupKey))
-        {
-            mySprite.sprite = spriteMap[lookupKey];
-            //Debug.Log("Assigned sprite: " +  mySprite.sprite + " based on object: " + myObject + " and type: " + myType);
-
-        }
-        else
-        {
-            // Debug.LogError("Sprite for " + myObject + " / " + myType + " not found in database!", this.gameObject);
-        }
+        this.myType = changeType;
+        RefreshSprite();
     }
     public void changeObject(Object changeObject)
     {
-        myObject = changeObject;
-        var lookupKey = (myObject, myType);
-        if (spriteMap.ContainsKey(lookupKey))
-        {
-            mySprite.sprite = spriteMap[lookupKey];
-            Debug.Log("Assigned sprite: " + mySprite.sprite + " based on object: " + myObject + " and type: " + myType);
-
-        }
-        else
-        {
-             Debug.LogError("Sprite for " + myObject + " / " + myType + " not found in database!", this.gameObject);
-        }
+        this.myObject = changeObject;
+        _isInitialized = true;
+        RefreshSprite();
     }
 
     public Sprite returnObjectTypeSprite()
@@ -111,7 +84,7 @@ public class EncounterObject : MonoBehaviour
         return mySprite.sprite;
     }
 
-    public Sprite returnSpecificObjectType(Object typeObject)
+    public Sprite returnSpecificObjectTypeSprite(Object typeObject)
     {
         Sprite spriteReturn;
         var lookupKey = (typeObject, true);
@@ -124,7 +97,7 @@ public class EncounterObject : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Sending Sprite for " + typeObject + " / " + true + " not found in database! (Encounter Card Sprite Object not assigned)", this.gameObject);
+            //Debug.LogError("Sending Sprite for " + typeObject + " / " + true + " not found in database! (Encounter Card Sprite Object not assigned)", this.gameObject);
             spriteReturn = mySprite.sprite;
         }
         return spriteReturn;

@@ -11,7 +11,7 @@ public class SpriteEncounter : MonoBehaviour
         mySprite = GetComponent<SpriteRenderer>();
     }
 
-    public void randomEncounterSprite(int num)
+    public void setEncounterSprite(int num)
     {
         if (mySprite != null)
         {

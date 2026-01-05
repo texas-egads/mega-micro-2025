@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68234f58da65e34498d4a97f131ecf6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myObject: 3
+  myObject: 2
   myType: 0
   mySprite: {fileID: 5324890185728583969}
   spriteDatabase:

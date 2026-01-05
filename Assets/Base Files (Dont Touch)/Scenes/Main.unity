@@ -549,62 +549,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeTrigger: {fileID: 519420032}
-  volumeLayer:
-    m_Bits: 0
-  stopNaNPropagation: 1
-  finalBlitToCameraTarget: 0
-  antialiasingMode: 0
-  temporalAntialiasing:
-    jitterSpread: 0.75
-    sharpness: 0.25
-    stationaryBlending: 0.95
-    motionBlending: 0.85
-    <jitter>k__BackingField: {x: 0, y: 0}
-    m_ResetHistory: 1
-    <sampleIndex>k__BackingField: 0
-  subpixelMorphologicalAntialiasing:
-    quality: 2
-  fastApproximateAntialiasing:
-    fastMode: 0
-    keepAlpha: 0
-  fog:
-    enabled: 1
-    excludeSkybox: 1
-  dithering:
-    m_NoiseTextureIndex: 3
-  debugLayer:
-    lightMeter: {<output>k__BackingField: {fileID: 0}, requested: 0, width: 512, height: 256,
-      showCurves: 1}
-    histogram: {<output>k__BackingField: {fileID: 0}, requested: 0, width: 512, height: 256,
-      channel: 3}
-    waveform: {<output>k__BackingField: {fileID: 0}, requested: 0, exposure: 0.12,
-      height: 256}
-    vectorscope: {<output>k__BackingField: {fileID: 0}, requested: 0, size: 256, exposure: 0.12}
-    frameWidth: 1920
-    frameHeight: 1080
-    <debugOverlayTarget>k__BackingField: {fileID: 0}
-    <debugOverlayActive>k__BackingField: 0
-    <debugOverlay>k__BackingField: 0
-    overlaySettings:
-      linearDepth: 0
-      motionColorIntensity: 4
-      motionGridSize: 64
-      colorBlindnessType: 0
-      colorBlindnessStrength: 1
-  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
-  m_ShowToolkit: 1
-  m_ShowCustomSorter: 1
-  breakBeforeColorGrading: 0
-  m_BeforeTransparentBundles: []
-  m_BeforeStackBundles: []
-  m_AfterStackBundles: []
-  <cameraDepthFlags>k__BackingField: 0
-  <haveBundlesBeenInited>k__BackingField: 0
-  m_Camera: {fileID: 519420031}
-  m_SettingsUpdateNeeded: 1
-  m_IsRenderingInSceneView: 0
-  m_NaNKilled: 0
 --- !u!1 &524665106
 GameObject:
   m_ObjectHideFlags: 0
@@ -7229,12 +7173,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b427bdd5d97ae6342a4e0092393482af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mySprite: {fileID: 0}
   spritesAvailable:
   - {fileID: 21300000, guid: d2e25aeca814c7c4f9c27f15aec4761a, type: 3}
   - {fileID: 21300000, guid: 2df46e247462f0a44b6e757dcdfe5e99, type: 3}
   - {fileID: 21300000, guid: 8ddd31d308bcd4c4ebb61a69ed7be061, type: 3}
   - {fileID: 21300000, guid: 4e0a3ce0a16e5ce4f83087f93bdc44c5, type: 3}
-  - {fileID: 4807534091062308990, guid: 50a824091a4caca45afc7c9839a990f5, type: 3}
+  - {fileID: 21300000, guid: 50a824091a4caca45afc7c9839a990f5, type: 3}
 --- !u!1 &1191905162
 GameObject:
   m_ObjectHideFlags: 0
@@ -7619,6 +7564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b427bdd5d97ae6342a4e0092393482af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mySprite: {fileID: 0}
   spritesAvailable:
   - {fileID: 21300000, guid: 06c8ff6ad9eb5ea4f9440ff1f478d057, type: 3}
   - {fileID: 21300000, guid: 17b1b69786e6aa9418db66c047fe5b16, type: 3}
