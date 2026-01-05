@@ -198,7 +198,7 @@ public class MainScene : MonoBehaviour
         encounterObjAnimator.SetTrigger("end");
         explosionAnimator.SetBool("explosion", false);
 
-        StartCoroutine(timerChangeObject(false, 2f));
+        StartCoroutine(timerChangeObject(false, 1.3f));
     }
 
     IEnumerator startMiniGameAnimation()

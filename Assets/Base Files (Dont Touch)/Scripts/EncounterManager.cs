@@ -138,9 +138,11 @@ public class EncounterManager : MonoBehaviour
             GameObject card = encounterScreen.transform.GetChild(1).GetChild(i).gameObject;
             UnityEngine.UI.Image image = card.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>();
             TMPro.TMP_Text title = card.transform.GetChild(1).GetComponent<TMPro.TMP_Text>();
-            UnityEngine.UI.Image eliteImage = card.transform.GetChild(3).GetComponent<UnityEngine.UI.Image>();
+            TMPro.TMP_Text typeMinigame = card.transform.GetChild(2).GetComponent<TMPro.TMP_Text>();
+            UnityEngine.UI.Image objectImage = card.transform.GetChild(3).GetComponent<UnityEngine.UI.Image>();//object image
 
-            UnityEngine.UI.Image objectImage = card.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();//object image
+            UnityEngine.UI.Image eliteImage = card.transform.GetChild(4).GetComponent<UnityEngine.UI.Image>();
+
             //add one image for minigame type
             int listIndex = Random.Range(0, objectOptions.Count);
             int chosenType = objectOptions[listIndex];
@@ -194,11 +196,15 @@ public class EncounterManager : MonoBehaviour
 
                 //title.text += "\n" + encounterCount + " / " + maxEncounters;
                 //title.text += "\n" + encounter.tgtProgress + " Progress";
-                title.text += "\n" + encounter.failedPunishment + " DMG taken";
-                title.text += "\n" + curveWeight;
+
+                //TO PUT IN STATS
+                //title.text += "\n" + encounter.failedPunishment + " DMG taken";
+                //title.text += "\n" + curveWeight;
 
                 encounter.objectType = chosenType;
                 objectImage.sprite = encounterObject.returnSpecificObjectTypeSprite(numtoObjectType(chosenType));
+                title.text = numtoObjectType(chosenType).ToString();
+                typeMinigame.text = encounter.minigameType.ToString();
 
                 if (encounter.type == UpgradeManager.EncounterType.ELITE)
                 {
