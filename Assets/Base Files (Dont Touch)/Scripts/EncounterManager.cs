@@ -24,10 +24,12 @@ public class EncounterManager : MonoBehaviour
     public GameObject rectProgPrefab;
     private GameObject progressBarUI;
     public TextMeshProUGUI showEncounter;
+    public Sprite[] objectTypeSprite = new Sprite[5];
 
     //Encounter Wall and Factory Line
     private SpriteEncounter wall;
     private SpriteEncounter line;
+    private EncounterObject encounterObject;
     public void Start()
     {
         encounterScreen = encounterUI.transform.GetChild(1).gameObject;
@@ -113,12 +115,10 @@ public class EncounterManager : MonoBehaviour
         }
 
         currentEncounter = encounters[choice];
-        
+        applyEncounterTypeObject(currentEncounter.objectType);
 
         encounterUI.SetActive(false);
-            int ranNum = Random.Range(0, 4);
-            wall.randomEncounterSprite(ranNum);
-            line.randomEncounterSprite(ranNum);
+            
 
         //change object based on rand num
 
@@ -139,6 +139,9 @@ public class EncounterManager : MonoBehaviour
             UnityEngine.UI.Image image = card.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>();
             TMPro.TMP_Text title = card.transform.GetChild(1).GetComponent<TMPro.TMP_Text>();
             UnityEngine.UI.Image eliteImage = card.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
+
+            UnityEngine.UI.Image objectImage = card.transform.GetChild(3).GetComponent<UnityEngine.UI.Image>();//object image
+            //add one image for minigame type
 
             if (encounter.type == UpgradeManager.EncounterType.BOSS)
             {
@@ -182,13 +185,18 @@ public class EncounterManager : MonoBehaviour
                 FlavorTypeImage flavorImage = flavorDefinitions[(int)encounter.flavor];
 
                 if (flavorImage.sprite != null) image.sprite = flavorImage.sprite;
+                
                 if (flavorImage.name != null) title.text = flavorImage.name;
                 else title.text = "Not Found";
 
-                title.text += "\n" + encounterCount + " / " + maxEncounters;
-                title.text += "\n" + encounter.tgtProgress + " Progress";
+                //title.text += "\n" + encounterCount + " / " + maxEncounters;
+                //title.text += "\n" + encounter.tgtProgress + " Progress";
                 title.text += "\n" + encounter.failedPunishment + " DMG taken";
                 title.text += "\n" + curveWeight;
+
+                encounter.objectType = setEncounterTypeObject(objectImage);
+                //Debug.Log("card "+ i+ " was set encounterObjectType and ObjectImage " + encounter.objectType);
+                //Debug.Log("ObjectImage was assigned sprite: "+objectImage.sprite + "in card " + i);
 
                 if (encounter.type == UpgradeManager.EncounterType.ELITE)
                 {
@@ -251,8 +259,28 @@ public class EncounterManager : MonoBehaviour
         return UpgradeManager.EncounterType.NORMAL;
     }
 
-    public void ReconnectReferences()
+    private void ReconnectReferences()
     {
+        if (encounterObject == null)
+        {
+            // FindObjectOfType (singular) only looks for active objects in the scene
+            encounterObject = GameObject.Find("EncounterObject")?.GetComponent<EncounterObject>();
+
+            // If it's still null, then try the deeper search (but be careful)
+            if (encounterObject == null)
+            {
+                EncounterObject[] allEncounters = Resources.FindObjectsOfTypeAll<EncounterObject>();
+                foreach (var s in allEncounters)
+                {
+                    // Only pick it if it's part of a scene (not a prefab)
+                    if (s.name == "EncounterObject" && s.gameObject.scene.name != null)
+                    {
+                        encounterObject = s;
+                        break;
+                    }
+                }
+            }
+        }
         if (wall == null || line == null)
         {
             SpriteEncounter[] allEncounters = Resources.FindObjectsOfTypeAll<SpriteEncounter>();
@@ -262,5 +290,41 @@ public class EncounterManager : MonoBehaviour
                 if (s.name == "FactoryLine") line = s;
             }
         }
+    }
+
+    private void applyEncounterTypeObject(int setObject)
+    {
+        wall.randomEncounterSprite(setObject);
+        line.randomEncounterSprite(setObject);
+
+        switch (setObject)
+        {
+            case 0: encounterObject.changeObject(EncounterObject.Object.CANDY); break;
+            case 1: encounterObject.changeObject(EncounterObject.Object.CONSOLE); break;
+            case 2: encounterObject.changeObject(EncounterObject.Object.PRESENT); break;
+            case 3: encounterObject.changeObject(EncounterObject.Object.SOCK); break;
+            case 4: encounterObject.changeObject(EncounterObject.Object.TEDYY); break;
+        }
+
+        //Debug.Log("Wall  was set the sprite: " + setObject + wall.mySprite.sprite);
+        //Debug.Log("line was set the sprite: " + setObject + line.mySprite.sprite);
+        //Debug.Log("encounterObject was set the sprite: " + encounterObject.returnObjectTypeSprite());
+    }
+
+    private int setEncounterTypeObject(UnityEngine.UI.Image objectImage)
+    {
+        int ranNum = Random.Range(0, 4);
+
+        switch (ranNum)
+        {
+            case 0: objectImage.sprite = encounterObject.returnSpecificObjectType(EncounterObject.Object.CANDY); break;
+            case 1: objectImage.sprite = encounterObject.returnSpecificObjectType(EncounterObject.Object.CONSOLE); break;
+            case 2: objectImage.sprite = encounterObject.returnSpecificObjectType(EncounterObject.Object.PRESENT); break;
+            case 3: objectImage.sprite = encounterObject.returnSpecificObjectType(EncounterObject.Object.SOCK); break;
+            case 4: objectImage.sprite = encounterObject.returnSpecificObjectType(EncounterObject.Object.TEDYY); break;
+        }
+
+        return ranNum;
+
     }
 }
