@@ -169,11 +169,17 @@ public class MainScene : MonoBehaviour
             {
                 case WinLose.WIN:
                     deerAnimator.AnimationState.AddAnimation(0, "SUCCESS", false, 0f);
-                    StartCoroutine(timerChangeObject(true));
+                    StartCoroutine(timerChangeObject(true,1f));
                     break;
                 case WinLose.LOSE:
-                    deerAnimator.AnimationState.AddAnimation(0, "EXPLOSION", false, 0f);
-                    explosionAnimator.SetTrigger("explosion");
+                    var track = deerAnimator.AnimationState.AddAnimation(0, "EXPLOSION", false, 0f);
+                    float spineDuration = track.Animation.Duration;
+                    float leadTime = 2.8f; 
+                    float delayTime = Mathf.Max(0, spineDuration - leadTime);
+                    DG.Tweening.DOVirtual.DelayedCall(delayTime, () =>
+                    {
+                        explosionAnimator.SetBool("explosion", true);
+                    });
                     break;
                 default:
                     deerAnimator.AnimationState.AddAnimation(0, "IDLE", true, 0f);
@@ -181,6 +187,7 @@ public class MainScene : MonoBehaviour
             }
             StartCoroutine(endSequence());
             deerAnimator.AnimationState.AddAnimation(0, "IDLE", true, 5);
+
         }
     }
 
@@ -189,7 +196,9 @@ public class MainScene : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         encounterObjAnimator.SetTrigger("end");
-        StartCoroutine(timerChangeObject(false));
+        explosionAnimator.SetBool("explosion", false);
+
+        StartCoroutine(timerChangeObject(false, 2f));
     }
 
     IEnumerator startMiniGameAnimation()
@@ -200,9 +209,9 @@ public class MainScene : MonoBehaviour
 
     }
 
-    IEnumerator timerChangeObject(bool change)
+    IEnumerator timerChangeObject(bool change, float timer)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(timer);
         encounterObject.GetComponent<EncounterObject>().changeType(change);
     }
     

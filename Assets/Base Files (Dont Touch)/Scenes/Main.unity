@@ -5682,6 +5682,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2b7c87fc392f342caae8b32a5f2c4a19,
         type: 2}
+    - target: {fileID: 354225542106749782, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: mainCanvas
+      value: 
+      objectReference: {fileID: 493304984}
+    - target: {fileID: 354225542106749782, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: minigameCanvas
+      value: 
+      objectReference: {fileID: 1015878034}
     - target: {fileID: 566529860167362531, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6066,6 +6076,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275033681843108519, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4424684051311441562, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
