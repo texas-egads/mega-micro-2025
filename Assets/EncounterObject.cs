@@ -55,7 +55,7 @@ public class EncounterObject : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log("Assigned sprite: " + mySprite.sprite + " based on object: " + myObject + " and type: " + myType);
+        //Debug.Log("Assigned sprite: " + mySprite.sprite + " based on object: " + myObject + " and type: " + myType);
     }
     /*
     private void Start()
