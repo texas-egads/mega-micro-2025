@@ -326,13 +326,15 @@ public class UpgradeManager : MonoBehaviour
     {
         // Hide options
         //TODO animate maybe?
+        if (minigameCanvas != null) minigameCanvas.SetActive(true);
+        if (mainCanvas != null) mainCanvas.SetActive(true);
+
         upgradeScreen.SetActive(false);
         upgradeChoices[0].SetActive(false);
         upgradeChoices[1].SetActive(false);
         upgradeChoices[2].SetActive(false);
         upgradeChoices.Clear();
-        if (minigameCanvas != null) minigameCanvas.SetActive(true);
-        if (mainCanvas != null) mainCanvas.SetActive(true);
+
         // Call appropriate method
         prevUpgrades.Add(u.id);
         activeUpgrade = u;

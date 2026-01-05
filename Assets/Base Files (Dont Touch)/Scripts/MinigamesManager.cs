@@ -39,7 +39,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     //Stats UI
     public TextMeshProUGUI showDamage;
     public TextMeshProUGUI showCritChance;
-    public TextMeshProUGUI showEncounter;
+    //public TextMeshProUGUI showEncounter;
     public Slider healthSlider;
     public Slider progSlider;
     public Image[] livesSprite = new Image[3];
@@ -295,9 +295,9 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private void UpdatePlayerStatsUI()
     {
-        if(showCritChance) showCritChance.text = $"Crit. Chance: {critChance}%";
-        if (showDamage) showDamage.text = $"Production: {damage}";
-        if (showEncounter) showEncounter.text = $"Encounter#: {encounterNum}";
+        if(showCritChance) showCritChance.text = $"{critChance}%";
+        if (showDamage) showDamage.text = $"{damage}";
+        //if (showEncounter) showEncounter.text = $"Encounter#: {encounterNum}";
     }
 
     private void UpdateEncounterUI()

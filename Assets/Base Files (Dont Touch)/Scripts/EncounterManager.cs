@@ -142,6 +142,7 @@ public class EncounterManager : MonoBehaviour
             UnityEngine.UI.Image objectImage = card.transform.GetChild(3).GetComponent<UnityEngine.UI.Image>();//object image
 
             UnityEngine.UI.Image eliteImage = card.transform.GetChild(4).GetComponent<UnityEngine.UI.Image>();
+            MiniGameImageType typeMinigameImage = card.transform.GetChild(5).GetComponent<MiniGameImageType>();//object image
 
             //add one image for minigame type
             int listIndex = Random.Range(0, objectOptions.Count);
@@ -205,6 +206,7 @@ public class EncounterManager : MonoBehaviour
                 objectImage.sprite = encounterObject.returnSpecificObjectTypeSprite(numtoObjectType(chosenType));
                 title.text = numtoObjectType(chosenType).ToString();
                 typeMinigame.text = encounter.minigameType.ToString();
+                typeMinigameImage.setSprite(encounter.minigameType);
 
                 if (encounter.type == UpgradeManager.EncounterType.ELITE)
                 {
