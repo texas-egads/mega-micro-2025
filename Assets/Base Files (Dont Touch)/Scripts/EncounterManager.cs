@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using TMPro;
 
 public class EncounterManager : MonoBehaviour
 {
@@ -23,7 +23,11 @@ public class EncounterManager : MonoBehaviour
     //UI
     public GameObject rectProgPrefab;
     private GameObject progressBarUI;
+    public TextMeshProUGUI showEncounter;
 
+    //Encounter Wall and Factory Line
+    private SpriteEncounter wall;
+    private SpriteEncounter line;
     public void Start()
     {
         encounterScreen = encounterUI.transform.GetChild(1).gameObject;
@@ -63,6 +67,8 @@ public class EncounterManager : MonoBehaviour
 
     public void StartEncounterChoicer(int round, System.Action<Encounter> onEncounterSelected)
     {
+        ReconnectReferences();
+
         if (screenActive) return;
 
         screenActive = true;
@@ -73,19 +79,14 @@ public class EncounterManager : MonoBehaviour
 
 
         encounterScreen.transform.GetComponentInChildren<TMPro.TMP_Text>().text = screenPrompt;
-        /*
-        for (int x = 0; x < encounterCount; x++)
-        {
-           Instantiate(rectProgPrefab, progressBarUI.transform);
-        }
-        */
+        
         if (encounterCount != 0)
         {
             Instantiate(rectProgPrefab, progressBarUI.transform);
 
         }
-
         encounterUI.SetActive(true);
+        showEncounter.text = "Encounters: " + encounterCount + " / " + maxEncounters;
 
         StartCoroutine(HandleEncounterChoice(onEncounterSelected));
     }
@@ -112,8 +113,15 @@ public class EncounterManager : MonoBehaviour
         }
 
         currentEncounter = encounters[choice];
+        
 
         encounterUI.SetActive(false);
+            int ranNum = Random.Range(0, 4);
+            wall.randomEncounterSprite(ranNum);
+            line.randomEncounterSprite(ranNum);
+
+        //change object based on rand num
+
         screenActive = false;
 
         onEncounterSelected?.Invoke(currentEncounter);
@@ -241,5 +249,18 @@ public class EncounterManager : MonoBehaviour
         // Default return Normal
         Debug.Log("NORMAL");
         return UpgradeManager.EncounterType.NORMAL;
+    }
+
+    public void ReconnectReferences()
+    {
+        if (wall == null || line == null)
+        {
+            SpriteEncounter[] allEncounters = Resources.FindObjectsOfTypeAll<SpriteEncounter>();
+            foreach (var s in allEncounters)
+            {
+                if (s.name == "Wall") wall = s;
+                if (s.name == "FactoryLine") line = s;
+            }
+        }
     }
 }
