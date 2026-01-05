@@ -32,10 +32,11 @@ public class MainScene : MonoBehaviour
     private ParticleSystem dustAnimaiton;
     private GameObject encounterObject;
     private Animator encounterObjAnimator;
-
+    private Animator _animator;
     private void Awake()
     {
         normalBG = background.color;
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -112,12 +113,14 @@ public class MainScene : MonoBehaviour
     private void OnBeginIntermission(MinigameStatus status, Action intermissionFinishedCallback)
     {
         // write all of the status to the screen
+
         baseStatusText =
             $"Result of previous minigame: {(status.previousMinigameResult == WinLose.WIN ? "Won" : status.previousMinigameResult == WinLose.LOSE ? "Lost" : "N/A")}\n" +
             $"Lives: {Managers.__instance.minigamesManager.lives}\n" +
             $"Overall game status: {(status.gameResult == WinLose.WIN ? "Won" : status.gameResult == WinLose.LOSE ? "Lost" : "Playing")}";
 
         SetStatusText();
+
         updateDeerAnimation(status);
 
         if (status.nextMinigame != null)
@@ -138,11 +141,16 @@ public class MainScene : MonoBehaviour
     {
         // start the sequence for the next minigame
         Debug.Log("space pressed!");
+        _animator.SetBool("endgame", false);
+
         //StartCoroutine(startMiniGameAnimation());
         var track = deerAnimator.AnimationState.SetAnimation(0, "THINKING", false);
         float triggerTime = Mathf.Max(0, track.Animation.Duration - 0.25f);
 
+
         instructionText.ShowImpactText(status.nextMinigame.instruction);
+
+        DOVirtual.DelayedCall(1f, () => { _animator.SetBool("intogame",true); }, false);
         DOVirtual.DelayedCall(triggerTime, () => intermissionFinishedCallback?.Invoke(), false);
     }
 
@@ -151,6 +159,8 @@ public class MainScene : MonoBehaviour
         //assembly
         if (status.previousMinigame != null)
         {
+            _animator.SetBool("endgame", true);
+
             deerAnimator.AnimationState.SetAnimation(0, "ASSEMBLING", false);
             dustAnimaiton.Play();
 
@@ -195,15 +205,7 @@ public class MainScene : MonoBehaviour
         yield return new WaitForSeconds(1f);
         encounterObject.GetComponent<EncounterObject>().changeType(change);
     }
-    /*
-    private Animator _animator;
-
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
-        MainGameManager.Instance.GrowMainScene += GrowScene;
-        MainGameManager.Instance.ShrinkMainScene += ShrinkScene;
-    }
+    
 
     private void GrowScene()
     {
@@ -215,10 +217,5 @@ public class MainScene : MonoBehaviour
         _animator.Play("main-scene-shrink");
     }
 
-    private void OnDestroy()
-    {
-        MainGameManager.Instance.GrowMainScene -= GrowScene;
-        MainGameManager.Instance.ShrinkMainScene -= ShrinkScene;
-    }
-    */
+    
 }
