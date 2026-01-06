@@ -193,7 +193,6 @@ public class MainScene : MonoBehaviour
                     break;
             }
             StartCoroutine(endSequence());
-            deerAnimator.AnimationState.AddAnimation(0, "IDLE", true, 5);
 
         }
     }
