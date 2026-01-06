@@ -24,6 +24,7 @@ public class EncounterManager : MonoBehaviour
     public GameObject rectProgPrefab;
     private GameObject progressBarUI;
     public TextMeshProUGUI showEncounter;
+    public TextMeshProUGUI currentDifficulty;
     public Sprite[] objectTypeSprite = new Sprite[5];
     [SerializeField] private GameObject minigameCanvas;
 
@@ -93,6 +94,9 @@ public class EncounterManager : MonoBehaviour
         encounterUI.SetActive(true);
         minigameCanvas.SetActive(false);
         showEncounter.text = "Encounters: " + encounterCount + " / " + maxEncounters;
+        float curveWeight = difficultyCurve.Evaluate((float)encounterCount / maxEncounters);
+        currentDifficulty.text = "Difficulty: " + curveWeight;
+
 
         StartCoroutine(HandleEncounterChoice(onEncounterSelected));
     }
@@ -203,6 +207,7 @@ public class EncounterManager : MonoBehaviour
 
                 //TO PUT IN STATS
                 //title.text += "\n" + encounter.failedPunishment + " DMG taken";
+
                 //title.text += "\n" + curveWeight;
 
                 encounter.objectType = chosenType;
