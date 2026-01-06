@@ -29,17 +29,29 @@ public class MainScene : MonoBehaviour
     //animations
     private SkeletonAnimation deerAnimator;
     private Animator explosionAnimator;
+    private ParticleSystem dustAnimaiton;
+    private GameObject encounterObject;
+    private Animator encounterObjAnimator;
+    private Animator _animator;
 
+    public Animator healthUI;
+    public Animator progressUI;
+    public Animator statsUI;
+    public Animator livesUI;
     private void Awake()
     {
         normalBG = background.color;
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
     {
         deerAnimator = deerScreen.transform.GetChild(1).GetComponent<SkeletonAnimation>();
-        explosionAnimator = deerScreen.transform.GetChild(3).GetComponent<Animator>();
+        encounterObject = deerScreen.transform.GetChild(3).gameObject;
+        encounterObjAnimator = encounterObject.GetComponent<Animator>();
 
+        explosionAnimator = deerScreen.transform.GetChild(4).GetComponent<Animator>();
+        dustAnimaiton = deerScreen.transform.GetChild(5).GetComponent<ParticleSystem>();
         Managers.__instance.minigamesManager.OnStartMinigame += OnStartMinigame;
         Managers.__instance.minigamesManager.OnEndMinigame += OnEndMinigame;
         Managers.__instance.minigamesManager.OnBeginIntermission += OnBeginIntermission;
@@ -106,6 +118,7 @@ public class MainScene : MonoBehaviour
     private void OnBeginIntermission(MinigameStatus status, Action intermissionFinishedCallback)
     {
         // write all of the status to the screen
+
         baseStatusText =
             $"Result of previous minigame: {(status.previousMinigameResult == WinLose.WIN ? "Won" : status.previousMinigameResult == WinLose.LOSE ? "Lost" : "N/A")}\n" +
             $"Lives: {Managers.__instance.minigamesManager.lives}\n" +
@@ -113,9 +126,7 @@ public class MainScene : MonoBehaviour
 
         SetStatusText();
 
-        // flash a color if the game was won/lost
         updateDeerAnimation(status);
-
 
         if (status.nextMinigame != null)
         {
@@ -124,8 +135,6 @@ public class MainScene : MonoBehaviour
             {
                 // return the background color to what it was before
                 background.color = normalBG;
-                deerAnimator.AnimationState.AddAnimation(0, "IDLE", true, 5);
-
                 // await input
                 promptText.text = "Press SPACE to start next minigame";
                 spacePressedAction = () => OnProceed(status, intermissionFinishedCallback);
@@ -137,54 +146,79 @@ public class MainScene : MonoBehaviour
     {
         // start the sequence for the next minigame
         Debug.Log("space pressed!");
-        deerAnimator.AnimationState.SetAnimation(0, "THINKING", false);
+        _animator.SetBool("endgame", false);
+
+        Managers.__instance.minigamesManager.triggerUIExit();
+
+        //StartCoroutine(startMiniGameAnimation());
+        var track = deerAnimator.AnimationState.SetAnimation(0, "THINKING", false);
+        float triggerTime = Mathf.Max(0, track.Animation.Duration - 0.25f);
+
+
 
         instructionText.ShowImpactText(status.nextMinigame.instruction);
-        DOVirtual.DelayedCall(0.5f, () => intermissionFinishedCallback?.Invoke(), false);
+        DOVirtual.DelayedCall(1f, () => { _animator.SetBool("intogame",true); }, false);
+        DOVirtual.DelayedCall(triggerTime, () => intermissionFinishedCallback?.Invoke(), false);
     }
 
-    public void updateDeerAnimation(MinigameStatus status)
+    private void updateDeerAnimation(MinigameStatus status)
     {
-
-        switch (status.previousMinigameResult)
+        //assembly
+        if (status.previousMinigame != null)
         {
-            case WinLose.WIN:
-                deerAnimator.AnimationState.SetAnimation(0, "SUCCESS", false);
-                break;
-            case WinLose.LOSE:
-                deerAnimator.AnimationState.SetAnimation(0, "EXPLOSION", false);
-                explosionAnimator.SetTrigger("explosion");
+            _animator.SetBool("endgame", true);
 
-                break;
-            default:
-                deerAnimator.AnimationState.SetAnimation(0, "IDLE", false);//
-                break;
+            deerAnimator.AnimationState.SetAnimation(0, "ASSEMBLING", false);
+            dustAnimaiton.Play();
+
+            //result
+            switch (status.previousMinigameResult)
+            {
+                case WinLose.WIN:
+                    deerAnimator.AnimationState.AddAnimation(0, "SUCCESS", false, 0f);
+                    StartCoroutine(timerChangeObject(true,1f));
+                    break;
+                case WinLose.LOSE:
+                    var track = deerAnimator.AnimationState.AddAnimation(0, "EXPLOSION", false, 0f);
+                    float spineDuration = track.Animation.Duration;
+                    float leadTime = 2.8f; 
+                    float delayTime = Mathf.Max(0, spineDuration - leadTime);
+                    DG.Tweening.DOVirtual.DelayedCall(delayTime, () =>
+                    {
+                        explosionAnimator.SetBool("explosion", true);
+                    });
+                    break;
+                default:
+                    deerAnimator.AnimationState.AddAnimation(0, "IDLE", true, 0f);
+                    break;
+            }
+            StartCoroutine(endSequence());
+
         }
     }
-    /*
-    private Animator _animator;
 
-    private void Awake()
+    IEnumerator endSequence()
     {
-        _animator = GetComponent<Animator>();
-        MainGameManager.Instance.GrowMainScene += GrowScene;
-        MainGameManager.Instance.ShrinkMainScene += ShrinkScene;
+        yield return new WaitForSeconds(2f);
+
+        encounterObjAnimator.SetTrigger("end");
+        explosionAnimator.SetBool("explosion", false);
+
+        StartCoroutine(timerChangeObject(false, 1.3f));
     }
 
-    private void GrowScene()
+    IEnumerator startMiniGameAnimation()
     {
-        _animator.Play("main-scene-grow");
+        deerAnimator.AnimationState.SetAnimation(0, "THINKING", false);
+        yield return new WaitForSeconds(5f);
+
     }
 
-    private void ShrinkScene()
+    IEnumerator timerChangeObject(bool change, float timer)
     {
-        _animator.Play("main-scene-shrink");
+        yield return new WaitForSeconds(timer);
+        encounterObject.GetComponent<EncounterObject>().changeType(change);
     }
-
-    private void OnDestroy()
-    {
-        MainGameManager.Instance.GrowMainScene -= GrowScene;
-        MainGameManager.Instance.ShrinkMainScene -= ShrinkScene;
-    }
-    */
+   
+    
 }

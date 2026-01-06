@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using TMPro;
 
 public class EncounterManager : MonoBehaviour
 {
@@ -23,7 +23,16 @@ public class EncounterManager : MonoBehaviour
     //UI
     public GameObject rectProgPrefab;
     private GameObject progressBarUI;
+    public TextMeshProUGUI showEncounter;
+    public TextMeshProUGUI currentDifficulty;
+    public Sprite[] objectTypeSprite = new Sprite[5];
+    [SerializeField] private GameObject minigameCanvas;
 
+    //Encounter Wall and Factory Line
+    public SpriteEncounter wall;
+    public SpriteEncounter line;
+    public EncounterObject encounterObject;
+    private int lastSelectedObjectType = 0;
     public void Start()
     {
         encounterScreen = encounterUI.transform.GetChild(1).gameObject;
@@ -66,26 +75,28 @@ public class EncounterManager : MonoBehaviour
         if (screenActive) return;
 
         screenActive = true;
-
+        if (currentEncounter != null)
+        {
+            applyEncounterTypeObject(currentEncounter.objectType);//assign previous factory assets
+        }
         encounterCount = round;
         encounters.Clear();
         generateEncounters();
 
 
         encounterScreen.transform.GetComponentInChildren<TMPro.TMP_Text>().text = screenPrompt;
-        /*
-        for (int x = 0; x < encounterCount; x++)
-        {
-           Instantiate(rectProgPrefab, progressBarUI.transform);
-        }
-        */
+        
         if (encounterCount != 0)
         {
             Instantiate(rectProgPrefab, progressBarUI.transform);
 
         }
-
         encounterUI.SetActive(true);
+        minigameCanvas.SetActive(false);
+        showEncounter.text = "Encounters: " + encounterCount + " / " + maxEncounters;
+        float curveWeight = difficultyCurve.Evaluate((float)encounterCount / maxEncounters);
+        currentDifficulty.text = "Difficulty: " + curveWeight;
+
 
         StartCoroutine(HandleEncounterChoice(onEncounterSelected));
     }
@@ -112,8 +123,11 @@ public class EncounterManager : MonoBehaviour
         }
 
         currentEncounter = encounters[choice];
+        applyEncounterTypeObject(currentEncounter.objectType);
 
         encounterUI.SetActive(false);
+        minigameCanvas.SetActive(true);
+
         screenActive = false;
 
         onEncounterSelected?.Invoke(currentEncounter);
@@ -121,6 +135,7 @@ public class EncounterManager : MonoBehaviour
 
     private void generateEncounters()
     {
+        var objectOptions = new System.Collections.Generic.List<int> { 0, 1, 2, 3, 4 };
         for (int i = 0; i < cardCount; i++)
         {
             Encounter encounter = new Encounter();
@@ -130,7 +145,16 @@ public class EncounterManager : MonoBehaviour
             GameObject card = encounterScreen.transform.GetChild(1).GetChild(i).gameObject;
             UnityEngine.UI.Image image = card.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>();
             TMPro.TMP_Text title = card.transform.GetChild(1).GetComponent<TMPro.TMP_Text>();
-            UnityEngine.UI.Image eliteImage = card.transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
+            TMPro.TMP_Text typeMinigame = card.transform.GetChild(2).GetComponent<TMPro.TMP_Text>();
+            UnityEngine.UI.Image objectImage = card.transform.GetChild(3).GetComponent<UnityEngine.UI.Image>();//object image
+
+            UnityEngine.UI.Image eliteImage = card.transform.GetChild(4).GetComponent<UnityEngine.UI.Image>();
+            MiniGameImageType typeMinigameImage = card.transform.GetChild(5).GetComponent<MiniGameImageType>();//object image
+
+            //add one image for minigame type
+            int listIndex = Random.Range(0, objectOptions.Count);
+            int chosenType = objectOptions[listIndex];
+            objectOptions.RemoveAt(listIndex);
 
             if (encounter.type == UpgradeManager.EncounterType.BOSS)
             {
@@ -174,13 +198,23 @@ public class EncounterManager : MonoBehaviour
                 FlavorTypeImage flavorImage = flavorDefinitions[(int)encounter.flavor];
 
                 if (flavorImage.sprite != null) image.sprite = flavorImage.sprite;
+                
                 if (flavorImage.name != null) title.text = flavorImage.name;
                 else title.text = "Not Found";
 
-                title.text += "\n" + encounterCount + " / " + maxEncounters;
-                title.text += "\n" + encounter.tgtProgress + " Progress";
-                title.text += "\n" + encounter.failedPunishment + " DMG taken";
-                title.text += "\n" + curveWeight;
+                //title.text += "\n" + encounterCount + " / " + maxEncounters;
+                //title.text += "\n" + encounter.tgtProgress + " Progress";
+
+                //TO PUT IN STATS
+                //title.text += "\n" + encounter.failedPunishment + " DMG taken";
+
+                //title.text += "\n" + curveWeight;
+
+                encounter.objectType = chosenType;
+                objectImage.sprite = encounterObject.returnSpecificObjectTypeSprite(numtoObjectType(chosenType));
+                title.text = numtoObjectType(chosenType).ToString();
+                typeMinigame.text = encounter.minigameType.ToString();
+                typeMinigameImage.setSprite(encounter.minigameType);
 
                 if (encounter.type == UpgradeManager.EncounterType.ELITE)
                 {
@@ -241,5 +275,29 @@ public class EncounterManager : MonoBehaviour
         // Default return Normal
         Debug.Log("NORMAL");
         return UpgradeManager.EncounterType.NORMAL;
+    }
+
+    private void applyEncounterTypeObject(int setObject)
+    {
+        if (encounterObject == null) encounterObject = GameObject.Find("EncounterObject")?.GetComponent<EncounterObject>();
+        if (line == null) line = GameObject.Find("FactoryLine")?.GetComponent<SpriteEncounter>();
+        if (wall == null) wall = GameObject.Find("Wall")?.GetComponent<SpriteEncounter>();
+        wall.setEncounterSprite(setObject);
+        line.setEncounterSprite(setObject);
+        encounterObject.changeObject(numtoObjectType(setObject));
+    }
+
+    private EncounterObject.Object numtoObjectType(int objectNum)
+    {
+        switch (objectNum)
+        {
+            case 0: return EncounterObject.Object.CANDY; 
+            case 1: return EncounterObject.Object.CONSOLE; 
+            case 2: return EncounterObject.Object.PRESENT;
+            case 3: return EncounterObject.Object.SOCK; 
+            case 4: return EncounterObject.Object.TEDYY;
+            default:
+                return EncounterObject.Object.CANDY;
+        }
     }
 }

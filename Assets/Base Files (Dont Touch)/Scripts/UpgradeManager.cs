@@ -122,6 +122,8 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private GameObject upgradeScreen;
     private Dictionary<Upgrade.UpgradeName, System.Action> upgradeMethods;
     private System.Action returnFunc;
+    [SerializeField] private GameObject minigameCanvas;
+    [SerializeField] private GameObject mainCanvas;
     public void Initialize()
     {
         GameObject newObj = new GameObject();
@@ -240,7 +242,8 @@ public class UpgradeManager : MonoBehaviour
 
         // Start display
         upgradeScreen.SetActive(true);
-
+        if (minigameCanvas != null) minigameCanvas.SetActive(false);
+        if (mainCanvas != null) mainCanvas.SetActive(false);
         // Pick Upgrades
         List<int> types = new List<int>();
         types.Add(0); types.Add(1); types.Add(2); types.Add(3);
@@ -323,6 +326,9 @@ public class UpgradeManager : MonoBehaviour
     {
         // Hide options
         //TODO animate maybe?
+        if (minigameCanvas != null) minigameCanvas.SetActive(true);
+        if (mainCanvas != null) mainCanvas.SetActive(true);
+
         upgradeScreen.SetActive(false);
         upgradeChoices[0].SetActive(false);
         upgradeChoices[1].SetActive(false);

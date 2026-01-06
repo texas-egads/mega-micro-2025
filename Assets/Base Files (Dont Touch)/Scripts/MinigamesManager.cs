@@ -10,6 +10,8 @@ using static IMinigamesManager;
 
 public class MinigamesManager : MonoBehaviour, IMinigamesManager
 {
+    public const int STARTING_LIVES = 3;
+
     [SerializeField] private List<MinigameDefinition> allMinigames;
     [SerializeField] private List<MinigameDefinition> timingMinigames;
     [SerializeField] private List<MinigameDefinition> precisionMinigames;
@@ -35,12 +37,19 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public int encounterNum;
 
     //Stats UI
-    public GameObject playerStats;
     public TextMeshProUGUI showDamage;
     public TextMeshProUGUI showCritChance;
-    public TextMeshProUGUI showEncounter;
+    //public TextMeshProUGUI showEncounter;
     public Slider healthSlider;
     public Slider progSlider;
+    public Image[] livesSprite = new Image[3];
+    public Sprite deadLiveSprite;
+    public TMP_Text healthText;
+
+    public Animator healthUI;
+    public Animator progressUI;
+    public Animator statsUI;
+    public Animator livesUI;
 
     int minigameIndex;
     List<MinigameDefinition> minigamePool;
@@ -60,16 +69,16 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private bool isMinigamePlaying;
     private bool isCurrentMinigameWon;
-    public static bool gameWon; //When the boss is beaten.
+
     private Coroutine minigameEndCoroutine;
     private int round;
-    //TODO: Tests gameplay loop & implement UI.
+    //TODO: Organize variable names for consistency. Tests gameplay loop & implement UI.
     public void Initialize()
     {
         isMinigamePlaying = false;
         isCurrentMinigameWon = false;
         lives = 3;
-        minigameDifficulty = Title.difficulty;
+        minigameDifficulty = 0.0f; //Place Holder
     }
 
     public void StartMinigames()
@@ -209,50 +218,31 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         {
             minigameStatus.gameResult = WinLose.LOSE;
             lives--;
-            EndEncounter();
+            UpdateLives();
+
+            EndEncounter(true);
         }
         else if (currProgressBar >= tgtProgressBar)
         {
-            if (lives > 0)
-            {
-                minigameStatus.gameResult = WinLose.WIN;
-                if (currentEncounter.type == UpgradeManager.EncounterType.BOSS)
-                {
-                    gameWon = true;
-                    Managers.__instance.scenesManager.LoadSceneImmediate("End");
-                }
-                upgradeManager.DoUpgrade(EndEncounter);
-            }
-            else
-            {
-                EndEncounter();
-            }
+            minigameStatus.gameResult = WinLose.WIN;
+            upgradeManager.DoUpgrade(LoadNextEncounter);
         }
-
         else
         {
             minigameStatus.gameResult = WinLose.NONE;
             // game still running, proceed with next round
             minigameStatus.nextMinigame = minigamePool[(minigameIndex + UnityEngine.Random.Range(1, minigamePool.Count)) % minigamePool.Count];
+
             Managers.__instance.scenesManager.LoadMinigameScene(minigameStatus.nextMinigame);
         }
 
     }
 
-    private void EndEncounter()
+    private void EndEncounter(bool onLose)
     {
-        if (lives == 0)
+        if (lives == 0 && onLose)
         {
-            Debug.Log("Ending encounter");
-            playerStats.SetActive(false);
-            if (Managers.__instance)
-            {
-                Managers.__instance.scenesManager.LoadSceneImmediate("End");
-            }
-            else
-            {
-                Debug.Log("failed to end");
-            }
+            Managers.__instance.scenesManager.LoadSceneImmediate("End");
         }
         LoadNextEncounter();
     }
@@ -291,6 +281,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         {
             g.SetActive(false);
         }
+
         Managers.__instance.audioManager.StartMinigameAudio();
         Managers.__instance.scenesManager.ActivateMinigameScene(() =>
         {
@@ -304,6 +295,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         return allMinigames.Find(mDef => mDef.sceneName == scene.name);
     }
 
+    //TODO
     private void LoadNextEncounter()
     {
         Managers.__instance.scenesManager.LoadSceneImmediate("Main");
@@ -311,9 +303,9 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private void UpdatePlayerStatsUI()
     {
-        if (showCritChance) showCritChance.text = $"Crit. Chance: {critChance}%";
-        if (showDamage) showDamage.text = $"Production: {damage}";
-        if (showEncounter) showEncounter.text = $"Encounter#: {encounterNum}";
+        if(showCritChance) showCritChance.text = $"{critChance}%";
+        if (showDamage) showDamage.text = $"{damage}";
+        //if (showEncounter) showEncounter.text = $"Encounter#: {encounterNum}";
     }
 
     private void UpdateEncounterUI()
@@ -322,5 +314,23 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         healthSlider.maxValue = maxHealth;
         progSlider.value = currProgressBar;
         healthSlider.value = encounterHealth;
+        healthText.text = Math.Round(encounterHealth).ToString();
+    }
+
+    private void UpdateLives()
+    {
+        if (lives < 3)
+        {
+            livesSprite[lives].sprite = deadLiveSprite;
+        }
+
+    }
+
+    public void triggerUIExit()
+    {
+        healthUI.SetTrigger("out");
+        progressUI.SetTrigger("out");
+        statsUI.SetTrigger("out");
+        livesUI.SetTrigger("out");
     }
 }
