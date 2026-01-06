@@ -5,10 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using Spine.Unity;
 
 public class MainScene : MonoBehaviour
 {
+    //container not made yet
     public GameObject container;
+    public GameObject deerScreen;
     public TextMeshProUGUI statusText;
     public TextMeshProUGUI promptText;
     public InstructionText instructionText;
@@ -23,11 +26,20 @@ public class MainScene : MonoBehaviour
 
     private String baseStatusText;
 
-    private void Awake() {
+    //animations
+    private SkeletonAnimation deerAnimator;
+    private Animator explosionAnimator;
+
+    private void Awake()
+    {
         normalBG = background.color;
     }
 
-    private void Start() {
+    private void Start()
+    {
+        deerAnimator = deerScreen.transform.GetChild(1).GetComponent<SkeletonAnimation>();
+        explosionAnimator = deerScreen.transform.GetChild(3).GetComponent<Animator>();
+
         Managers.__instance.minigamesManager.OnStartMinigame += OnStartMinigame;
         Managers.__instance.minigamesManager.OnEndMinigame += OnEndMinigame;
         Managers.__instance.minigamesManager.OnBeginIntermission += OnBeginIntermission;
@@ -35,17 +47,20 @@ public class MainScene : MonoBehaviour
         Managers.__instance.minigamesManager.StartMinigames();
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         Managers.__instance.minigamesManager.OnStartMinigame -= OnStartMinigame;
         Managers.__instance.minigamesManager.OnEndMinigame -= OnEndMinigame;
         Managers.__instance.minigamesManager.OnBeginIntermission -= OnBeginIntermission;
     }
 
 
-    private void Update() {
+    private void Update()
+    {
         // call the space pressed action whenever space is pressed
         bool spacePressed = Input.GetAxis("Space") > 0;
-        if (spacePressed && !oldSpacePressed) {
+        if (spacePressed && !oldSpacePressed)
+        {
             spacePressedAction?.Invoke();
             spacePressedAction = null;
         }
@@ -58,12 +73,17 @@ public class MainScene : MonoBehaviour
     }
 
 
-    private void OnStartMinigame(MinigameDefinition _) {
+    private void OnStartMinigame(MinigameDefinition _)
+    {
+
         container.SetActive(false);
+        deerScreen.SetActive(false);
     }
 
-    private void OnEndMinigame() {
+    private void OnEndMinigame()
+    {
         container.SetActive(true);
+        deerScreen.SetActive(true);
 
         // reset the prompt text
         promptText.text = "";
@@ -80,30 +100,31 @@ public class MainScene : MonoBehaviour
         String statusTextString =
             baseStatusText + $"\nCurrent Difficulty: {Managers.__instance.minigamesManager.minigameDifficulty.ToString()} (use slider to adjust)";
 
-        statusText.text = statusTextString;
+        //statusText.text = statusTextString;
     }
 
-    private void OnBeginIntermission(MinigameStatus status, Action intermissionFinishedCallback) {
+    private void OnBeginIntermission(MinigameStatus status, Action intermissionFinishedCallback)
+    {
         // write all of the status to the screen
         baseStatusText =
             $"Result of previous minigame: {(status.previousMinigameResult == WinLose.WIN ? "Won" : status.previousMinigameResult == WinLose.LOSE ? "Lost" : "N/A")}\n" +
+            $"Lives: {Managers.__instance.minigamesManager.lives}\n" +
             $"Overall game status: {(status.gameResult == WinLose.WIN ? "Won" : status.gameResult == WinLose.LOSE ? "Lost" : "Playing")}";
 
         SetStatusText();
 
         // flash a color if the game was won/lost
-        if (status.previousMinigameResult == WinLose.WIN) {
-            background.color = winBG;
-        }
-        if (status.previousMinigameResult == WinLose.LOSE) {
-            background.color = loseBG;
-        }
+        updateDeerAnimation(status);
 
-        if (status.nextMinigame != null) {
+
+        if (status.nextMinigame != null)
+        {
             // prepare for the next minigame
-            DOVirtual.DelayedCall(1f, () => {
+            DOVirtual.DelayedCall(1f, () =>
+            {
                 // return the background color to what it was before
                 background.color = normalBG;
+                deerAnimator.AnimationState.AddAnimation(0, "IDLE", true, 5);
 
                 // await input
                 promptText.text = "Press SPACE to start next minigame";
@@ -112,13 +133,34 @@ public class MainScene : MonoBehaviour
         }
     }
 
-    private void OnProceed(MinigameStatus status, Action intermissionFinishedCallback) {
+    private void OnProceed(MinigameStatus status, Action intermissionFinishedCallback)
+    {
         // start the sequence for the next minigame
+        Debug.Log("space pressed!");
+        deerAnimator.AnimationState.SetAnimation(0, "THINKING", false);
+
         instructionText.ShowImpactText(status.nextMinigame.instruction);
         DOVirtual.DelayedCall(0.5f, () => intermissionFinishedCallback?.Invoke(), false);
     }
 
+    public void updateDeerAnimation(MinigameStatus status)
+    {
 
+        switch (status.previousMinigameResult)
+        {
+            case WinLose.WIN:
+                deerAnimator.AnimationState.SetAnimation(0, "SUCCESS", false);
+                break;
+            case WinLose.LOSE:
+                deerAnimator.AnimationState.SetAnimation(0, "EXPLOSION", false);
+                explosionAnimator.SetTrigger("explosion");
+
+                break;
+            default:
+                deerAnimator.AnimationState.SetAnimation(0, "IDLE", false);//
+                break;
+        }
+    }
     /*
     private Animator _animator;
 

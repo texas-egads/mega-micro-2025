@@ -20,7 +20,7 @@ public class UpgradeManager : MonoBehaviour
     {
         get
         {
-            return Managers.__instance.minigamesManager.health;
+            return Managers.__instance.minigamesManager.encounterHealth;
         }
     }
     public enum EncounterType
@@ -152,7 +152,7 @@ public class UpgradeManager : MonoBehaviour
         {
             Upgrade u;
             g.TryGetComponent(out u);
-            if(!u)
+            if (!u)
             {
                 Debug.LogError("Gameobject lacks Upgrade component in upgrade list!");
             }
@@ -195,7 +195,7 @@ public class UpgradeManager : MonoBehaviour
     {
         encounterType = type;
         rounds = 0;
-        if(lostPrev)
+        if (lostPrev)
         {
             difficulty += difficultyScaling / 2f;
         }
@@ -210,10 +210,11 @@ public class UpgradeManager : MonoBehaviour
         if (encounterType == EncounterType.ELITE)
         {
             extraUpgrades++;
-            if(nulledElites > 0)
+            if (nulledElites > 0)
             {
                 nulledElites--;
-            } else
+            }
+            else
             {
                 difficulty += eliteDifficultyIncrease;
                 difficultyAdjustments[0] -= eliteDifficultyIncrease;
@@ -223,7 +224,7 @@ public class UpgradeManager : MonoBehaviour
         // Handle regen
         if ((MASK_Regeneration & specialTraits) > 0)
         {
-            if(regenTimer <= 0)
+            if (regenTimer <= 0)
             {
                 lives++;
                 regenTimer = regenTime;
@@ -243,7 +244,7 @@ public class UpgradeManager : MonoBehaviour
         // Pick Upgrades
         List<int> types = new List<int>();
         types.Add(0); types.Add(1); types.Add(2); types.Add(3);
-        for (int i=0; i<2; i++)
+        for (int i = 0; i < 2; i++)
         {
             int type = Random.Range(0, types.Count);
             List<GameObject> pool = upgrades[types[type]][GetRandomRarity()];
@@ -254,7 +255,7 @@ public class UpgradeManager : MonoBehaviour
         int maxIndex = 0;
         foreach (int t in types)
         {
-            if(upgradeTypesTaken[t] > maxFreq)
+            if (upgradeTypesTaken[t] > maxFreq)
             {
                 maxFreq = upgradeTypesTaken[t];
                 maxIndex = t;
@@ -279,11 +280,11 @@ public class UpgradeManager : MonoBehaviour
         if (Random.Range(0f, 1f) <= CritChance) res *= critDamage;
         return res;
     }
-    // Determines damage taken from an attack
-    public float CalcDamageTaken(float rawDamage)
+    // Determines damage taken from a failed minigame
+    public float CalcHealthLost(float rawDamage)
     {
         rounds++;
-        return rawDamage * Mathf.Clamp01(1-damageResistance) + Health * ((rounds-1)/15f);
+        return rawDamage * Mathf.Clamp01(1 - damageResistance) + Health * ((rounds - 1) / 15f);
     }
 
     /** INTERNAL METHODS **/
@@ -310,7 +311,7 @@ public class UpgradeManager : MonoBehaviour
         float healthMinorAdder = ((MASK_HealthDamageScalingMinor & specialTraits) > 0) ? Mathf.Clamp(health - baseHealth, 0, health) * healthDamageScalingMinor : 0;
         float healthMajorAdder = ((MASK_HealthDamageScalingMajor & specialTraits) > 0) ? Mathf.Clamp(health - baseHealth, 0, health) * healthDamageScalingMajor : 0;
         float lifeScaling = ((MASK_LifeDamageScaling & specialTraits) > 0) ? Mathf.Clamp(lives - 3, 0, lives) * lifeDamageScaling : 0;
-        return (baseDamage + flatDamageIncrease + healthMinorAdder + healthMajorAdder) * (1+eliteScalar+bossScalar+difficultyScalar+lifeScaling);
+        return (baseDamage + flatDamageIncrease + healthMinorAdder + healthMajorAdder) * (1 + eliteScalar + bossScalar + difficultyScalar + lifeScaling);
     }
     private float CalcInitialHealth()
     {
@@ -376,7 +377,7 @@ public class UpgradeManager : MonoBehaviour
             res += $" {difficultyAdjustments[i]}";
         }
         res += "\nlast upgrade(s): ";
-        for (int i=0; i<prevUpgrades.Count; i++)
+        for (int i = 0; i < prevUpgrades.Count; i++)
         {
             res += $"\n\t{i}: {prevUpgrades[i]}";
         }
@@ -487,7 +488,8 @@ public class UpgradeManager : MonoBehaviour
     private void UpgradeLikelierElites()
     {
         upgradeTypesTaken[2]++;
-        //TODO
+        EncounterManager EM = Managers.__instance.encounterManager;
+        EM.SetEliteChance(EM.GetEliteChance() + activeUpgrade.val);
         difficultyUpgrades[1].Remove(activeUpgrade.gameObject);
     }
     private void UpgradeEasierElites()
@@ -499,7 +501,7 @@ public class UpgradeManager : MonoBehaviour
     private void UpgradeGambleDifficulty()
     {
         upgradeTypesTaken[2]++;
-        difficulty += Mathf.Round(Random.Range(activeUpgrade.val, activeUpgrade.val2)*20) / 20;
+        difficulty += Mathf.Round(Random.Range(activeUpgrade.val, activeUpgrade.val2) * 20) / 20;
     }
     //Crit
     private void UpgradeCrit()
@@ -512,9 +514,9 @@ public class UpgradeManager : MonoBehaviour
     {
         upgradeTypesTaken[3]++;
         extraUpgrades += (int)activeUpgrade.val;
-        if(Random.Range(0f, 1f) < activeUpgrade.val2)
+        if (Random.Range(0f, 1f) < activeUpgrade.val2)
         {
-            lives = Mathf.Clamp(lives-1, 1, lives);
+            lives = Mathf.Clamp(lives - 1, 1, lives);
         }
         critUpgrades[2].Remove(activeUpgrade.gameObject);
     }

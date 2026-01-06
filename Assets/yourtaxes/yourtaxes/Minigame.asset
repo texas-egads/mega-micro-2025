@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10b6289b71b71e942a2499ed4eb71c02, type: 3}
+  m_Name: Minigame
+  m_EditorClassIdentifier: 
+  sceneName: TippingGuam
+  minigameType: 0
+  gameTime: 10286
+  instruction: Don't Tip!
+  title: Precarious Deerlivery
+  creditsText: 'Finnegan McDevitt - Programming / Design / Music / Voice
+
+    <link=https://www.linkedin.com/in/finnegan-mcdevitt-397b2b396/><u>LinkedIn</u></color></link>
+
+
+    Avery
+    Polk - Art / Animation
+
+    <link=https://www.instagram.com/crocodilebiscuit?igsh=anhmY3Z1Z2xvM2Y0&utm_source=qr/><u>Instagram</u></color></link>
+
+    <link=https://x.com/crocobiscuit?s=21><u>X/Twitter</u></color></link>
+
+'
+  minigameScreenshot: {fileID: 5546860700157396188, guid: 9d3ce7e070e7d45aab7b43a782600a1e,
+    type: 3}

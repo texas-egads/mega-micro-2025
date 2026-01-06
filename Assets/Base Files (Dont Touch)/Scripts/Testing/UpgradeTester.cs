@@ -22,15 +22,25 @@ public class UpgradeTester : MonoBehaviour
             return Managers.__instance.minigamesManager;
         }
     }
+    private EncounterManager eMan
+    {
+        get
+        {
+            return Managers.__instance.encounterManager;
+        }
+    }
     private int round;
-    private float currentHealth;
+    private float tgtProgress;
+    private float currProgress;
     private int status;
     private string status1;
     private string status2;
-    private string roundType;
+    private UpgradeManager.EncounterType roundType;
     private float lastDamage;
     private float lastHurt;
     private bool phase2;
+    private bool waitingForEncounterChoice;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,15 +54,29 @@ public class UpgradeTester : MonoBehaviour
         // Stop when done
         if (status != 0) return;
 
+        if (waitingForEncounterChoice) return;
+
         // Setup
-        if(currentHealth == 0)
+        if (tgtProgress == 0)
         {
+            waitingForEncounterChoice = true;
+
             uMan.EncounterStart();
-            mMan.health = uMan.Health;
-            currentHealth = encounterHealth.Evaluate(round);
-            status1 = "N/A";
-            status2 = "N/A";
-            roundType = "normal";
+            mMan.encounterHealth = uMan.Health;
+
+            // Start Encounter Choicer
+            eMan.StartEncounterChoicer(round, (firstEncounter) =>
+            {
+                tgtProgress = firstEncounter.tgtProgress;
+                roundType = firstEncounter.type;
+
+                status1 = "N/A";
+                status2 = "N/A";
+
+                waitingForEncounterChoice = false;
+            });
+
+            return;
         }
 
         int autoPick = 0;
@@ -61,88 +85,92 @@ public class UpgradeTester : MonoBehaviour
             autoPick = mMan.GetCurrentMinigameDifficulty() <= Random.Range(-.25f, 1.75f) ? 2 : 1;
         }
 
-        if(Input.GetKeyDown(KeyCode.Alpha1) || autoPick == 1)
+        if (Input.GetKeyDown(KeyCode.Alpha1) || autoPick == 1)
         {
             // Lose microgame
             status1 = "Lost";
-            lastHurt = uMan.CalcDamageTaken(encounterDamage.Evaluate(round));
-            mMan.health -= lastHurt;
-            if(mMan.health <= 0)
+            lastHurt = uMan.CalcHealthLost(encounterDamage.Evaluate(round));
+            mMan.encounterHealth -= lastHurt;
+            if (mMan.encounterHealth <= 0)
             {
                 status2 = "Lost";
                 // Lose encounter
                 mMan.lives--;
-                if(mMan.lives <= 0)
+                if (mMan.lives <= 0)
                 {
                     // Lose overall
                     status = -1;
-                } else
+                }
+                else
                 {
                     PostUpgrade();
                 }
             }
-        } else if (Input.GetKeyDown(KeyCode.Alpha2) || autoPick == 2)
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2) || autoPick == 2)
         {
             // Win microgame
             status1 = "Won";
             lastDamage = uMan.CalcDamage();
-            currentHealth -= lastDamage;
-            if(round == 15 && !phase2 && currentHealth <= encounterHealth.Evaluate(round))
+            currProgress += lastDamage;
+            if (round == 15 && !phase2 && tgtProgress >= encounterHealth.Evaluate(round))
             {
                 phase2 = true;
             }
             if (phase2)
             {
-                currentHealth = Mathf.Clamp(currentHealth + encounterHealth.Evaluate(round) * 0.4f, 0, encounterHealth.Evaluate(round)*2);
+                tgtProgress = Mathf.Clamp(tgtProgress + encounterHealth.Evaluate(round) * 0.4f, 0, encounterHealth.Evaluate(round) * 2);
             }
-            if(currentHealth <= 0)
+            if (currProgress >= tgtProgress)
             {
                 status2 = "Won";
                 // Win encounter
                 round++;
-                if(round == 16)
+                if (round == 16)
                 {
                     // Win overall
                     status = 1;
-                } else
+                }
+                else
                 {
                     Managers.__instance.upgradeManager.DoUpgrade(PostUpgrade);
                 }
             }
         }
 
-        text2.text = $"Round {round}\nType {roundType}\nHealth {currentHealth}\nDamage {encounterDamage.Evaluate(round)}\nLast Attack {lastDamage}\nLast Damage Taken {lastHurt}\nMicrogame {status1}\nEncounter {status2}\nGame Status ";
-        if(status == 0)
+        text2.text = $"Round {round}\nType {roundType}\nHealth {currProgress}\nDamage {encounterDamage.Evaluate(round)}\nLast Attack {lastDamage}\nLast Damage Taken {lastHurt}\nMicrogame {status1}\nEncounter {status2}\nGame Status ";
+        if (status == 0)
         {
             text2.text += "In Progress";
-        } else if (status == -1)
+        }
+        else if (status == -1)
         {
             text2.text += "Lost";
-        } else
+        }
+        else
         {
             text2.text += "Won";
         }
-        text2.text += $"\n\nPlayer:\nDifficulty {mMan.GetCurrentMinigameDifficulty()}\nDamage {uMan.Damage}\nHealth {mMan.health}\nCrit {uMan.CritChance}";
+        text2.text += $"\n\nPlayer:\nDifficulty {mMan.GetCurrentMinigameDifficulty()}\nDamage {uMan.Damage}\nHealth {mMan.encounterHealth}\nCrit {uMan.CritChance}";
     }
 
     void PostUpgrade()
     {
         text.text = Managers.__instance.upgradeManager?.GetText();
-        if(round == 5 || round == 10 || Random.Range(0f, 1f) <= 0.2f)
+
+        waitingForEncounterChoice = true;
+
+        eMan.StartEncounterChoicer(round, (encounter) =>
         {
-            roundType = "elite";
-            uMan.EncounterStart(UpgradeManager.EncounterType.ELITE);
-        } else if(round == 15)
-        {
-            roundType = "boss";
-            uMan.EncounterStart(UpgradeManager.EncounterType.BOSS);
-        } else
-        {
-            roundType = "normal";
-            uMan.EncounterStart();
-        }
-        status1 = "N/A"; 
-        mMan.health = uMan.Health;
-        currentHealth = encounterHealth.Evaluate(round) * (roundType == "boss" ? 2 : 1);
+            uMan.EncounterStart(encounter.type);
+
+            status1 = "N/A";
+            mMan.encounterHealth = uMan.Health;
+
+            roundType = encounter.type;
+            currProgress = encounter.tgtProgress * (roundType == UpgradeManager.EncounterType.BOSS ? 2 : 1);
+
+            waitingForEncounterChoice = false;
+        });
     }
 }

@@ -10,7 +10,8 @@ public struct MinigameStatus
     public WinLose gameResult;
 }
 
-public enum WinLose {
+public enum WinLose
+{
     NONE, // if the thing is not a win or a loss - could be in progress, or undefined
     WIN,
     LOSE

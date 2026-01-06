@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10b6289b71b71e942a2499ed4eb71c02, type: 3}
+  m_Name: lmckiller definition
+  m_EditorClassIdentifier: 
+  sceneName: lmckiller
+  minigameType: 0
+  gameTime: 5143
+  instruction: Space Cook
+  title: Australian Christmas
+  creditsText: lmckiller, Asher Nu, ChaoticArrow, Egg, jdnl12, JJD84
+  minigameScreenshot: {fileID: -3876572644124222509, guid: 05752907a5911094ea420033e409f1ce,
+    type: 3}

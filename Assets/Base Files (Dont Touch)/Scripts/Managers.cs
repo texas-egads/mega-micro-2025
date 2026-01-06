@@ -24,6 +24,9 @@ public class Managers : MonoBehaviour
 
     [SerializeField] private UpgradeManager _upgradeManager;
     public UpgradeManager upgradeManager => _upgradeManager;
+    
+    [SerializeField] private EncounterManager _encounterManager;
+    public EncounterManager encounterManager => _encounterManager;
 
     private void Awake() {
         if (__instance == null) {

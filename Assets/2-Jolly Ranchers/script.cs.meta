@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 4aad9925975f8eb42bb8bc6d1b432ed4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - DifficultyText: {instanceID: 0}
+  - UIText: {instanceID: 0}
+  - player: {instanceID: 0}
+  - loopSound: {instanceID: 0}
+  - winSound: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

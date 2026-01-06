@@ -2,23 +2,45 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static IMinigamesManager;
 
 public class MinigamesManager : MonoBehaviour, IMinigamesManager
 {
-    public const int STARTING_LIVES = 3;
-
     [SerializeField] private List<MinigameDefinition> allMinigames;
-    [SerializeField] private List<MinigameDefinition> skillMinigames;
     [SerializeField] private List<MinigameDefinition> timingMinigames;
+    [SerializeField] private List<MinigameDefinition> precisionMinigames;
+    [SerializeField] private List<MinigameDefinition> spamMinigames;
+    [SerializeField] private List<MinigameDefinition> movementMinigames;
+    [SerializeField] private GameObject[] containers;
 
     public Action<MinigameStatus, Action> OnBeginIntermission;
     public Action<MinigameDefinition> OnStartMinigame;
     public Action OnEndMinigame;
-    public float health;
+
+    public float encounterHealth;
+    public float maxHealth;
+    public float currProgressBar;
+    public float tgtProgressBar;
     public int lives;
+
+    //encounter stats
+    //encounter type use not determined
+    private UpgradeManager.EncounterType encounterType;
+    private float critChance;
+    private float damage;
+    public int encounterNum;
+
+    //Stats UI
+    public GameObject playerStats;
+    public TextMeshProUGUI showDamage;
+    public TextMeshProUGUI showCritChance;
+    public TextMeshProUGUI showEncounter;
+    public Slider healthSlider;
+    public Slider progSlider;
 
     int minigameIndex;
     List<MinigameDefinition> minigamePool;
@@ -27,42 +49,66 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     {
         get
         {
-            return Managers.__instance.minigamesManager.upgradeManager;
+            return Managers.__instance.upgradeManager;
         }
     }
 
     public float minigameDifficulty;
 
-    private MinigameStatus status;
+    private MinigameStatus minigameStatus;
+    private Encounter currentEncounter;
 
     private bool isMinigamePlaying;
     private bool isCurrentMinigameWon;
-
-    // stores a preloaded scene for an upcoming round.
-    private AsyncOperation nextMinigameLoadOperation;
-
+    public static bool gameWon; //When the boss is beaten.
     private Coroutine minigameEndCoroutine;
-
+    private int round;
+    //TODO: Tests gameplay loop & implement UI.
     public void Initialize()
     {
         isMinigamePlaying = false;
         isCurrentMinigameWon = false;
+        lives = 3;
+        minigameDifficulty = Title.difficulty;
     }
 
     public void StartMinigames()
     {
-        //set health/maxhealth to upgradeManager.Health;
+        UpdatePlayerStatsUI();
+        Managers.__instance.encounterManager.StartEncounterChoicer(round, (currentEncounter) =>
+        {
+            // Set data
+            this.currentEncounter = currentEncounter;
+            encounterType = currentEncounter.type;
+            upgradeManager.EncounterStart(encounterType);
+            round++;
+            maxHealth = upgradeManager.Health;
+            critChance = upgradeManager.CritChance;
+            damage = upgradeManager.Damage;
+            encounterHealth = maxHealth;
+            tgtProgressBar = currentEncounter.tgtProgress;
+            currProgressBar = 0;
 
-        //Call upgradeManager.StartEncounter();
-
-        //Update stats UI accordingly
-
-        //Update minigame pool/index appropriately
-
-        status.nextMinigame = minigamePool[minigameIndex];
-        Managers.__instance.scenesManager.LoadMinigameScene(status.nextMinigame);
-
-        RunIntermission(status);
+            //select kind of minigame
+            if (currentEncounter.minigameType == Encounter.MinigameType.SPAM)
+            {
+                minigamePool = spamMinigames;
+            }
+            else if (currentEncounter.minigameType == Encounter.MinigameType.PRECISION)
+            {
+                minigamePool = timingMinigames;
+            }
+            else
+            {
+                minigamePool = allMinigames;
+            }
+            minigameIndex = UnityEngine.Random.Range(0, minigamePool.Count);
+            minigameStatus.gameResult = WinLose.NONE;
+            minigameStatus.nextMinigame = minigamePool[minigameIndex];
+            Managers.__instance.scenesManager.LoadMinigameScene(minigameStatus.nextMinigame);
+            RunIntermission(minigameStatus);
+        }
+        );
     }
 
     public void DeclareCurrentMinigameWon()
@@ -83,7 +129,6 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     {
         return Mathf.Clamp01(minigameDifficulty);
     }
-
     public void EndCurrentMinigame(float delay = 0)
     {
         if (!isMinigamePlaying)
@@ -112,7 +157,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
         if (minigameEndCoroutine != null)
         {
-            StopCoroutine(minigameEndCoroutine);
+            return;
         }
         minigameEndCoroutine = StartCoroutine(DoEndMinigame(0));
     }
@@ -123,14 +168,19 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             yield return new WaitForSeconds(delay);
 
         isMinigamePlaying = false;
+        foreach (GameObject g in containers)
+        {
+            g.SetActive(true);
+        }
         OnEndMinigame?.Invoke();
+
 
         Managers.__instance.audioManager.FadeMinigameAudio();
 
-        SceneManager.UnloadSceneAsync(status.nextMinigame.sceneName);
+        SceneManager.UnloadSceneAsync(minigameStatus.nextMinigame.sceneName);
 
         UpdateMinigameStatus();
-        RunIntermission(status);
+        RunIntermission(minigameStatus);
 
         minigameEndCoroutine = null;
     }
@@ -138,51 +188,73 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     private void UpdateMinigameStatus()
     {
         // evalutate result
-        status.previousMinigame = status.nextMinigame;
-        status.previousMinigameResult = isCurrentMinigameWon ? WinLose.WIN : WinLose.LOSE;
+        minigameStatus.previousMinigame = minigameStatus.nextMinigame;
+        minigameStatus.previousMinigameResult = isCurrentMinigameWon ? WinLose.WIN : WinLose.LOSE;
 
         if (isCurrentMinigameWon)
         {
             //animations
-            //deal damage using upgradeManager.CalcDamage();
+            currProgressBar += upgradeManager.CalcDamage();
         }
         else
         {
             //animations
-            //take damage using upgradeManager.CalcDamageTaken();
-            //update healthbar/refresh stats ui
+            encounterHealth -= upgradeManager.CalcHealthLost(currentEncounter.failedPunishment);
+            //flash animations?
         }
 
-        if (/*out of health*/)
+        UpdateEncounterUI();
+
+        if (encounterHealth <= 0)
         {
-            status.gameResult = WinLose.LOSE;
-            //decrement lives
-            //end encounter
+            minigameStatus.gameResult = WinLose.LOSE;
+            lives--;
+            EndEncounter();
         }
-        else if (/*encounter health done*/)
+        else if (currProgressBar >= tgtProgressBar)
         {
-            status.gameResult = WinLose.WIN;
-            //DoUpgrade
+            if (lives > 0)
+            {
+                minigameStatus.gameResult = WinLose.WIN;
+                if (currentEncounter.type == UpgradeManager.EncounterType.BOSS)
+                {
+                    gameWon = true;
+                    Managers.__instance.scenesManager.LoadSceneImmediate("End");
+                }
+                upgradeManager.DoUpgrade(EndEncounter);
+            }
+            else
+            {
+                EndEncounter();
+            }
         }
+
         else
         {
-            status.gameResult = WinLose.NONE;
+            minigameStatus.gameResult = WinLose.NONE;
             // game still running, proceed with next round
-            status.nextMinigame = minigamePool[(minigameIndex + UnityEngine.Random.Range(1, minigamePool.Count)) % minigamePool.Count];
-            Managers.__instance.scenesManager.LoadMinigameScene(status.nextMinigame);
+            minigameStatus.nextMinigame = minigamePool[(minigameIndex + UnityEngine.Random.Range(1, minigamePool.Count)) % minigamePool.Count];
+            Managers.__instance.scenesManager.LoadMinigameScene(minigameStatus.nextMinigame);
         }
 
     }
 
     private void EndEncounter()
     {
-        //call encounter choicer
-        //load next encounter and go to it and call start minigame again
-    }
-
-    public void PostUpgrade()
-    {
-        EndEncounter();
+        if (lives == 0)
+        {
+            Debug.Log("Ending encounter");
+            playerStats.SetActive(false);
+            if (Managers.__instance)
+            {
+                Managers.__instance.scenesManager.LoadSceneImmediate("End");
+            }
+            else
+            {
+                Debug.Log("failed to end");
+            }
+        }
+        LoadNextEncounter();
     }
 
     public void RunIntermission(MinigameStatus status)
@@ -191,7 +263,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         {
             Debug.LogWarning("No one is subscribed to OnBeginIntermission. This is probably a mistake because we expect a listener here to then later call LoadNextMinigame");
         }
-
+        UpdatePlayerStatsUI();
         if (status.gameResult == WinLose.NONE)
         {
             OnBeginIntermission?.Invoke(status, StartNextMinigame);
@@ -204,8 +276,6 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     // next minigame is ready to be put on screen.
     public void StartNextMinigame()
     {
-
-        //
         if (isMinigamePlaying)
         {
             Debug.LogError("Cannot load next minigame when a minigame is playing!");
@@ -217,9 +287,14 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         isMinigamePlaying = true;
         isCurrentMinigameWon = false;
 
+        foreach (GameObject g in containers)
+        {
+            g.SetActive(false);
+        }
         Managers.__instance.audioManager.StartMinigameAudio();
-        Managers.__instance.scenesManager.ActivateMinigameScene(() => {
-            OnStartMinigame?.Invoke(status.nextMinigame);
+        Managers.__instance.scenesManager.ActivateMinigameScene(() =>
+        {
+            OnStartMinigame?.Invoke(minigameStatus.nextMinigame);
         });
     }
 
@@ -227,5 +302,25 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public MinigameDefinition GetMinigameDefForScene(Scene scene)
     {
         return allMinigames.Find(mDef => mDef.sceneName == scene.name);
+    }
+
+    private void LoadNextEncounter()
+    {
+        Managers.__instance.scenesManager.LoadSceneImmediate("Main");
+    }
+
+    private void UpdatePlayerStatsUI()
+    {
+        if (showCritChance) showCritChance.text = $"Crit. Chance: {critChance}%";
+        if (showDamage) showDamage.text = $"Production: {damage}";
+        if (showEncounter) showEncounter.text = $"Encounter#: {encounterNum}";
+    }
+
+    private void UpdateEncounterUI()
+    {
+        progSlider.maxValue = tgtProgressBar;
+        healthSlider.maxValue = maxHealth;
+        progSlider.value = currProgressBar;
+        healthSlider.value = encounterHealth;
     }
 }
