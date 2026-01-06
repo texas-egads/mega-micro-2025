@@ -8428,6 +8428,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: EncounterObject
       objectReference: {fileID: 0}
+    - target: {fileID: 5324890185728583969, guid: 5d83d6de722a5b049ae2e26204ff12e2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e475a9804d0315e458d3abfdef10d981,
+        type: 3}
     - target: {fileID: 6487539527409624749, guid: 5d83d6de722a5b049ae2e26204ff12e2,
         type: 3}
       propertyPath: m_LocalPosition.x
