@@ -46,6 +46,11 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public Sprite deadLiveSprite;
     public TMP_Text healthText;
 
+    public Animator healthUI;
+    public Animator progressUI;
+    public Animator statsUI;
+    public Animator livesUI;
+
     int minigameIndex;
     List<MinigameDefinition> minigamePool;
 
@@ -227,6 +232,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             minigameStatus.gameResult = WinLose.NONE;
             // game still running, proceed with next round
             minigameStatus.nextMinigame = minigamePool[(minigameIndex + UnityEngine.Random.Range(1, minigamePool.Count)) % minigamePool.Count];
+
             Managers.__instance.scenesManager.LoadMinigameScene(minigameStatus.nextMinigame);
         }
 
@@ -275,6 +281,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         {
             g.SetActive(false);
         }
+
         Managers.__instance.audioManager.StartMinigameAudio();
         Managers.__instance.scenesManager.ActivateMinigameScene(() =>
         {
@@ -317,5 +324,13 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             livesSprite[lives].sprite = deadLiveSprite;
         }
 
+    }
+
+    public void triggerUIExit()
+    {
+        healthUI.SetTrigger("out");
+        progressUI.SetTrigger("out");
+        statsUI.SetTrigger("out");
+        livesUI.SetTrigger("out");
     }
 }

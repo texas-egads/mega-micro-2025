@@ -34,8 +34,10 @@ public class MainScene : MonoBehaviour
     private Animator encounterObjAnimator;
     private Animator _animator;
 
-    //ui
-    public GameObject miniGamesUi;
+    public Animator healthUI;
+    public Animator progressUI;
+    public Animator statsUI;
+    public Animator livesUI;
     private void Awake()
     {
         normalBG = background.color;
@@ -116,7 +118,6 @@ public class MainScene : MonoBehaviour
     private void OnBeginIntermission(MinigameStatus status, Action intermissionFinishedCallback)
     {
         // write all of the status to the screen
-        miniGamesUi.SetActive(true);
 
         baseStatusText =
             $"Result of previous minigame: {(status.previousMinigameResult == WinLose.WIN ? "Won" : status.previousMinigameResult == WinLose.LOSE ? "Lost" : "N/A")}\n" +
@@ -147,14 +148,16 @@ public class MainScene : MonoBehaviour
         Debug.Log("space pressed!");
         _animator.SetBool("endgame", false);
 
+        Managers.__instance.minigamesManager.triggerUIExit();
+
         //StartCoroutine(startMiniGameAnimation());
         var track = deerAnimator.AnimationState.SetAnimation(0, "THINKING", false);
         float triggerTime = Mathf.Max(0, track.Animation.Duration - 0.25f);
 
-        
+
 
         instructionText.ShowImpactText(status.nextMinigame.instruction);
-        DOVirtual.DelayedCall(1f, () => { miniGamesUi.SetActive(false);  _animator.SetBool("intogame",true); }, false);
+        DOVirtual.DelayedCall(1f, () => { _animator.SetBool("intogame",true); }, false);
         DOVirtual.DelayedCall(triggerTime, () => intermissionFinishedCallback?.Invoke(), false);
     }
 
@@ -217,17 +220,6 @@ public class MainScene : MonoBehaviour
         yield return new WaitForSeconds(timer);
         encounterObject.GetComponent<EncounterObject>().changeType(change);
     }
-    
-
-    private void GrowScene()
-    {
-        _animator.Play("main-scene-grow");
-    }
-
-    private void ShrinkScene()
-    {
-        _animator.Play("main-scene-shrink");
-    }
-
+   
     
 }
