@@ -181,6 +181,7 @@ MonoBehaviour:
   background: {fileID: 1298500458}
   loseBG: {r: 0, g: 0, b: 0, a: 0}
   winBG: {r: 0, g: 0, b: 0, a: 0}
+  miniGamesUi: {fileID: 0}
 --- !u!95 &286624172
 Animator:
   serializedVersion: 7
@@ -237,7 +238,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -92, y: -6}
+  m_AnchoredPosition: {x: -97, y: -14}
   m_SizeDelta: {x: 277.2884, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &428059878
@@ -6127,6 +6128,26 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4546510785123389235, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 132
+      objectReference: {fileID: 0}
+    - target: {fileID: 4546510785123389235, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 59
+      objectReference: {fileID: 0}
+    - target: {fileID: 4546510785123389235, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 4546510785123389235, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 4694450174850250748, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -6205,12 +6226,12 @@ PrefabInstance:
     - target: {fileID: 4972230110267908499, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 287
+      value: 274
       objectReference: {fileID: 0}
     - target: {fileID: 4972230110267908499, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 38
+      value: 58
       objectReference: {fileID: 0}
     - target: {fileID: 5158640403502228884, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
@@ -6282,6 +6303,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5518101543812145155, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5787329101685386738, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6312,6 +6338,16 @@ PrefabInstance:
       propertyPath: wall
       value: 
       objectReference: {fileID: 1301630477}
+    - target: {fileID: 5941439095739128627, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: mainCanvas
+      value: 
+      objectReference: {fileID: 493304984}
+    - target: {fileID: 5941439095739128627, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: minigameCanvas
+      value: 
+      objectReference: {fileID: 1015878034}
     - target: {fileID: 5941439095739128627, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: encounterObject
@@ -7759,6 +7795,7 @@ MonoBehaviour:
   background: {fileID: 1298500458}
   loseBG: {r: 0, g: 0, b: 0, a: 0}
   winBG: {r: 1, g: 1, b: 1, a: 0}
+  miniGamesUi: {fileID: 1015878034}
 --- !u!4 &1620940450
 Transform:
   m_ObjectHideFlags: 0

@@ -44,6 +44,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public Slider progSlider;
     public Image[] livesSprite = new Image[3];
     public Sprite deadLiveSprite;
+    public TMP_Text healthText;
 
     int minigameIndex;
     List<MinigameDefinition> minigamePool;
@@ -306,6 +307,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         healthSlider.maxValue = maxHealth;
         progSlider.value = currProgressBar;
         healthSlider.value = encounterHealth;
+        healthText.text = Math.Round(encounterHealth).ToString();
     }
 
     private void UpdateLives()

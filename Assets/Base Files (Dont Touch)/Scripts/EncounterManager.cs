@@ -25,6 +25,7 @@ public class EncounterManager : MonoBehaviour
     private GameObject progressBarUI;
     public TextMeshProUGUI showEncounter;
     public Sprite[] objectTypeSprite = new Sprite[5];
+    [SerializeField] private GameObject minigameCanvas;
 
     //Encounter Wall and Factory Line
     public SpriteEncounter wall;
@@ -90,6 +91,7 @@ public class EncounterManager : MonoBehaviour
 
         }
         encounterUI.SetActive(true);
+        minigameCanvas.SetActive(false);
         showEncounter.text = "Encounters: " + encounterCount + " / " + maxEncounters;
 
         StartCoroutine(HandleEncounterChoice(onEncounterSelected));
@@ -120,6 +122,7 @@ public class EncounterManager : MonoBehaviour
         applyEncounterTypeObject(currentEncounter.objectType);
 
         encounterUI.SetActive(false);
+        minigameCanvas.SetActive(true);
 
         screenActive = false;
 
