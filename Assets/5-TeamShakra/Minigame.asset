@@ -20,4 +20,5 @@ MonoBehaviour:
   creditsText: 'Team 5 - Team Shakra
 
     Made by Aadi Takle & Rodolfo '
-  minigameScreenshot: {fileID: 0}
+  minigameScreenshot: {fileID: 9086990347939346928, guid: c5f428fd5432cf84bab9465d06df14b3,
+    type: 3}

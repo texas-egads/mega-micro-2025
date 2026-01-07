@@ -18,4 +18,5 @@ MonoBehaviour:
   instruction: Cover the reindeers' hands!
   title: Reindeer Hands
   creditsText: Made by <link=https://wyvernofwhimsy.itch.io/><color=#8888ff><u>WyvernOfWhimsy</u></color></link>
-  minigameScreenshot: {fileID: 0}
+  minigameScreenshot: {fileID: 2688265552595135044, guid: c9b3a2980b23351449ecfed9ba177f49,
+    type: 3}

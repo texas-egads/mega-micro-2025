@@ -230,11 +230,11 @@ public class EncounterManager : MonoBehaviour
         // Check Elite percentage
         if (chance < eliteChance * 100)
         {
-            Debug.Log("ELITE");
+            //Debug.Log("ELITE");
             return UpgradeManager.EncounterType.ELITE;
         }
         // Default return Normal
-        Debug.Log("NORMAL");
+        //Debug.Log("NORMAL");
         return UpgradeManager.EncounterType.NORMAL;
     }
 

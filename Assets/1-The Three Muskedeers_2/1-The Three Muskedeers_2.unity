@@ -270,6 +270,56 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers (Don't Delete)
       objectReference: {fileID: 0}
+    - target: {fileID: 953571049009563923, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 953571049009563923, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 953571049009563923, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 953571049009563923, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 953571049009563923, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1736334524932527405, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1736334524932527405, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1736334524932527405, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1736334524932527405, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1736334524932527405, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1072,6 +1122,7 @@ MonoBehaviour:
   easySound: {fileID: 8300000, guid: e2f53de8583af98438e6401663b1a252, type: 3}
   medSound: {fileID: 8300000, guid: 2302a33365be9db43bb60fe8d2cf249e, type: 3}
   hardSound: {fileID: 8300000, guid: 549c96a5b65005a49b2a0b0d653ff656, type: 3}
+  timer: 16.75
 --- !u!224 &910153103 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4878292530126713372, guid: d4aea32018d6ab04ab56ce99e495f1b2,

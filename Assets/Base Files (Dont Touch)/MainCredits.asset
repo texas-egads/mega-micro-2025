@@ -10,20 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10b6289b71b71e942a2499ed4eb71c02, type: 3}
-  m_Name: ReindeerRepairGame
+  m_Name: MainCredits
   m_EditorClassIdentifier: 
-  sceneName: 6-Scene
+  sceneName: 0-Scene
   minigameType: 0
-  gameTime: 6857
-  instruction: Pick the correct tool!
-  title: Reindeer Repair
-  creditsText: 'Gabriel - Artist
+  gameTime: 5143
+  instruction: Press
+  title: Megagame
+  creditsText: '<link=https://starsilver03.itch.io/><color=#8888ff><u>Anna</u></color></link>
+    - Music & Sound
 
-    Zayaan - Main Programmer
+    Joshua James - Project Lead/Programmer
 
-    Annabelle -
-    Sound Designer
-
-    Bernice - Programmer'
-  minigameScreenshot: {fileID: 8259220461744899946, guid: 4c64f2d8ca112194fb37d8dd156229bc,
+    Zoe Yu - Programmer'
+  minigameScreenshot: {fileID: -1661446027109691274, guid: b3c75df9a7e55e8409df20dbe80467b5,
     type: 3}

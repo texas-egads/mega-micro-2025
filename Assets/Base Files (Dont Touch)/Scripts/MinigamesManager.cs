@@ -17,6 +17,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     [SerializeField] private List<MinigameDefinition> precisionMinigames;
     [SerializeField] private List<MinigameDefinition> spamMinigames;
     [SerializeField] private List<MinigameDefinition> movementMinigames;
+    [SerializeField] private List<MinigameDefinition> forcedMinigames;
     [SerializeField] private GameObject[] containers;
 
     public Action<MinigameStatus, Action> OnBeginIntermission;
@@ -105,12 +106,21 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             }
             else if (currentEncounter.minigameType == Encounter.MinigameType.PRECISION)
             {
+                minigamePool = precisionMinigames;
+            }
+            else if (currentEncounter.minigameType == Encounter.MinigameType.TIMING)
+            {
                 minigamePool = timingMinigames;
+            }
+            else if (currentEncounter.minigameType == Encounter.MinigameType.MOVEMENT)
+            {
+                minigamePool = movementMinigames;
             }
             else
             {
                 minigamePool = allMinigames;
             }
+            if (forcedMinigames.Count > 0) minigamePool = forcedMinigames;
             minigameIndex = UnityEngine.Random.Range(0, minigamePool.Count);
             minigameStatus.gameResult = WinLose.NONE;
             minigameStatus.nextMinigame = minigamePool[minigameIndex];

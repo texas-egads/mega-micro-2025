@@ -156,6 +156,7 @@ public class MainScene : MonoBehaviour
 
 
 
+        PlayerPrefs.SetFloat("minigameLength", (float) status.nextMinigame.gameTime);
         instructionText.ShowImpactText(status.nextMinigame.instruction);
         DOVirtual.DelayedCall(1f, () => { _animator.SetBool("intogame",true); }, false);
         DOVirtual.DelayedCall(triggerTime, () => intermissionFinishedCallback?.Invoke(), false);

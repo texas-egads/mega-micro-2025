@@ -39,6 +39,7 @@ namespace The_Three_Muskedeers
             gameObject.GetComponent<RectTransform>().anchoredPosition += new Vector2(speed, 0) * Time.deltaTime;
             if (Input.GetKeyDown(KeyCode.Space) && canBePressed)
             {
+                Destroy(transform.parent.gameObject);
                 Destroy(gameObject);
             }
             if (gameObject.GetComponent<RectTransform>().anchoredPosition.x > WorldObject_ScreenPosition.x - 7500)

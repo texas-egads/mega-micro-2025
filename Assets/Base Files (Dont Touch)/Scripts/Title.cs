@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Title : MonoBehaviour
 {
+    public static AudioSource musicPlaying;
+    public AudioSource musicPlayer;
     public Image fader;
     public float fadeSpeed;
     public float[] difficultyStarts;
@@ -12,6 +14,14 @@ public class Title : MonoBehaviour
     private bool canScene;
     private void Start()
     {
+        if (musicPlaying)
+        {
+            Destroy(musicPlayer.gameObject);
+        } else
+        {
+            musicPlaying = musicPlayer;
+            DontDestroyOnLoad(musicPlaying.gameObject);
+        }
         canScene = true;
         StartCoroutine("Unfade");
     }
@@ -45,9 +55,15 @@ public class Title : MonoBehaviour
         fader.gameObject.SetActive(true);
         while (timer <= 1)
         {
+            if (name == "Main") musicPlaying.volume = 1 - timer;
             fader.color = Color.Lerp(Color.clear, Color.black, timer);
             timer += Time.deltaTime * fadeSpeed;
             yield return null;
+        }
+        if (name == "Main")
+        {
+            Destroy(musicPlaying.gameObject);
+            musicPlaying = null;
         }
         SceneManager.LoadScene(name);
     }
