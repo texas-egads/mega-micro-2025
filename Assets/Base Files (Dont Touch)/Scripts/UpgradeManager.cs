@@ -44,7 +44,7 @@ public class UpgradeManager : MonoBehaviour
     private float rounds;
 
     // Base stats
-    [SerializeField] private float difficultyScaling;
+    private float difficultyScaling;
     [SerializeField] private float baseDamage;
     private float flatDamageIncrease;
     public float Damage
@@ -128,6 +128,11 @@ public class UpgradeManager : MonoBehaviour
     {
         GameObject newObj = new GameObject();
         newObj.transform.parent = transform;
+
+        // Setup difficulty
+        difficulty = PlayerPrefs.GetFloat("difficultyStart", 0);
+        difficultyScaling = (PlayerPrefs.GetFloat("difficultyEnd", 1) - difficulty) / 14f;
+
         // Setup lists
         difficultyAdjustments = new List<float>();
         upgradeChoices = new List<GameObject>();
@@ -202,11 +207,6 @@ public class UpgradeManager : MonoBehaviour
             difficulty += difficultyScaling / 2f;
         }
         lostPrev = true;
-
-        // Handle temp difficulty changes
-        difficulty += difficultyAdjustments[0];
-        difficultyAdjustments.RemoveAt(0);
-        difficultyAdjustments.Add(0);
 
         // Handle elite difficulty changes
         if (encounterType == EncounterType.ELITE)
@@ -348,6 +348,11 @@ public class UpgradeManager : MonoBehaviour
             DoUpgrade(returnFunc);
             return;
         }
+
+        // Handle temp difficulty changes
+        difficulty += difficultyAdjustments[0];
+        difficultyAdjustments.RemoveAt(0);
+        difficultyAdjustments.Add(0);
 
         // Return control to manager
         difficulty += difficultyScaling;

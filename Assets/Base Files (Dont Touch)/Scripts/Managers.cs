@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Managers : MonoBehaviour
 {    
@@ -33,6 +34,7 @@ public class Managers : MonoBehaviour
             // we are the chosen one
             __instance = this;
 
+            StartCoroutine("Unfade");
             minigamesManager.Initialize();
             audioManager.Initialize();
             scenesManager.Initialize();
@@ -43,6 +45,22 @@ public class Managers : MonoBehaviour
         else if (__instance != this) {
             // goodbye
             Destroy(gameObject);
+        }
+    }
+    public Image fader;
+    public float fadeSpeed;
+    private IEnumerator Unfade()
+    {
+        if (fader)
+        {
+            float timer = 0;
+            while (timer <= 1)
+            {
+                fader.color = Color.Lerp(Color.black, Color.clear, timer);
+                timer += Time.deltaTime * fadeSpeed;
+                yield return null;
+            }
+            fader.gameObject.SetActive(false);
         }
     }
 }

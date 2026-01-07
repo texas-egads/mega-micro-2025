@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine;
 
 public class EncounterObject : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class EncounterObject : MonoBehaviour
         CONSOLE,
         PRESENT,
         SOCK,
-        TEDYY 
+        TEDDY 
     }
     [System.Serializable]
     public struct SpriteMapping

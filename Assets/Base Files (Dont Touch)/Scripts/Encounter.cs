@@ -15,6 +15,5 @@ public class Encounter
     public MinigameType minigameType;
     public float failedPunishment; //health point deduction from failing one minigame
     public int tgtProgress; //target progress to be reached this encounter
-    public EncounterManager.Flavors flavor;
     public int objectType;
 }

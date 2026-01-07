@@ -56,5 +56,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/1-The Three Muskedeers_3/1-The Three Muskedeers_3.unity
     guid: 30685466d0d9f4166b4acbe8f743c485
+  - enabled: 1
+    path: Assets/Base Files (Dont Touch)/Scenes/TestCredits.unity
+    guid: 3a49abe4b551f1d40aaee840fd7c96f0
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

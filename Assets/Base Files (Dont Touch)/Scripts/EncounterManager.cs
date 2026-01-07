@@ -14,7 +14,7 @@ public class EncounterManager : MonoBehaviour
     public int[] guaranteedEliteOn = new int[] { 5, 10 };
     public int minimumHealth = 25;
     public int minimumDamage = 30;
-    public FlavorTypeImage[] flavorDefinitions = new FlavorTypeImage[3];
+    public EncounterType[] typeDefinitions;
     private int cardCount = 2;
     private bool screenActive = false;
     private System.Collections.Generic.List<Encounter> encounters = new System.Collections.Generic.List<Encounter>();
@@ -32,7 +32,15 @@ public class EncounterManager : MonoBehaviour
     public SpriteEncounter wall;
     public SpriteEncounter line;
     public EncounterObject encounterObject;
-    private int lastSelectedObjectType = 0;
+
+    [System.Serializable]
+    public struct EncounterType
+    {
+        public string flavor;
+        public float healthScalar;
+        public float damageScalar;
+    }
+
     public void Start()
     {
         encounterScreen = encounterUI.transform.GetChild(1).gameObject;
@@ -45,21 +53,6 @@ public class EncounterManager : MonoBehaviour
             return Managers.__instance.minigamesManager.GetCurrentMinigameDifficulty();
         }
     }
-    public enum Flavors
-    {
-        NORMAL,
-        TANK,
-        CANNON
-    }
-
-    [System.Serializable]
-    public struct FlavorTypeImage
-    {
-        public Flavors flavor;
-        public string name;
-        public Sprite sprite;
-    }
-
     // Elite percentage functions
     public void SetEliteChance(float chance)
     {
@@ -94,8 +87,8 @@ public class EncounterManager : MonoBehaviour
         encounterUI.SetActive(true);
         minigameCanvas.SetActive(false);
         showEncounter.text = "Encounters: " + encounterCount + " / " + maxEncounters;
-        float curveWeight = difficultyCurve.Evaluate((float)encounterCount / maxEncounters);
-        currentDifficulty.text = "Difficulty: " + curveWeight;
+        int difficultyText = Mathf.RoundToInt(difficulty * 100);
+        currentDifficulty.text = $"Difficulty: {difficultyText}%";
 
 
         StartCoroutine(HandleEncounterChoice(onEncounterSelected));
@@ -150,10 +143,12 @@ public class EncounterManager : MonoBehaviour
 
             UnityEngine.UI.Image eliteImage = card.transform.GetChild(4).GetComponent<UnityEngine.UI.Image>();
             MiniGameImageType typeMinigameImage = card.transform.GetChild(5).GetComponent<MiniGameImageType>();//object image
+            TMPro.TMP_Text typeStats = card.transform.GetChild(6).GetComponent<TMPro.TMP_Text>();
 
             //add one image for minigame type
             int listIndex = Random.Range(0, objectOptions.Count);
             int chosenType = objectOptions[listIndex];
+            int lastType = -1;
             objectOptions.RemoveAt(listIndex);
 
             if (encounter.type == UpgradeManager.EncounterType.BOSS)
@@ -166,16 +161,11 @@ public class EncounterManager : MonoBehaviour
                     float curveWeight = difficultyCurve.Evaluate((float)encounterCount / maxEncounters);
 
                     encounter.minigameType = Encounter.MinigameType.ALL;
-                    encounter.tgtProgress = minimumHealth + (int)(difficulty * 1000 * curveWeight);
-                    encounter.failedPunishment = minimumDamage + (difficulty * 1000 * curveWeight);
-                    encounter.flavor = checkFlavor(encounter);
+                    encounter.tgtProgress = 200;
+                    encounter.failedPunishment = 40;
+                    typeStats.text = "JOLLY";
 
                     title.text = "BOSS";
-
-                    title.text += "\n" + encounterCount + " / " + maxEncounters;
-                    title.text += "\n" + encounter.tgtProgress + " Progress";
-                    title.text += "\n" + encounter.failedPunishment + " DMG taken";
-                    title.text += "\n" + curveWeight;
 
                     encounters.Add(encounter);
                     // Do boss stuff 
@@ -187,34 +177,21 @@ public class EncounterManager : MonoBehaviour
                 // Define health and damage for encounter
                 float curveWeight = difficultyCurve.Evaluate((float)encounterCount / maxEncounters);
 
-                encounter.minigameType = Encounter.MinigameType.ALL; //TODO fix
-                encounter.tgtProgress = minimumHealth + (int)(difficulty * 1000 * curveWeight);
-                encounter.failedPunishment = minimumDamage + (difficulty * 1000 * curveWeight);
-                encounter.flavor = checkFlavor(encounter);
+                int randGame = lastType == -1 ? Random.Range(0, 5) : (lastType + Random.Range(1, 5)) % 5;
+                lastType = randGame;
+                encounter.minigameType = (Encounter.MinigameType) randGame;
+                encounter.tgtProgress = (int) ((minimumHealth + 100 * curveWeight) * typeDefinitions[chosenType].healthScalar);
+                encounter.failedPunishment = (minimumDamage + 60 * curveWeight) * typeDefinitions[chosenType].damageScalar;
 
                 encounters.Add(encounter);
 
-                // Get Flavor data if available
-                FlavorTypeImage flavorImage = flavorDefinitions[(int)encounter.flavor];
-
-                if (flavorImage.sprite != null) image.sprite = flavorImage.sprite;
-                
-                if (flavorImage.name != null) title.text = flavorImage.name;
-                else title.text = "Not Found";
-
-                //title.text += "\n" + encounterCount + " / " + maxEncounters;
-                //title.text += "\n" + encounter.tgtProgress + " Progress";
-
-                //TO PUT IN STATS
-                //title.text += "\n" + encounter.failedPunishment + " DMG taken";
-
-                //title.text += "\n" + curveWeight;
 
                 encounter.objectType = chosenType;
                 objectImage.sprite = encounterObject.returnSpecificObjectTypeSprite(numtoObjectType(chosenType));
                 title.text = numtoObjectType(chosenType).ToString();
                 typeMinigame.text = encounter.minigameType.ToString();
                 typeMinigameImage.setSprite(encounter.minigameType);
+                typeStats.text = typeDefinitions[chosenType].flavor;
 
                 if (encounter.type == UpgradeManager.EncounterType.ELITE)
                 {
@@ -228,22 +205,6 @@ public class EncounterManager : MonoBehaviour
                 card.SetActive(true);
             }
 
-        }
-    }
-
-    private Flavors checkFlavor(Encounter encounter)
-    {
-        if (encounter.tgtProgress > 100)
-        {
-            return Flavors.TANK;
-        }
-        else if (encounter.failedPunishment > 100)
-        {
-            return Flavors.CANNON;
-        }
-        else
-        {
-            return Flavors.NORMAL;
         }
     }
 
@@ -295,7 +256,7 @@ public class EncounterManager : MonoBehaviour
             case 1: return EncounterObject.Object.CONSOLE; 
             case 2: return EncounterObject.Object.PRESENT;
             case 3: return EncounterObject.Object.SOCK; 
-            case 4: return EncounterObject.Object.TEDYY;
+            case 4: return EncounterObject.Object.TEDDY;
             default:
                 return EncounterObject.Object.CANDY;
         }

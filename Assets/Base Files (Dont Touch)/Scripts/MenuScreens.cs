@@ -9,8 +9,7 @@ public class MenuScreens : MonoBehaviour
 
     private void Awake()
     {
-        gameWon = MinigamesManager.gameWon;
-
+        gameWon = PlayerPrefs.GetInt("gameWon") == 1;
         if (gameWon)
         {
             ShowWinScreen();
