@@ -236,16 +236,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1372951363747409419}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.27790952}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3893894326754346393}
+  m_Father: {fileID: 5933002634275714309}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 308.63, y: -336}
+  m_AnchoredPosition: {x: 204.57205, y: -314.1695}
   m_SizeDelta: {x: 617.2513, y: 389.8777}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8736678940691840815
@@ -515,6 +515,7 @@ Transform:
   m_Children:
   - {fileID: 397411142081363532}
   - {fileID: 76664404893800110}
+  - {fileID: 5374545218279749195}
   m_Father: {fileID: 3893894326754346393}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3468061428015019469
@@ -803,16 +804,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5052117177922188805}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.27790952}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3893894326754346393}
+  m_Father: {fileID: 8393875480007482095}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -308.63, y: -336}
+  m_AnchoredPosition: {x: -412.68796, y: -314.1695}
   m_SizeDelta: {x: 617.2513, y: 389.8777}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2821432420101190761
@@ -899,7 +900,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2322355375452491937}
         m_TargetAssemblyTypeName: MenuScreens, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1007,6 +1008,7 @@ Transform:
   m_Children:
   - {fileID: 7567515342963052170}
   - {fileID: 6465614468521592674}
+  - {fileID: 5505843848176345721}
   m_Father: {fileID: 3893894326754346393}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7517129071560122888
@@ -1390,8 +1392,6 @@ RectTransform:
   - {fileID: 959098712824518626}
   - {fileID: 8393875480007482095}
   - {fileID: 5933002634275714309}
-  - {fileID: 5374545218279749195}
-  - {fileID: 5505843848176345721}
   - {fileID: 4356828565730467812}
   - {fileID: 7130777383811189626}
   - {fileID: 8906308819910592219}

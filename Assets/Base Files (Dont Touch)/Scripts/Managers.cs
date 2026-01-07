@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Managers : MonoBehaviour
@@ -31,6 +32,7 @@ public class Managers : MonoBehaviour
 
     private void Awake() {
         if (__instance == null) {
+
             // we are the chosen one
             __instance = this;
 
@@ -61,6 +63,13 @@ public class Managers : MonoBehaviour
                 yield return null;
             }
             fader.gameObject.SetActive(false);
+        }
+    }
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "TitleScreen") {
+            __instance = null;
+            Destroy(gameObject);
         }
     }
 }

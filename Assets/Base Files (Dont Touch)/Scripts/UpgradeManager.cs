@@ -468,9 +468,8 @@ public class UpgradeManager : MonoBehaviour
     private void UpgradeDifficultyHealth()
     {
         upgradeTypesTaken[1]++;
-        difficultyHealthScaling = activeUpgrade.val;
+        difficultyHealthScaling += activeUpgrade.val;
         specialTraits |= MASK_DifficultyHealthScaling;
-        healthUpgrades[3].Remove(activeUpgrade.gameObject);
     }
     private void UpgradeRegeneration()
     {

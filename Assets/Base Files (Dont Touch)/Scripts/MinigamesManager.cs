@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -73,7 +74,9 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private Coroutine minigameEndCoroutine;
     private int round;
-    //TODO: Organize variable names for consistency. Tests gameplay loop & implement UI.
+    public MenuScreens winLoseMenu;
+    private AudioClip winSound;
+    public AudioClip loseSound;
     public void Initialize()
     {
         isMinigamePlaying = false;
@@ -84,20 +87,30 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     public void StartMinigames()
     {
-        UpdatePlayerStatsUI();
+        Managers.__instance.audioManager.music.volume = 0.5f;
         Managers.__instance.encounterManager.StartEncounterChoicer(round, (currentEncounter) =>
         {
             // Set data
+            Managers.__instance.audioManager.music.volume = 1f;
             this.currentEncounter = currentEncounter;
+            winSound = currentEncounter.winSound;
             encounterType = currentEncounter.type;
             upgradeManager.EncounterStart(encounterType);
+            UpdatePlayerStatsUI();
             round++;
+            // Set health/healthbars
             maxHealth = upgradeManager.Health;
+            encounterHealth = maxHealth;
+            oldHealth = maxHealth;
+            healthSlider.maxValue = encounterHealth;
+            healthSlider.value = encounterHealth;
             critChance = upgradeManager.CritChance;
             damage = upgradeManager.Damage;
-            encounterHealth = maxHealth;
             tgtProgressBar = currentEncounter.tgtProgress;
             currProgressBar = 0;
+            oldProgressBar = 0;
+            progSlider.maxValue = tgtProgressBar;
+            progSlider.value = 0;
 
             //select kind of minigame
             if (currentEncounter.minigameType == Encounter.MinigameType.SPAM)
@@ -123,6 +136,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             if (forcedMinigames.Count > 0) minigamePool = forcedMinigames;
             minigameIndex = UnityEngine.Random.Range(0, minigamePool.Count);
             minigameStatus.gameResult = WinLose.NONE;
+            minigameStatus.previousMinigame = null;
             minigameStatus.nextMinigame = minigamePool[minigameIndex];
             Managers.__instance.scenesManager.LoadMinigameScene(minigameStatus.nextMinigame);
             RunIntermission(minigameStatus);
@@ -213,35 +227,34 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         if (isCurrentMinigameWon)
         {
             //animations
-            currProgressBar += upgradeManager.CalcDamage();
+            currProgressBar = Mathf.Clamp(currProgressBar + upgradeManager.CalcDamage(), 0, tgtProgressBar);
+            Managers.__instance.audioManager.PlaySFX(winSound, 1.5f);
         }
         else
         {
             //animations
-            encounterHealth -= upgradeManager.CalcHealthLost(currentEncounter.failedPunishment);
-            //flash animations?
+            encounterHealth = Mathf.Clamp(encounterHealth - upgradeManager.CalcHealthLost(currentEncounter.failedPunishment), 0, maxHealth);
+            Managers.__instance.audioManager.PlaySFX(loseSound, 1.5f);
         }
 
         UpdateEncounterUI();
 
         if (encounterHealth <= 0)
         {
+            minigameStatus.nextMinigame = null;
             minigameStatus.gameResult = WinLose.LOSE;
-            lives--;
-            UpdateLives();
-
-            EndEncounter(true);
         }
         else if (currProgressBar >= tgtProgressBar)
         {
+            minigameStatus.nextMinigame = null;
             minigameStatus.gameResult = WinLose.WIN;
-            upgradeManager.DoUpgrade(LoadNextEncounter);
         }
         else
         {
             minigameStatus.gameResult = WinLose.NONE;
             // game still running, proceed with next round
-            minigameStatus.nextMinigame = minigamePool[(minigameIndex + UnityEngine.Random.Range(1, minigamePool.Count)) % minigamePool.Count];
+            minigameIndex = (minigameIndex + UnityEngine.Random.Range(1, minigamePool.Count)) % minigamePool.Count;
+            minigameStatus.nextMinigame = minigamePool[minigameIndex];
 
             Managers.__instance.scenesManager.LoadMinigameScene(minigameStatus.nextMinigame);
         }
@@ -252,7 +265,9 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     {
         if (lives == 0 && onLose)
         {
-            Managers.__instance.scenesManager.LoadSceneImmediate("End");
+            winLoseMenu.transform.parent.gameObject.SetActive(true);
+            winLoseMenu.ShowLoseScreen();
+            return;
         }
         LoadNextEncounter();
     }
@@ -264,10 +279,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             Debug.LogWarning("No one is subscribed to OnBeginIntermission. This is probably a mistake because we expect a listener here to then later call LoadNextMinigame");
         }
         UpdatePlayerStatsUI();
-        if (status.gameResult == WinLose.NONE)
-        {
-            OnBeginIntermission?.Invoke(status, StartNextMinigame);
-        }
+        OnBeginIntermission?.Invoke(status, StartNextMinigame);
 
     }
 
@@ -305,7 +317,6 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         return allMinigames.Find(mDef => mDef.sceneName == scene.name);
     }
 
-    //TODO
     private void LoadNextEncounter()
     {
         Managers.__instance.scenesManager.LoadSceneImmediate("Main");
@@ -313,18 +324,63 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private void UpdatePlayerStatsUI()
     {
-        if(showCritChance) showCritChance.text = $"{critChance}%";
-        if (showDamage) showDamage.text = $"{damage}";
+        if(showCritChance) showCritChance.text = $"{Mathf.RoundToInt(critChance*100)}%";
+        if (showDamage) showDamage.text = $"{Mathf.RoundToInt(damage)}";
         //if (showEncounter) showEncounter.text = $"Encounter#: {encounterNum}";
     }
 
+    private float oldHealth;
+    private float oldProgressBar;
     private void UpdateEncounterUI()
     {
         progSlider.maxValue = tgtProgressBar;
         healthSlider.maxValue = maxHealth;
-        progSlider.value = currProgressBar;
-        healthSlider.value = encounterHealth;
+        oldProgressBar = progSlider.value;
+        oldHealth = healthSlider.value;
+        StartCoroutine("LerpSliders");
         healthText.text = Math.Round(encounterHealth).ToString();
+    }
+
+    IEnumerator LerpSliders()
+    {
+        float timer = 0f;
+        while (timer <= 1f)
+        {
+            healthSlider.value = Mathf.SmoothStep(oldHealth, encounterHealth, timer);
+            progSlider.value = Mathf.SmoothStep(oldProgressBar, currProgressBar, timer);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        if (encounterHealth <= 0)
+        {
+            Managers.__instance.audioManager.EndEncounter(false);
+            yield return new WaitForSeconds(1.5f);
+            lives--;
+            UpdateLives();
+            yield return new WaitForSeconds(2f);
+            if(lives == 0) Managers.__instance.audioManager.FadeMusic();
+            yield return new WaitForSeconds(0.5f);
+            EndEncounter(true);
+        }
+        if (currProgressBar >= tgtProgressBar)
+        {
+            Managers.__instance.audioManager.EndEncounter(true);
+            yield return new WaitForSeconds(1.5f);
+            if (round == 15)
+            {
+                Managers.__instance.audioManager.FadeMusic();
+            }
+            yield return new WaitForSeconds(0.5f);
+            if(round == 15)
+            {
+                winLoseMenu.transform.parent.gameObject.SetActive(true);
+                winLoseMenu.ShowWinScreen();
+            }
+            else
+            {
+                upgradeManager.DoUpgrade(LoadNextEncounter);
+            }
+        }
     }
 
     private void UpdateLives()

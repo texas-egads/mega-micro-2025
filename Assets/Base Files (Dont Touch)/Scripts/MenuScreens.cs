@@ -5,42 +5,26 @@ public class MenuScreens : MonoBehaviour
 
     [SerializeField] private GameObject won;
     [SerializeField] private GameObject lost;
-    private bool gameWon;
-
-    private void Awake()
-    {
-        gameWon = PlayerPrefs.GetInt("gameWon") == 1;
-        if (gameWon)
-        {
-            ShowWinScreen();
-        }
-        else
-        {
-            ShowLoseScreen();
-        }
-    }
-
-    private void ShowWinScreen()
+   
+    public void ShowWinScreen()
     {
         won.SetActive(true);
         lost.SetActive(false);
-
-        gameObject.SetActive(true);
     }
 
-    private void ShowLoseScreen()
+    public void ShowLoseScreen()
     {
         won.SetActive(false);
         lost.SetActive(true);
-
-        gameObject.SetActive(true);
     }
-
+    private bool beenPressed;
     public void StartGame()
     {
+        if (beenPressed) return;
+        beenPressed = true;
         if (Managers.__instance)
         {
-            Managers.__instance.scenesManager.LoadSceneImmediate("Main");
+            Managers.__instance.scenesManager.LoadSceneTransition("Main");
         }
         else
         {
@@ -50,9 +34,11 @@ public class MenuScreens : MonoBehaviour
 
     public void Quit()
     {
+        if (beenPressed) return;
+        beenPressed = true;
         if (Managers.__instance)
         {
-            Managers.__instance.scenesManager.LoadSceneImmediate("TitleScreen");
+            Managers.__instance.scenesManager.LoadSceneTransition("TitleScreen");
         }
         else
         {

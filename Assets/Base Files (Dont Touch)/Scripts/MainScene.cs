@@ -142,6 +142,7 @@ public class MainScene : MonoBehaviour
         }
     }
 
+    public AudioClip zoomSound;
     private void OnProceed(MinigameStatus status, Action intermissionFinishedCallback)
     {
         // start the sequence for the next minigame
@@ -158,7 +159,10 @@ public class MainScene : MonoBehaviour
 
         PlayerPrefs.SetFloat("minigameLength", (float) status.nextMinigame.gameTime);
         instructionText.ShowImpactText(status.nextMinigame.instruction);
-        DOVirtual.DelayedCall(1f, () => { _animator.SetBool("intogame",true); }, false);
+        DOVirtual.DelayedCall(1f, () => { 
+            _animator.SetBool("intogame",true);
+            Managers.__instance.audioManager.PlaySFX(zoomSound);
+        }, false);
         DOVirtual.DelayedCall(triggerTime, () => intermissionFinishedCallback?.Invoke(), false);
     }
 

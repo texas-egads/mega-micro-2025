@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -111,5 +112,24 @@ public class ScenesManager : MonoBehaviour
     public void LoadSceneImmediate(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+    public void LoadSceneTransition(string sceneName)
+    {
+        StartCoroutine("LoadTargetScene", sceneName);
+    }
+    public Image fader;
+    public AudioSource music;
+    private IEnumerator LoadTargetScene(string name)
+    {
+        float timer = 0;
+        fader.gameObject.SetActive(true);
+        while (timer <= 1)
+        {
+            music.volume = 1 - timer;
+            fader.color = Color.Lerp(Color.clear, Color.black, timer);
+            timer += Time.deltaTime * 2;
+            yield return null;
+        }
+        SceneManager.LoadScene(name);
     }
 }

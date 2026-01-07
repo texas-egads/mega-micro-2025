@@ -11,6 +11,9 @@ public class AudioManager : MonoBehaviour, IMinigameAudioManager
 
     [SerializeField] private AudioMixerGroup minigameMixerGroup;
     public HashSet<AudioSource> occupiedAudioSources;
+    public AudioSource music;
+    public AudioSource SFX;
+    public AudioClip[] encounterResults;
 
     public float MinigameVolume {
         get { 
@@ -48,7 +51,15 @@ public class AudioManager : MonoBehaviour, IMinigameAudioManager
         occupiedAudioSources.Clear();
     }
 
-    public void StartMinigameAudio() {
+    public void StartMinigameAudio()
+    {
+        DOTween.To(
+            () => music.volume,
+            (value) => music.volume = value,
+            0,
+            0.4f
+        )
+        .SetEase(Ease.InExpo);
         minigameMixerGroup.audioMixer.SetFloat("MinigameVolume", 0);
     }
 
@@ -61,9 +72,38 @@ public class AudioManager : MonoBehaviour, IMinigameAudioManager
         )
         .SetEase(Ease.InExpo)
         .OnComplete(RemoveAudioSources);
+        DOTween.To(
+            () => music.volume,
+            (value) => music.volume = value,
+            1,
+            0.4f
+        )
+        .SetEase(Ease.InExpo);
     }
 
-    
+    public void PlaySFX(AudioClip clip, float delay = 0)
+    {
+        DOVirtual.DelayedCall(delay, () =>
+        {
+            SFX.PlayOneShot(clip);
+        }, false);
+    }
+    public void EndEncounter(bool isWin)
+    {
+        SFX.PlayOneShot(encounterResults[isWin ? 0 : 1]);
+    }
+    public void FadeMusic()
+    {
+        DOTween.To(
+            () => music.volume,
+            (value) => music.volume = value,
+            0,
+            0.4f
+        )
+        .SetEase(Ease.InExpo);
+    }
+
+
 
     /*
     [SerializeField] private AudioClip readyMusic;

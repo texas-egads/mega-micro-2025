@@ -39,6 +39,7 @@ public class EncounterManager : MonoBehaviour
         public string flavor;
         public float healthScalar;
         public float damageScalar;
+        public AudioClip winSound;
     }
 
     public void Start()
@@ -163,12 +164,17 @@ public class EncounterManager : MonoBehaviour
                     encounter.minigameType = Encounter.MinigameType.ALL;
                     encounter.tgtProgress = 200;
                     encounter.failedPunishment = 40;
+                    encounter.winSound = typeDefinitions[chosenType].winSound;
                     typeStats.text = "JOLLY";
 
-                    title.text = "BOSS";
+                    title.text = "???";
+
+                    encounter.objectType = chosenType;
+                    objectImage.sprite = encounterObject.returnSpecificObjectTypeSprite(numtoObjectType(chosenType));
+                    typeMinigame.text = encounter.minigameType.ToString();
+                    typeMinigameImage.setSprite(encounter.minigameType);
 
                     encounters.Add(encounter);
-                    // Do boss stuff 
                 }
                 else card.SetActive(false);
             }
@@ -182,6 +188,7 @@ public class EncounterManager : MonoBehaviour
                 encounter.minigameType = (Encounter.MinigameType) randGame;
                 encounter.tgtProgress = (int) ((minimumHealth + 100 * curveWeight) * typeDefinitions[chosenType].healthScalar);
                 encounter.failedPunishment = (minimumDamage + 60 * curveWeight) * typeDefinitions[chosenType].damageScalar;
+                encounter.winSound = typeDefinitions[chosenType].winSound;
 
                 encounters.Add(encounter);
 
@@ -213,7 +220,7 @@ public class EncounterManager : MonoBehaviour
         int chance = Random.Range(0, 100); // Used to set percentages 
 
         // Check if final Boss next
-        if (encounterCount == maxEncounters)
+        if (encounterCount == maxEncounters-1)
         {
             Debug.Log("BOSS");
             return UpgradeManager.EncounterType.BOSS;
