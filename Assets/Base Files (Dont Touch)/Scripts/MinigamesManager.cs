@@ -82,7 +82,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         isMinigamePlaying = false;
         isCurrentMinigameWon = false;
         lives = 3;
-        minigameDifficulty = 0.0f; //Place Holder
+        minigameDifficulty = PlayerPrefs.GetFloat("difficultyStart");
     }
 
     public void StartMinigames()
@@ -324,7 +324,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private void UpdatePlayerStatsUI()
     {
-        if(showCritChance) showCritChance.text = $"{Mathf.RoundToInt(critChance*100)}%";
+        if (showCritChance) showCritChance.text = $"{Mathf.RoundToInt(critChance * 100)}%";
         if (showDamage) showDamage.text = $"{Mathf.RoundToInt(damage)}";
         //if (showEncounter) showEncounter.text = $"Encounter#: {encounterNum}";
     }
@@ -358,7 +358,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             lives--;
             UpdateLives();
             yield return new WaitForSeconds(2f);
-            if(lives == 0) Managers.__instance.audioManager.FadeMusic();
+            if (lives == 0) Managers.__instance.audioManager.FadeMusic();
             yield return new WaitForSeconds(0.5f);
             EndEncounter(true);
         }
@@ -371,7 +371,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
                 Managers.__instance.audioManager.FadeMusic();
             }
             yield return new WaitForSeconds(0.5f);
-            if(round == 15)
+            if (round == 15)
             {
                 winLoseMenu.transform.parent.gameObject.SetActive(true);
                 winLoseMenu.ShowWinScreen();

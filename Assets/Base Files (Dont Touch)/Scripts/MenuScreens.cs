@@ -5,7 +5,7 @@ public class MenuScreens : MonoBehaviour
 
     [SerializeField] private GameObject won;
     [SerializeField] private GameObject lost;
-   
+
     public void ShowWinScreen()
     {
         won.SetActive(true);
