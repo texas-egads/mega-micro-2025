@@ -162,8 +162,8 @@ public class EncounterManager : MonoBehaviour
                     float curveWeight = difficultyCurve.Evaluate((float)encounterCount / maxEncounters);
 
                     encounter.minigameType = Encounter.MinigameType.ALL;
-                    encounter.tgtProgress = 200;
-                    encounter.failedPunishment = 40;
+                    encounter.tgtProgress = 300;
+                    encounter.failedPunishment = 80;
                     encounter.winSound = typeDefinitions[chosenType].winSound;
                     typeStats.text = "JOLLY";
 
@@ -186,8 +186,8 @@ public class EncounterManager : MonoBehaviour
                 int randGame = lastType == -1 ? Random.Range(0, 5) : (lastType + Random.Range(1, 5)) % 5;
                 lastType = randGame;
                 encounter.minigameType = (Encounter.MinigameType) randGame;
-                encounter.tgtProgress = (int) ((minimumHealth + 100 * curveWeight) * typeDefinitions[chosenType].healthScalar);
-                encounter.failedPunishment = (minimumDamage + 60 * curveWeight) * typeDefinitions[chosenType].damageScalar;
+                encounter.tgtProgress = (int) ((minimumHealth + 150 * curveWeight) * typeDefinitions[chosenType].healthScalar);
+                encounter.failedPunishment = (minimumDamage + 120 * curveWeight) * typeDefinitions[chosenType].damageScalar;
                 encounter.winSound = typeDefinitions[chosenType].winSound;
 
                 encounters.Add(encounter);
