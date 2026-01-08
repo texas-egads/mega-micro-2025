@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &95886157
 RectTransform:
   m_ObjectHideFlags: 0
@@ -275,7 +275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &333073846
 RectTransform:
   m_ObjectHideFlags: 0
@@ -413,7 +413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &397385140
 RectTransform:
   m_ObjectHideFlags: 0
@@ -955,6 +955,7 @@ GameObject:
   - component: {fileID: 863747870}
   - component: {fileID: 863747869}
   - component: {fileID: 863747868}
+  - component: {fileID: 863747871}
   m_Layer: 5
   m_Name: Start
   m_TagString: Untagged
@@ -981,7 +982,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 120}
+  m_SizeDelta: {x: 239.1342, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &863747868
 MonoBehaviour:
@@ -1071,8 +1072,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 6368030388716629417, guid: 3be67580362d50446ad7236a58005d72,
+    type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1089,6 +1091,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 863747866}
   m_CullTransparentMesh: 1
+--- !u!114 &863747871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863747866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 863747869}
+          m_TargetAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_MethodName: set_overrideSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: -6893837771131521655, guid: fe3f6599bee2d0048bee6f23d8f88391,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 863747869}
+          m_TargetAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_MethodName: set_overrideSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 6368030388716629417, guid: 3be67580362d50446ad7236a58005d72,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &937756898
 GameObject:
   m_ObjectHideFlags: 0
@@ -1244,7 +1293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1016721054
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1380,7 +1429,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1097852590
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1856,6 +1905,7 @@ GameObject:
   - component: {fileID: 1266133989}
   - component: {fileID: 1266133988}
   - component: {fileID: 1266133987}
+  - component: {fileID: 1266133990}
   m_Layer: 5
   m_Name: Easy
   m_TagString: Untagged
@@ -1881,7 +1931,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 150, y: -175}
-  m_SizeDelta: {x: 300, y: 120}
+  m_SizeDelta: {x: 239.5679, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1266133987
 MonoBehaviour:
@@ -1983,8 +2033,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -3525583437266586063, guid: c2e701a6b7f706f4fa38495fb81fb5f6,
+    type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2001,6 +2052,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1266133985}
   m_CullTransparentMesh: 1
+--- !u!114 &1266133990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266133985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1266133988}
+          m_TargetAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_MethodName: set_overrideSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: -4132052796682014636, guid: 62471972601fa4b4da5a770350484378,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1266133988}
+          m_TargetAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_MethodName: set_overrideSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: -3525583437266586063, guid: c2e701a6b7f706f4fa38495fb81fb5f6,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1286729171
 GameObject:
   m_ObjectHideFlags: 0
@@ -2169,6 +2267,7 @@ GameObject:
   - component: {fileID: 1642348593}
   - component: {fileID: 1642348592}
   - component: {fileID: 1642348591}
+  - component: {fileID: 1642348594}
   m_Layer: 5
   m_Name: Medium
   m_TagString: Untagged
@@ -2194,7 +2293,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 150, y: -320}
-  m_SizeDelta: {x: 300, y: 120}
+  m_SizeDelta: {x: 239.5679, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1642348591
 MonoBehaviour:
@@ -2296,8 +2395,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -8791983793751404189, guid: edb99752fa256ae4da068359678c0192,
+    type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2314,6 +2414,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1642348589}
   m_CullTransparentMesh: 1
+--- !u!114 &1642348594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642348589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1642348592}
+          m_TargetAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_MethodName: set_overrideSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: -3764810985626593856, guid: 4eca7a218616af94384405bf77503671,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1642348592}
+          m_TargetAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_MethodName: set_overrideSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: -8791983793751404189, guid: edb99752fa256ae4da068359678c0192,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1687018967
 GameObject:
   m_ObjectHideFlags: 0
@@ -2326,6 +2473,7 @@ GameObject:
   - component: {fileID: 1687018971}
   - component: {fileID: 1687018970}
   - component: {fileID: 1687018969}
+  - component: {fileID: 1687018972}
   m_Layer: 5
   m_Name: Hard
   m_TagString: Untagged
@@ -2351,7 +2499,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 150, y: -465}
-  m_SizeDelta: {x: 300, y: 120}
+  m_SizeDelta: {x: 239.5679, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1687018969
 MonoBehaviour:
@@ -2453,8 +2601,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -1305918965763478194, guid: 4d90feb2d1cc478438e0e1ad665bbfc3,
+    type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2471,6 +2620,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687018967}
   m_CullTransparentMesh: 1
+--- !u!114 &1687018972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687018967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1687018970}
+          m_TargetAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_MethodName: set_overrideSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1872935984844603704, guid: 904098abfff048b44a93f7a88b800e88,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1687018970}
+          m_TargetAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_MethodName: set_overrideSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: -1305918965763478194, guid: 4d90feb2d1cc478438e0e1ad665bbfc3,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1935018129
 GameObject:
   m_ObjectHideFlags: 0
@@ -2483,6 +2679,7 @@ GameObject:
   - component: {fileID: 1935018133}
   - component: {fileID: 1935018132}
   - component: {fileID: 1935018131}
+  - component: {fileID: 1935018134}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
@@ -2508,7 +2705,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 120}
+  m_SizeDelta: {x: 239.5679, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1935018131
 MonoBehaviour:
@@ -2598,8 +2795,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -2644682128803168895, guid: 0dee6bcb95e275e4b9a853b10fb50b72,
+    type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2616,6 +2814,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1935018129}
   m_CullTransparentMesh: 1
+--- !u!114 &1935018134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935018129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1935018132}
+          m_TargetAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_MethodName: set_overrideSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 3031916625991209551, guid: 64292a15b84c19c4ab2690e63471bd8d,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1935018132}
+          m_TargetAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+          m_MethodName: set_overrideSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: -2644682128803168895, guid: 0dee6bcb95e275e4b9a853b10fb50b72,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1938038942
 GameObject:
   m_ObjectHideFlags: 0
