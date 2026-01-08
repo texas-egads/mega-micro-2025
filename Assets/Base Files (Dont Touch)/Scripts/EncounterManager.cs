@@ -42,7 +42,7 @@ public class EncounterManager : MonoBehaviour
         public AudioClip winSound;
     }
 
-    public void Start()
+    public void Initialize()
     {
         encounterScreen = encounterUI.transform.GetChild(1).gameObject;
         progressBarUI = encounterUI.transform.GetChild(3).gameObject;

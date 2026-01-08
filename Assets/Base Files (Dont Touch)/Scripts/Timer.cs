@@ -6,6 +6,13 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     private void OnEnable() {
+        StartCoroutine("Startup");
+    }
+
+    private IEnumerator Startup()
+    {
+        while (!Managers.__instance) { yield return null; }
+        while (!Managers.__instance.minigamesManager) { yield return null; }
         Managers.__instance.minigamesManager.OnStartMinigame += StartTimer;
         Managers.__instance.minigamesManager.OnEndMinigame += EndTimer;
     }
