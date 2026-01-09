@@ -15,13 +15,21 @@ public class CreditsManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             StartCoroutine("GoLeft");
-        } else if (Input.GetKeyDown(KeyCode.D))
+        } else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             StartCoroutine("GoRight");
         }
+    }
+    public void DoLeft()
+    {
+        StartCoroutine("GoLeft");
+    }
+    public void DoRight()
+    {
+        StartCoroutine("GoRight");
     }
     private IEnumerator Unfade()
     {
