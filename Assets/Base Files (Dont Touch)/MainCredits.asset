@@ -16,16 +16,17 @@ MonoBehaviour:
   minigameType: 0
   gameTime: 5143
   instruction: Press
-  title: Megagame
+  title: Roguelike Megagame
   creditsText: '<link=https://starsilver03.itch.io/><color=#8888ff><u>Anna</u></color></link>
     - Music & Sound
+
+    Don C - programmer
+
+    Joshua James - Project Lead/Programmer
 
     <link=https://jmizcruz.wixsite.com/julieta-cruz><color=#800040><u>Julie</u></color></link>
     - 2D/Technical Artist & Animator
 
-    Joshua James - Project Lead/Programmer
-
-    Zoe
-    Yu - Programmer'
+    Zoe Yu - Programmer'
   minigameScreenshot: {fileID: -1661446027109691274, guid: b3c75df9a7e55e8409df20dbe80467b5,
     type: 3}

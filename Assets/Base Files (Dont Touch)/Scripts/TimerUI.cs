@@ -7,7 +7,7 @@ public class TimerUI : MonoBehaviour
     public TMPro.TextMeshProUGUI text;
 
     private void Awake() {
-        Deactivate();
+        //Deactivate();
     }
 
     public void Activate() {

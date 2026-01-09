@@ -6191,6 +6191,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 354225542106749782, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
+      propertyPath: baseHealth
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 354225542106749782, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
       propertyPath: mainCanvas
       value: 
       objectReference: {fileID: 493304984}
@@ -7054,6 +7059,11 @@ PrefabInstance:
       propertyPath: mainCanvas
       value: 
       objectReference: {fileID: 493304984}
+    - target: {fileID: 5941439095739128627, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: minimumDamage
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 5941439095739128627, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: minigameCanvas
@@ -7974,7 +7984,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 7782432ac882e0c4da0c6405b502fad7, type: 3}
+  m_Resource: {fileID: 8300000, guid: 6fd25554b0deb594a8c2abe9d0fc45a2, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -9873,7 +9883,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: a119551debc143c40930e6ca1a900f18, type: 3}
+  m_Resource: {fileID: 8300000, guid: 25e9a3ddb0dbaed459771c4616e9d321, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1

@@ -52,10 +52,16 @@ public class MainScene : MonoBehaviour
 
         explosionAnimator = deerScreen.transform.GetChild(4).GetComponent<Animator>();
         dustAnimaiton = deerScreen.transform.GetChild(5).GetComponent<ParticleSystem>();
+        StartCoroutine("Startup");
+    }
+
+    private IEnumerator Startup()
+    {
+        while (!Managers.__instance) { yield return null; }
+        while (!Managers.__instance.minigamesManager) { yield return null; }
         Managers.__instance.minigamesManager.OnStartMinigame += OnStartMinigame;
         Managers.__instance.minigamesManager.OnEndMinigame += OnEndMinigame;
         Managers.__instance.minigamesManager.OnBeginIntermission += OnBeginIntermission;
-
         Managers.__instance.minigamesManager.StartMinigames();
     }
 
@@ -109,6 +115,7 @@ public class MainScene : MonoBehaviour
 
     private void SetStatusText()
     {
+        if (!Managers.__instance) return;
         String statusTextString =
             baseStatusText + $"\nCurrent Difficulty: {Managers.__instance.minigamesManager.minigameDifficulty.ToString()} (use slider to adjust)";
 

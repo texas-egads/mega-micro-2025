@@ -41,6 +41,7 @@ public class Managers : MonoBehaviour
             audioManager.Initialize();
             scenesManager.Initialize();
             upgradeManager.Initialize();
+            encounterManager.Initialize();
 
             DontDestroyOnLoad(gameObject);
         }

@@ -111,6 +111,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             oldProgressBar = 0;
             progSlider.maxValue = tgtProgressBar;
             progSlider.value = 0;
+            healthText.text = Math.Round(encounterHealth).ToString();
 
             //select kind of minigame
             if (currentEncounter.minigameType == Encounter.MinigameType.SPAM)
