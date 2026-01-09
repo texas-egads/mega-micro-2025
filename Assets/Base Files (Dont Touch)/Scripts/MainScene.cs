@@ -180,6 +180,11 @@ public class MainScene : MonoBehaviour
             Managers.__instance.audioManager.PlaySFX(zoomSound);
         }, false);
         DOVirtual.DelayedCall(triggerTime, () => intermissionFinishedCallback?.Invoke(), false);
+
+        if (Managers.__instance.minigamesManager.isBoss)
+        {
+            //animation
+        }
     }
 
     private void updateDeerAnimation(MinigameStatus status)

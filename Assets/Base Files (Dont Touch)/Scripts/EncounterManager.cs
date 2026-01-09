@@ -220,7 +220,7 @@ public class EncounterManager : MonoBehaviour
         int chance = Random.Range(0, 100); // Used to set percentages 
 
         // Check if final Boss next
-        if (encounterCount == /*maxEncounters-1*/1)
+        if (encounterCount == /*maxEncounters-1*/0) //Testing
         {
             Debug.Log("BOSS");
             return UpgradeManager.EncounterType.BOSS;
