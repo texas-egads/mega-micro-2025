@@ -142,9 +142,17 @@ public class MainScene : MonoBehaviour
             {
                 // return the background color to what it was before
                 background.color = normalBG;
-                // await input
-                promptText.text = "Press SPACE to start next minigame";
-                spacePressedAction = () => OnProceed(status, intermissionFinishedCallback);
+                if (!Managers.__instance.minigamesManager.isBoss)
+                {
+                    // await input
+                    promptText.text = "Press SPACE to start next minigame";
+                    spacePressedAction = () => OnProceed(status, intermissionFinishedCallback);
+                }
+                else
+                {
+                    OnProceed(status, intermissionFinishedCallback);
+                }
+
             }, false);
         }
     }
@@ -164,10 +172,11 @@ public class MainScene : MonoBehaviour
 
 
 
-        PlayerPrefs.SetFloat("minigameLength", (float) status.nextMinigame.gameTime);
+        PlayerPrefs.SetFloat("minigameLength", (float)status.nextMinigame.gameTime);
         instructionText.ShowImpactText(status.nextMinigame.instruction);
-        DOVirtual.DelayedCall(1f, () => { 
-            _animator.SetBool("intogame",true);
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            _animator.SetBool("intogame", true);
             Managers.__instance.audioManager.PlaySFX(zoomSound);
         }, false);
         DOVirtual.DelayedCall(triggerTime, () => intermissionFinishedCallback?.Invoke(), false);
@@ -188,12 +197,12 @@ public class MainScene : MonoBehaviour
             {
                 case WinLose.WIN:
                     deerAnimator.AnimationState.AddAnimation(0, "SUCCESS", false, 0f);
-                    StartCoroutine(timerChangeObject(true,1f));
+                    StartCoroutine(timerChangeObject(true, 1f));
                     break;
                 case WinLose.LOSE:
                     var track = deerAnimator.AnimationState.AddAnimation(0, "EXPLOSION", false, 0f);
                     float spineDuration = track.Animation.Duration;
-                    float leadTime = 2.8f; 
+                    float leadTime = 2.8f;
                     float delayTime = Mathf.Max(0, spineDuration - leadTime);
                     DG.Tweening.DOVirtual.DelayedCall(delayTime, () =>
                     {
@@ -231,6 +240,6 @@ public class MainScene : MonoBehaviour
         yield return new WaitForSeconds(timer);
         encounterObject.GetComponent<EncounterObject>().changeType(change);
     }
-   
-    
+
+
 }

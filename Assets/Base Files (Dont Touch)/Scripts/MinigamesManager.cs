@@ -54,6 +54,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public Animator livesUI;
 
     int minigameIndex;
+    public bool isBoss;
     List<MinigameDefinition> minigamePool;
 
     private UpgradeManager upgradeManager
@@ -77,6 +78,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
     public MenuScreens winLoseMenu;
     private AudioClip winSound;
     public AudioClip loseSound;
+    public AudioClip bossMusic;
     public void Initialize()
     {
         isMinigamePlaying = false;
@@ -112,6 +114,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             progSlider.maxValue = tgtProgressBar;
             progSlider.value = 0;
             healthText.text = Math.Round(encounterHealth).ToString();
+            isBoss = currentEncounter.type == UpgradeManager.EncounterType.BOSS;
 
             //select kind of minigame
             if (currentEncounter.minigameType == Encounter.MinigameType.SPAM)

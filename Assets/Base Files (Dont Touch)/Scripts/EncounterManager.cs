@@ -79,7 +79,7 @@ public class EncounterManager : MonoBehaviour
 
 
         encounterScreen.transform.GetComponentInChildren<TMPro.TMP_Text>().text = screenPrompt;
-        
+
         if (encounterCount != 0)
         {
             Instantiate(rectProgPrefab, progressBarUI.transform);
@@ -185,8 +185,8 @@ public class EncounterManager : MonoBehaviour
 
                 int randGame = lastType == -1 ? Random.Range(0, 5) : (lastType + Random.Range(1, 5)) % 5;
                 lastType = randGame;
-                encounter.minigameType = (Encounter.MinigameType) randGame;
-                encounter.tgtProgress = (int) ((minimumHealth + 150 * curveWeight) * typeDefinitions[chosenType].healthScalar);
+                encounter.minigameType = (Encounter.MinigameType)randGame;
+                encounter.tgtProgress = (int)((minimumHealth + 150 * curveWeight) * typeDefinitions[chosenType].healthScalar);
                 encounter.failedPunishment = (minimumDamage + 120 * curveWeight) * typeDefinitions[chosenType].damageScalar;
                 encounter.winSound = typeDefinitions[chosenType].winSound;
 
@@ -220,7 +220,7 @@ public class EncounterManager : MonoBehaviour
         int chance = Random.Range(0, 100); // Used to set percentages 
 
         // Check if final Boss next
-        if (encounterCount == maxEncounters-1)
+        if (encounterCount == /*maxEncounters-1*/1)
         {
             Debug.Log("BOSS");
             return UpgradeManager.EncounterType.BOSS;
@@ -259,10 +259,10 @@ public class EncounterManager : MonoBehaviour
     {
         switch (objectNum)
         {
-            case 0: return EncounterObject.Object.CANDY; 
-            case 1: return EncounterObject.Object.CONSOLE; 
+            case 0: return EncounterObject.Object.CANDY;
+            case 1: return EncounterObject.Object.CONSOLE;
             case 2: return EncounterObject.Object.PRESENT;
-            case 3: return EncounterObject.Object.SOCK; 
+            case 3: return EncounterObject.Object.SOCK;
             case 4: return EncounterObject.Object.TEDDY;
             default:
                 return EncounterObject.Object.CANDY;
