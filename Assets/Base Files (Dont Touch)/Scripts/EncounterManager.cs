@@ -170,7 +170,7 @@ public class EncounterManager : MonoBehaviour
                     title.text = "???";
 
                     encounter.objectType = chosenType;
-                    objectImage.sprite = encounterObject.returnSpecificObjectTypeSprite(numtoObjectType(chosenType));
+                    objectImage.sprite = Resources.Load<Sprite>("Assets/Resources/TextFiles/bossIcon");
                     typeMinigame.text = encounter.minigameType.ToString();
                     typeMinigameImage.setSprite(encounter.minigameType);
 
