@@ -75,6 +75,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
 
     private Coroutine minigameEndCoroutine;
     private int round;
+    public int roundInc;
     public MenuScreens winLoseMenu;
     private AudioClip winSound;
     public AudioClip loseSound;
@@ -99,7 +100,17 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
             encounterType = currentEncounter.type;
             upgradeManager.EncounterStart(encounterType);
             UpdatePlayerStatsUI();
-            round++;
+            if(round == 14)
+            {
+                Managers.__instance.audioManager.music.clip = bossMusic;
+                Managers.__instance.audioManager.music.Play();
+                while (lives > 1)
+                {
+                    lives--;
+                    Managers.__instance.minigamesManager.UpdateLives();
+                }
+            }
+            round += roundInc;
             // Set health/healthbars
             maxHealth = upgradeManager.Health;
             encounterHealth = maxHealth;
@@ -387,7 +398,7 @@ public class MinigamesManager : MonoBehaviour, IMinigamesManager
         }
     }
 
-    private void UpdateLives()
+    public void UpdateLives()
     {
         if (lives < 3)
         {

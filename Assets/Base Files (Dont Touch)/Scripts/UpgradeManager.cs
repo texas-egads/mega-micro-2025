@@ -287,7 +287,7 @@ public class UpgradeManager : MonoBehaviour
     public float CalcHealthLost(float rawDamage)
     {
         rounds++;
-        return rawDamage * Mathf.Clamp01(1 - damageResistance) + Health * ((rounds - 1) / 15f);
+        return rawDamage * Mathf.Clamp01(1 - damageResistance) + Health * ((rounds - 1) / 20f);
     }
 
     /** INTERNAL METHODS **/
@@ -526,7 +526,11 @@ public class UpgradeManager : MonoBehaviour
         extraUpgrades += (int)activeUpgrade.val;
         if (Random.Range(0f, 1f) < activeUpgrade.val2)
         {
-            lives = Mathf.Clamp(lives - 1, 1, lives);
+            if (lives > 1)
+            {
+                lives--;
+                Managers.__instance.minigamesManager.UpdateLives();
+            }
         }
         critUpgrades[2].Remove(activeUpgrade.gameObject);
     }
@@ -543,7 +547,11 @@ public class UpgradeManager : MonoBehaviour
         extraUpgrades += (int)activeUpgrade.val;
         if (Random.Range(0f, 1f) < activeUpgrade.val2)
         {
-            lives = 1;
+            while (lives > 1)
+            {
+                lives--;
+                Managers.__instance.minigamesManager.UpdateLives();
+            }
         }
         critUpgrades[3].Remove(activeUpgrade.gameObject);
     }

@@ -150,7 +150,7 @@ public class MainScene : MonoBehaviour
                 }
                 else
                 {
-                    OnProceed(status, intermissionFinishedCallback);
+                    DOVirtual.DelayedCall(3, () => OnProceed(status, intermissionFinishedCallback), false);
                 }
 
             }, false);

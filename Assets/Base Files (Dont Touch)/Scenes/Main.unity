@@ -5850,6 +5850,16 @@ PrefabInstance:
       objectReference: {fileID: 134618402}
     - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
+      propertyPath: roundInc
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: bossMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: bb0d7f89c24b1414f90a55e66e9f1bf6, type: 3}
+    - target: {fileID: 21403712310278605, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
       propertyPath: container
       value: 
       objectReference: {fileID: 1015878034}
@@ -7054,6 +7064,12 @@ PrefabInstance:
       propertyPath: wall
       value: 
       objectReference: {fileID: 1301630477}
+    - target: {fileID: 5941439095739128627, guid: 299268e851095ea429ce927bf2bef866,
+        type: 3}
+      propertyPath: bossIcon
+      value: 
+      objectReference: {fileID: 21300000, guid: d99ad56044ae7224089ac9bd43288e18,
+        type: 3}
     - target: {fileID: 5941439095739128627, guid: 299268e851095ea429ce927bf2bef866,
         type: 3}
       propertyPath: mainCanvas

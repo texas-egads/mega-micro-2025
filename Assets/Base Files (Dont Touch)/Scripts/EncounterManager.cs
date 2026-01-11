@@ -32,6 +32,7 @@ public class EncounterManager : MonoBehaviour
     public SpriteEncounter wall;
     public SpriteEncounter line;
     public EncounterObject encounterObject;
+    public Sprite bossIcon;
 
     [System.Serializable]
     public struct EncounterType
@@ -159,10 +160,10 @@ public class EncounterManager : MonoBehaviour
                 {
                     card.SetActive(true);
                     // Define health and damage for encounter
-                    float curveWeight = difficultyCurve.Evaluate((float)encounterCount / maxEncounters);
+                    float curveWeight = difficultyCurve.Evaluate((float)encounterCount / (maxEncounters-1));
 
                     encounter.minigameType = Encounter.MinigameType.ALL;
-                    encounter.tgtProgress = 300;
+                    encounter.tgtProgress = 200;
                     encounter.failedPunishment = 80;
                     encounter.winSound = typeDefinitions[chosenType].winSound;
                     typeStats.text = "JOLLY";
@@ -170,7 +171,7 @@ public class EncounterManager : MonoBehaviour
                     title.text = "???";
 
                     encounter.objectType = chosenType;
-                    objectImage.sprite = Resources.Load<Sprite>("Assets/Resources/TextFiles/bossIcon");
+                    objectImage.sprite = bossIcon;
                     typeMinigame.text = encounter.minigameType.ToString();
                     typeMinigameImage.setSprite(encounter.minigameType);
 
@@ -181,7 +182,7 @@ public class EncounterManager : MonoBehaviour
             else
             {
                 // Define health and damage for encounter
-                float curveWeight = difficultyCurve.Evaluate((float)encounterCount / maxEncounters);
+                float curveWeight = difficultyCurve.Evaluate((float)encounterCount / (maxEncounters - 1));
 
                 int randGame = lastType == -1 ? Random.Range(0, 5) : (lastType + Random.Range(1, 5)) % 5;
                 lastType = randGame;
